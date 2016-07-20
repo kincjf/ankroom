@@ -28,9 +28,9 @@ export class Signup {
           this.router.navigate(['/home']);
         },
         error => {
-          alert(error.text());
-          console.log(error.text());
-        }
+      alert(error.text());
+      console.log(error.text());
+    }
       );
   }
 

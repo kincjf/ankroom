@@ -3,6 +3,7 @@ import { Home } from './home';
 import { Login } from './login';
 import { Signup } from './member/signup';
 import { NormalSignup } from './member/normalSignup';
+import { BusinessSignup } from './member/businessSignup';
 import { AuthGuard } from './common/auth.guard';
 
 export const routes: RouterConfig = [
@@ -10,6 +11,7 @@ export const routes: RouterConfig = [
   { path: 'login',  component: Login },
   { path: 'signup', component: Signup },
   { path: 'normalsignup', component: NormalSignup },
+  { path: 'businesssignup', component: BusinessSignup },
   { path: 'home',   component: Home, canActivate: [AuthGuard] },
   { path: '**',     component: Login },
 

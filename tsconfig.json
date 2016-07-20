@@ -14,6 +14,7 @@
     "src/login/index.ts",
     "src/member/signup/index.ts",
     "src/member/normalSignup/index.ts",
+    "src/member/businessSignup/index.ts",
     "src/index.ts",
     "src/common/headers.ts",
     "src/common/auth.guard.ts"
