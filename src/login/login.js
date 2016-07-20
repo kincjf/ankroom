@@ -31,7 +31,7 @@ var Login = (function () {
     };
     Login.prototype.signup = function (event) {
         event.preventDefault();
-        this.router.navigate(['/signup']);
+        this.router.navigate(['/member']);
     };
     Login = __decorate([
         core_1.Component({

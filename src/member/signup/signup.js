@@ -44,4 +44,4 @@ var Signup = (function () {
     return Signup;
 }());
 exports.Signup = Signup;
-//# sourceMappingURL=signup.js.map
+//# sourceMappingURL=member.js.map

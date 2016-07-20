@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
-import { contentHeaders } from '../common/headers';
+import { contentHeaders } from '../../common/headers';
 
 const styles   = require('./signup.css');
 const template = require('./signup.html');
 
 @Component({
   selector: 'signup',
-  directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES ],
+  directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template,
   styles: [ styles ]
 })
@@ -18,7 +18,7 @@ export class Signup {
   }
 
   // 회원가입시 memberType도 집어넣기!
-  signup(event, username, password, memberType) {
+  signup(event, username, password, member) {
     event.preventDefault();
     let body = JSON.stringify({ username, password, memberType });
     this.http.post('http://localhost:3001/api/user', body, { headers: contentHeaders })
