@@ -14,7 +14,6 @@ const template = require('./normalSignup.html');
 export class NormalSignup {
   constructor(public router: Router, public http: Http) {
   }
-  // 회원가입시 memberType도 집어넣기!
 
 
 }
