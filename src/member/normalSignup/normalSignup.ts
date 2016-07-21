@@ -9,7 +9,7 @@ const template = require('./normalSignup.html');
 @Component({
   selector: 'normalSignup',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
-  template: template,
+  template: template
 })
 export class NormalSignup {
   constructor(public router: Router, public http: Http) {

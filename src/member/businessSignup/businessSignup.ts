@@ -9,7 +9,7 @@ const template = require('./businessSignup.html');
 @Component({
   selector: 'businessSignup',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
-  template: template,
+  template: template
 })
 export class BusinessSignup {
   constructor(public router: Router, public http: Http) {

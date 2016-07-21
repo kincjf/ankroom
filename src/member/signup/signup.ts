@@ -4,14 +4,12 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 
-const styles   = require('./signup.css');
 const template = require('./signup.html');
 
 @Component({
   selector: 'signup',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
-  template: template,
-  styles: [ styles ]
+  template: template
 })
 export class Signup {
   constructor(public router: Router, public http: Http) {
