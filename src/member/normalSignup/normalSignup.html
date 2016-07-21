@@ -1,23 +1,24 @@
 <div class="page-center">
     <div class="page-center-in">
         <div class="container-fluid">
-            <form class="sign-box">
+            <form class="sign-box" role="form" (submit)="normalsignup($event, username.value, password.value,password_ok.value,phone.value ,memberType.value)">
                 <header class="sign-title">회원가입</header>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="E-Mail"/>
+                    <input type="text" #username class="form-control" placeholder="E-Mail"/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="비밀번호"/>
+                    <input type="password" #password class="form-control" placeholder="비밀번호"/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="비밀번호 확인"/>
+                    <input type="password" #password_ok class="form-control" placeholder="비밀번호 확인"/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="전화번호 or 휴대폰번호"/>
+                    <input type="text" #phone class="form-control" placeholder="전화번호 or 휴대폰번호"/>
                 </div>
+                <input type="hidden" #memberType value="normal"/>
                 <div class="form-group">
                     <button type="submit" class="btn btn-rounded btn-success sign-up">회원가입</button>
-                    <button type="submit" class="btn btn-rounded btn-success sign-up">취소</button>
+                    <button type="button" class="btn btn-rounded btn-success sign-up"><a style="color:white" [routerLink]="['/login']">취소</a></button>
                 </div>
             </form>
         </div>

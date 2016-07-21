@@ -14,27 +14,5 @@ const template = require('./signup.html');
 export class Signup {
   constructor(public router: Router, public http: Http) {
   }
-
-  // 회원가입시 memberType도 집어넣기!
-  signup(event, username, password, member) {
-    event.preventDefault();
-    let body = JSON.stringify({ username, password, memberType });
-    this.http.post('http://localhost:3001/api/user', body, { headers: contentHeaders })
-      .subscribe(
-        response => {
-          localStorage.setItem('id_token', response.json().id_token);
-          this.router.navigate(['/home']);
-        },
-        error => {
-      alert(error.text());
-      console.log(error.text());
-    }
-      );
-  }
-
-  login(event) {
-    event.preventDefault();
-    this.router.navigate(['/login']);
-  }
-
+  
 }
