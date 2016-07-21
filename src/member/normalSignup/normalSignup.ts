@@ -16,17 +16,21 @@ export class NormalSignup {
   }
 
   normalsignup(event, username, password, password_ok, phone, memberType) {
+    //html에서의 value값
     event.preventDefault();
     let body = JSON.stringify({ username, password, password_ok, phone, memberType });
+    //html받은 값들을 json형식으로 저장
     this.http.post('http://localhost:3001/api/user', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('id_token', response.json().id_token);
           this.router.navigate(['/home']);
+          //서버로부터 응답 성공시 home으로 이동
         },
         error => {
           alert(error.text());
           console.log(error.text());
+          //서버로부터 응답 실패시 경고창
         }
       );
   }

@@ -16,23 +16,23 @@ export class Login {
   }
 
   login(event, username, password) {
+    //html에서의 value값
     event.preventDefault();
     let body = JSON.stringify({ username, password });
+    //html받은 값들을 json형식으로 저장
     this.http.post('http://localhost:3001/api/session/create', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('id_token', response.json().id_token);
           this.router.navigate(['/home']);
+          //서버로부터 응답 성공시 home으로 이동
         },
         error => {
           alert(error.text());
           console.log(error.text());
+          //서버로부터 응답 실패시 경고창
         }
       );
   }
 
-  signup(event) {
-    event.preventDefault();
-    this.router.navigate(['/member']);
-  }
 }
