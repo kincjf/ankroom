@@ -13,7 +13,6 @@ var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
 var headers_1 = require('../common/headers');
-var styles = require('./login.css');
 var template = require('./login.html');
 var Login = (function () {
     function Login(router, http) {
@@ -33,16 +32,11 @@ var Login = (function () {
             console.log(error.text());
         });
     };
-    Login.prototype.signup = function (event) {
-        event.preventDefault();
-        this.router.navigate(['/member']);
-    };
     Login = __decorate([
         core_1.Component({
             selector: 'login',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
-            template: template,
-            styles: [styles]
+            template: template
         }), 
         __metadata('design:paramtypes', [router_1.Router, http_1.Http])
     ], Login);
