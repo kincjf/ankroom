@@ -1,0 +1,112 @@
+<div class="page-content">
+    <div class="container-fluid">
+        <header class="section-header">
+            <div class="tbl">
+                <div class="tbl-row">
+                    <div class="tbl-cell">
+                        <h3>시공사례</h3>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-typical box-typical-padding">
+
+            <h5 class="m-t-lg with-border">시공사례 입력</h5>
+
+            <form>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">공사명</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static"><input type="text" class="form-control" id="buildName" placeholder="공사명"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="buildSelect" class="col-sm-2 form-control-label">공사구분</label>
+                    <div class="col-sm-10">
+                        <select id="buildSelect" class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">공사면적</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static"><input type="text" class="form-control" id="buildArea" placeholder="공사면적"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">공사지역</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static"><input type="text" class="form-control" id="buildLocation" placeholder="공사지역"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">시공비용</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static"><input type="text" class="form-control" id="buildCost" placeholder="시공비용"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">시공내용</label>
+                    <div class="col-sm-10 summernote-theme-1">
+                        <div class="summernote">Hello Summernote</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 form-control-label">VR 사진</label>
+                    <div class="col-sm-10">
+                        <div>
+
+                            <h3>Select files</h3>
+
+                            <div ng2FileDrop
+                                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                                 (fileOver)="fileOverBase($event)"
+                                 [uploader]="uploader"
+                                 class="well my-drop-zone">
+                                Base drop zone
+                            </div>
+
+                            <div ng2FileDrop
+                                 [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
+                                 (fileOver)="fileOverAnother($event)"
+                                 [uploader]="uploader"
+                                 class="well my-drop-zone">
+                                Another drop zone
+                            </div>
+
+                            Multiple
+                            <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+
+                            Single
+                            <input type="file" ng2FileSelect [uploader]="uploader" />
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-success btn-s"
+                                    (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s"
+                                    (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s"
+                                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        <div class="form-group row" style="text-align: center">
+            <button type="submit" class="btn btn-rounded btn-inline">확인</button>
+            <button type="reset" class="btn btn-rounded btn-inline">취소</button>
+        </div>
+        </form>
+    </div><!--.box-typical-->
+</div><!--.container-fluid-->
+</div><!--.page-content-->
