@@ -16,6 +16,7 @@
   <![endif]-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="src/assets/css/lib/font-awesome/font-awesome.min.css">
+  <link rel="stylesheet" href="src/assets/css/lib/summernote.css">
   <link rel="stylesheet" href="src/assets/css/main.css">
   <!-- Util -->
   <script type="text/javascript" src="/node_modules/jwt-decode/build/jwt-decode.js"></script>
@@ -37,6 +38,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="src/assets/js/plugins.js"></script>
   <script src="src/assets/js/app.js"></script>
+  <!-- summernote -->
+  <script src="src/assets/js/lib/summernote.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.summernote').summernote({
+        height: 300,                 // set editor height
+        minHeight: null,             // set minimum height of editor
+        maxHeight: null,             // set maximum height of editor
+        focus: true                  // set focus to editable area after initializing summernote
+      });
+    });
+  </script>
   <!-- daum 우편 API -->
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script>
