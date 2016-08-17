@@ -7,19 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var template = require('./app.html');
-var App = (function () {
-    function App(router) {
+var template = require('./mainPage.html');
+var MainPage = (function () {
+    function MainPage(router) {
         this.router = router;
     }
-    App = __decorate([
+    MainPage = __decorate([
         core_1.Component({
-            selector: 'auth-app',
+            selector: 'mainPage',
             template: template,
             directives: [router_1.ROUTER_DIRECTIVES]
         })
-    ], App);
-    return App;
+    ], MainPage);
+    return MainPage;
 }());
-exports.App = App;
-//# sourceMappingURL=app.js.map
+exports.MainPage = MainPage;
+//# sourceMappingURL=mainPage.js.map

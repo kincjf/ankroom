@@ -1,10 +1,14 @@
+'use strict';
+
 var logger          = require('morgan'),
     cors            = require('cors'),
     http            = require('http'),
     express         = require('express'),
     errorhandler    = require('errorhandler'),
     dotenv          = require('dotenv'),
-    bodyParser      = require('body-parser');
+    bodyParser      = require('body-parser'),
+    router = require('./frontRouter');
+
 
 var app = express();
 
@@ -18,12 +22,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+// catch 404 and forward to error handler
+// app.use(function(err, req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+// error handler
+// no stacktraces leaked to user unless in development environment
 app.use(function(err, req, res, next) {
-  if (err.name === 'StatusError') {
-    res.send(err.status, err.message);
-  } else {
-    next(err);
-  }
+  res.status(err.status || 500).json({
+    message: err.message,
+    error: (app.get('env') === 'development') ? err : {}
+  });
 });
 
 if (process.env.NODE_ENV === 'development') {
@@ -31,13 +43,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler())
 }
 
-app.use(require('./anonymous-routes'));
-app.use(require('./protected-routes'));
-app.use('/api/', require('./user-routes'));
+// Import routes to be served
+router(app);
 
-var port = process.env.PORT || 3001;
-
-http.createServer(app).listen(port, function (err) {
-  console.log('listening in http://localhost:' + port);
-});
-
+module.exports = app;

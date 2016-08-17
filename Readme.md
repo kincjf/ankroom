@@ -1,16 +1,16 @@
-# ANKRoom - Angular 2/Express Project.
+# VR Interior Web Application "ANKRoom" - Angular 2/Express Project.
 
-* Performs **authentication with JWTs**
+* Performs **multiple authentication with JWTs, Passport**
 * **Calls APIs** authenticated and not.
 * Extends the **RouterOutlet** for route pipeline changes.
-* Performs **authentication with JWTs**
 
 > 참고 자료 : You can **learn more about how it works [in this blogpost](https://auth0.com/blog/2015/05/14/creating-your-first-real-world-angular-2-app-from-authentication-to-calling-an-api-and-everything-in-between/)**
 > Clone this repository as well as [the server](https://github.com/auth0/nodejs-jwt-authentication-sample) for this example.
 
 ## Running it
 
-First, run the server app in the port `3001`.
+* Server Port/Client Port : `3001`/`3000`
+
 
 Then, run `npm install` on this project and run `npm start` to start the app. Then just navigate to [http://localhost:3000](http://localhost:3000) :boom:
 And Use `npm run server` to run API server.
