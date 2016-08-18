@@ -14,25 +14,31 @@ const template = require('./businessSignup.html');
 export class BusinessSignup {
   constructor(public router: Router, public http: Http) {
   }
-  businesssignup(event, username, password, password_ok, phone, enterprise, represent, register_number, location, part, region, memberType) {
+
+  businesssignup(event, username, password, password_ok, contact, companyName, ownerName, bizRegNo, mainWorkField, mailWorkArea, memberType) {
     //html에서의 value값
-    event.preventDefault();
-    let body = JSON.stringify({ username, password, password_ok, phone, enterprise, represent, register_number, location, part, region, memberType });
-    //html받은 값들을 json형식으로 저장
-    this.http.post('http://localhost:3001/api/user', body, { headers: contentHeaders })
-      .subscribe(
-        response => {
-          localStorage.setItem('id_token', response.json().id_token);
-          this.router.navigate(['/home']);
-          //서버로부터 응답 성공시 home으로 이동
-        },
-        error => {
-          alert(error.text());
-          console.log(error.text());
-          //서버로부터 응답 실패시 경고창
-        }
-      );
+    var passwords = password;
+    var confirmpasswords = password_ok;
+
+    if (passwords != confirmpasswords) {
+      alert("비밀번호가 일치하지 않습니다");
+    }//password 일치하는지 점검
+    else {
+      event.preventDefault();
+      let body = JSON.stringify({ username, password, password_ok, contact, companyName, ownerName, bizRegNo, mainWorkField, mailWorkArea, memberType });
+      //html받은 값들을 json형식으로 저장
+      this.http.post('http://localhost:3001/api/business-user', body, { headers: contentHeaders })
+        .subscribe(
+          response => {
+            this.router.navigate(['/login']);
+            //서버로부터 응답 성공시 home으로 이동
+          },
+          error => {
+            alert(error.text());
+            console.log(error.text());
+            //서버로부터 응답 실패시 경고창
+          }
+        );
+    }
   }
-
-
 }
