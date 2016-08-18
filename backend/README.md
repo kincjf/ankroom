@@ -4,41 +4,30 @@ This is a NodeJS full API that you can use to test with your SPAs or Mobile apps
 지정 도메인 : ankroom.moblab.kr
 API method 부분을 천천히 채워 나가자!
 
+참고자료 : https://github.com/joshuaslate/mern-starter/tree/master/server
+
 ## How to use it
 
 Google Sheet(RealRoom_개발자료 : Server-App 통신방법)을 참고 바람.
-
+테스트용 계정을 초기에 자동 생성되게 해서 간단한 로그인 테스트는 가능하다!
+(bin/www 참고)
 
 ## Available APIs
 
 ### Open API
 
-The Open API lets anyone do CRUD operation on a set of TODOs. This means that you can add a TODO and then John Doe can delete it.
-
 Available methods:
 
-* **POST /api/open/todos**: Adds a new TODO
+* **POST /api/auth/login**: login
+* **POST /api/auth/register**: 회원가입
+* **POST /api/auth/forgot-password**: 비밀번호 찾기
+* **POST /api/auth/reset-password/:token**: 비밀번호 재등록
+
+
 * **PUT /api/open/todos/:id**: Updates the TODO with id `id`
 * **GET /api/open/todos/:id**: Returns the TODO with id `id`
 * **DELETE /api/open/todos/:id**: Deletes the TODO with id `id`
 * **GET /api/open/todos**: Gets all fo the TODOs
-
-### User based API
-
-You can use this API to save TODO items for a particular user. For that, you need to use Auth0 to get the `id_token` (JWT) and send it in every request as part of the `Authorization` header.
-
-This server validates JWT from the following account:
-
-* **Domain**: `samples.auth0.com`
-* **ClientID**: `BUIJSW9x60sIHBw8Kd9EmCbj8eDIFxDC`
-
-Available methods:
-
-* **POST /api/todos**: Adds a new TODO
-* **PUT /api/todos/:id**: Updates the TODO with id `id`
-* **GET /api/todos/:id**: Returns the TODO with id `id`
-* **DELETE /api/todos/:id**: Deletes the TODO with id `id`
-* **GET /api/todos**: Gets all fo the TODOs
 
 ## Running this for your Auth0 account
 

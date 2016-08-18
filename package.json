@@ -1,28 +1,29 @@
 {
   "name": "angular2-authentication-sample",
-  "version": "0.0.1",
-  "description": "This is a sample that shows how to add authentication to an Angular 2 (ng2) app",
+  "version": "0.1.0",
+  "description": "This is a sample project that shows how to add authentication to an Angular 2 (ng2) and express 4, mysql, sequelize",
   "main": "",
   "scripts": {
-    "server": "cd backend && npm i && node server.js",
+    "server": "cd backend && npm i && node ./bin/www",
+    "server:debug": "cd backend && npm i && node-debug ./bin/www",
     "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000",
     "start": "npm run front",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/auth0/angular2-authentication-sample.git"
+    "url": "https://github.com/kincjf/ankroom.git"
   },
   "contributors": [
-    "Martin Gontovnikas (http://gon.to) <martin@gon.to>",
-    "PatrickJS <github@gdi2290.com>",
-    "Ryan Chenkie <ryanchenkie@gmail.com>"
+    "Seonho Kim <sinho0689@gmail.com>",
+    "DongYun Yu",
+    "Wongyu Yu"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/auth0/angular2-authentication-sample/issues"
+    "url": "https://github.com/kincjf/ankroom/issues"
   },
-  "homepage": "https://github.com/auth0/angular2-authentication-sample",
+  "homepage": "https://github.com/kincjf/ankroom",
   "dependencies": {
     "@angular/common": "2.0.0-rc.3",
     "@angular/compiler": "2.0.0-rc.3",
@@ -39,11 +40,14 @@
     "es6-shim": "^0.33.13",
     "es7-reflect-metadata": "^1.6.0",
     "jwt-decode": "^2.0.1",
+    "lodash": "^4.15.0",
     "ng2-file-upload": "^1.0.3",
     "rxjs": "5.0.0-beta.6",
     "zone.js": "~0.6.12"
   },
   "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
     "css-loader": "^0.23.1",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
@@ -52,6 +56,7 @@
     "json-loader": "^0.5.4",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.13.1",
+    "supertest": "^2.0.0",
     "ts-loader": "^0.8.1",
     "tsconfig-lint": "^0.7.0",
     "tslint": "^3.7.1",
