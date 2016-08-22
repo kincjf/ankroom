@@ -12,11 +12,17 @@ Google Sheet(RealRoom_개발자료 : Server-App 통신방법)을 참고 바람.
 테스트용 계정을 초기에 자동 생성되게 해서 간단한 로그인 테스트는 가능하다!
 (bin/www 참고)
 
+구동 후, test route를 이용하여 작동 확인 가능
+
+
 ## Available APIs
 
 ### Open API
 
 Available methods:
+
+* **GET /random**: test normal route
+* **GET /protected**: Test protected route, 회원 id를 포함한 정보는 jwt값으로 인코딩해서 보내야 함.
 
 * **POST /api/auth/login**: login
 * **POST /api/auth/register**: 회원가입

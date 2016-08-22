@@ -3,43 +3,24 @@
  */
 "use strict";
 
-const jwt = require('jsonwebtoken'),
-  crypto = require('crypto'),
+const crypto = require('crypto'),
   models = require('../models'),
   Member = models.Member,
   mailgun = require('../config/mailgun'),
   mailchimp = require('../config/mailchimp'),
-  config = require('../config/main');
+  config = require('../config/main'),
 
-// Generate JWT
-// TO-DO Add issuer and audience
-function generateToken(user) {
-  return jwt.sign(user, config.secret, {
-    expiresIn: 10080 // in seconds, 2.8시간
-  });
-}
-
-// Set user info from request
-function setUserInfo(request) {
-  let getUserInfo = {
-    idx: request.idx,
-    username: request.email,
-    password: request.password,
-    memberType: request.memberType,
-  };
-
-  return getUserInfo;
-}
+  genToken = require("../utils/genToken");
 
 //========================================
 // Login Route - passport의 LocalStrategy를 이용함
 //========================================
 exports.login = function(req, res, next) {
 
-  let userInfo = setUserInfo(req.user);   // passport에서 받은 object
+  let userInfo = genToken.setUserInfo(req.user);   // passport에서 받은 object
 
   res.status(200).json({
-    id_token: 'JWT ' + generateToken(userInfo),
+    id_token: 'JWT ' + genToken.generateUserToken(userInfo),
     user: userInfo,    // password가 hash로 오기 때문에,
     statusCode: 1
   });
@@ -94,10 +75,10 @@ exports.register = function(req, res, next) {
 
       // Respond with JWT if user was created
 
-      let userInfo = setUserInfo(newUser);
+      let userInfo = genToken.setUserInfo(newUser);
 
       res.status(201).json({
-        id_token: 'JWT ' + generateToken(userInfo),
+        id_token: 'JWT ' + genToken.generateUserToken(userInfo),
         user: userInfo,
         status: 1
       });

@@ -57,7 +57,7 @@ const jwtOptions = {
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
   Member.findById(payload.idx).then(function(err, user) {
     if (user) {
-      done(null, user);   // localSTrategy와 같다.
+      done(null, user);   // localStrategy와 같다.
     } else {
       done(null, false);
     }

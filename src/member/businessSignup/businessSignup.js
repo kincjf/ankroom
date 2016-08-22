@@ -15,22 +15,28 @@ var BusinessSignup = (function () {
         this.router = router;
         this.http = http;
     }
-    BusinessSignup.prototype.businesssignup = function (event, username, password, password_ok, phone, enterprise, represent, register_number, location, part, region, memberType) {
+    BusinessSignup.prototype.businesssignup = function (event, username, password, password_ok, contact, companyName, ownerName, bizRegNo, mainWorkField, mailWorkArea, memberType) {
         var _this = this;
         //html에서의 value값
-        event.preventDefault();
-        var body = JSON.stringify({ username: username, password: password, password_ok: password_ok, phone: phone, enterprise: enterprise, represent: represent, register_number: register_number, location: location, part: part, region: region, memberType: memberType });
-        //html받은 값들을 json형식으로 저장
-        this.http.post('http://localhost:3001/api/user', body, { headers: headers_1.contentHeaders })
-            .subscribe(function (response) {
-            localStorage.setItem('id_token', response.json().id_token);
-            _this.router.navigate(['/home']);
-            //서버로부터 응답 성공시 home으로 이동
-        }, function (error) {
-            alert(error.text());
-            console.log(error.text());
-            //서버로부터 응답 실패시 경고창
-        });
+        var passwords = password;
+        var confirmpasswords = password_ok;
+        if (passwords != confirmpasswords) {
+            alert("비밀번호가 일치하지 않습니다");
+        } //password 일치하는지 점검
+        else {
+            event.preventDefault();
+            var body = JSON.stringify({ username: username, password: password, password_ok: password_ok, contact: contact, companyName: companyName, ownerName: ownerName, bizRegNo: bizRegNo, mainWorkField: mainWorkField, mailWorkArea: mailWorkArea, memberType: memberType });
+            //html받은 값들을 json형식으로 저장
+            this.http.post('http://localhost:3001/api/business-user', body, { headers: headers_1.contentHeaders })
+                .subscribe(function (response) {
+                _this.router.navigate(['/login']);
+                //서버로부터 응답 성공시 home으로 이동
+            }, function (error) {
+                alert(error.text());
+                console.log(error.text());
+                //서버로부터 응답 실패시 경고창
+            });
+        }
     };
     BusinessSignup = __decorate([
         core_1.Component({

@@ -10,7 +10,7 @@ const passport = require('passport'),
   // StripeController = require('./controllers/stripe'),
   passportService = require('./config/passport'),   // 설정값 로딩때문에 필요함
 
-  quoter  = require('./tests/quoter');
+  quoter  = require('./tests/quoter');    // test route
 
 
 // Middleware to require login/auth
@@ -41,7 +41,7 @@ module.exports = function(app) {
     res.status(200).json({ quote: quoter.getRandomOne() });
   });
 
-  // Test protected route
+  // Test protected route, 회원 id를 포함한 정보는 jwt값으로 인코딩해서 보내야 함.
   apiRoutes.get('/protected', requireAuth, function(req, res) {
     res.status(200).json({ content: 'The protected test route is functional!'});
   });
@@ -71,8 +71,17 @@ module.exports = function(app) {
   // Set user routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/user', userRoutes);
 
-  // View user profile route
-  userRoutes.get('/:userId', requireAuth, UserController.viewProfile);
+  // View public user profile route
+  userRoutes.get('/:memberIdx', requireAuth, UserController.viewProfile);
+
+  // Update user profile route
+  userRoutes.put('/:memberIdx', requireAuth, UserController.updateProfile);
+
+  // View business user profile route
+  userRoutes.get('/biz/:memberIdx', requireAuth, UserController.viewBizProfile);
+
+  // update business user profile route
+  userRoutes.put('/biz/:memberIdx', requireAuth, UserController.updateBizProfile);
 
 
   //=========================
