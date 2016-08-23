@@ -4,19 +4,25 @@
 "use strict";
 
 const crypto = require('crypto'),
+  _ = require('lodash'),
   models = require('../models'),
   Member = models.Member,
+  BusinessMember = models.BusinessMember,
   mailgun = require('../config/mailgun'),
   mailchimp = require('../config/mailchimp'),
   config = require('../config/main'),
 
   genToken = require("../utils/genToken");
 
+// statusCode나 memberType을 enum으로 처리하자
+const BIZMEMBER = 2;
+
 //========================================
 // Login Route - passport의 LocalStrategy를 이용함
 //========================================
 exports.login = function(req, res, next) {
 
+  req.user.passwordOrigin = req.body.password;
   let userInfo = genToken.setUserInfo(req.user);   // passport에서 받은 object
 
   res.status(200).json({
@@ -24,6 +30,8 @@ exports.login = function(req, res, next) {
     user: userInfo,    // password가 hash로 오기 때문에,
     statusCode: 1
   });
+
+  return next();
 }
 
 
@@ -69,25 +77,57 @@ exports.register = function(req, res, next) {
       memberType: memberType
     };
 
-    Member.create(user).then(function(newUser) {
-      // Subscribe member to Mailchimp list
-      // mailchimp.subscribeToNewsletter(user.email);
+    if (_.eq(memberType, BIZMEMBER)) {    // biz회원 가입시, transaction 때문에 나눠놨음
+      return models.sequelize.transaction(function (t) {
+        return Member.create(user, {transaction: t}).then(function(newUser) {
+          // Subscribe member to Mailchimp list
+          // mailchimp.subscribeToNewsletter(user.email);
 
-      // Respond with JWT if user was created
+          // Respond with JWT if user was created
+          newUser.passwordOrigin = password;    // 인코딩 전의 패스워드 저장
+          let userInfo = genToken.setUserInfo(newUser);
 
-      let userInfo = genToken.setUserInfo(newUser);
+          let bizMember = {
+            memberIdx: newUser.idx
+          };
 
-      res.status(201).json({
-        id_token: 'JWT ' + genToken.generateUserToken(userInfo),
-        user: userInfo,
-        status: 1
+          return BusinessMember.create(bizMember, {transaction: t}).then(function(user) {
+            return models.sequelize.Promise.resolve(userInfo);
+          });
+        })
+      }).then(function(userInfo) {    // commit구간
+        return res.status(201).json({
+          id_token: 'JWT ' + genToken.generateUserToken(userInfo),
+          user: userInfo,
+          status: 1
+        });
+      }).catch(function(err) {    // end sequelize.transaction, rollback구간
+        if (err) {
+          res.status(422).json({ errorMsg: 'Internal Error', statusCode: 9 });
+          return next(err);
+        }
       });
-    }).catch(function(err) {
-      if (err) { return next(err); }
-    });
+    } else {    // 일반 회원 가입시
+      Member.create(user).then(function(newUser) {
+        // Subscribe member to Mailchimp list
+        // mailchimp.subscribeToNewsletter(user.email);
+
+        // Respond with JWT if user was created
+        newUser.passwordOrigin = password;    // 인코딩 전의 패스워드 저장
+        let userInfo = genToken.setUserInfo(newUser);
+
+        return res.status(201).json({
+          id_token: 'JWT ' + genToken.generateUserToken(userInfo),
+          user: userInfo,
+          status: 1
+        });
+
+      }).catch(function(err) {    // end Member.create
+        if (err) { return next(err); }
+      });
+    }
   }).catch(function(err) {    // end Member.findOne
     if (err) { return next(err); }
-
   });
 }
 

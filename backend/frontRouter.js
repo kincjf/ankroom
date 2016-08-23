@@ -75,7 +75,7 @@ module.exports = function(app) {
   userRoutes.get('/:memberIdx', requireAuth, UserController.viewProfile);
 
   // Update user profile route
-  userRoutes.put('/:memberIdx', requireAuth, UserController.updateProfile);
+  userRoutes.put('/:memberIdx', requireAuth, UserController.updateProfile, requireLogin, AuthenticationController.login);
 
   // View business user profile route
   userRoutes.get('/biz/:memberIdx', requireAuth, UserController.viewBizProfile);

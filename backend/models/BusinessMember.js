@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     memberIdx: {
       type: DataTypes.INTEGER(10),
       allowNull: false,
+      primaryKey: true,
       references: {
         model: 'Member',
         key: 'idx'
@@ -12,23 +13,23 @@ module.exports = function(sequelize, DataTypes) {
     },
     companyName: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: true
     },
     ownerName: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: true
     },
     bizRegNo: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: true
     },
     workPlace: {
       type: DataTypes.STRING(500),
-      allowNull: false
+      allowNull: true
     },
     contact: {
       type: DataTypes.STRING(200),
-      allowNull: false
+      allowNull: true
     },
     mainWorkField: {
       type: DataTypes.STRING(300),

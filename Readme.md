@@ -22,6 +22,9 @@ And Use `npm run server` to run API server.
 
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
 
+* 회원정보 변경시, 로그아웃시에 대해서 jwt token을 다시 발급해줘야 된다. [참고자료 링크](http://stackoverflow.com/questions/28759590/best-practices-to-invalidate-jwt-while-changing-passwords-and-logout-in-node-js)
+
+
 ## Author
 
 [Auth0](auth0.com)

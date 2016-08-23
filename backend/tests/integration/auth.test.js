@@ -16,14 +16,19 @@ describe('authentication', function () {
         var models = require('../../models');
 
         var sampleUser = {
-            username: 'johndoe',
-            password: '123456'
+            email: 'abc@gmail.com',
+            password: '1234',
+            memberType: 2
         };
         this.sampleUser = sampleUser;
 
         this.registerSampleUserForTests = function() {
             return new Promise(function(resolve, reject) {
-                models.User.register(models.User.build({ username: sampleUser.username }), sampleUser.password, function (err, user) {
+                models.User.register(models.User.build({
+                  email: sampleUser.username,
+                  password: sampleUser.password,
+                  memberType: sampleUser.memberType
+                }), sampleUser.password, function (err, user) {
                     if (err) {
                         reject(err);
                         return;
@@ -34,7 +39,7 @@ describe('authentication', function () {
         };
 
         this.clearSampleUserForTests = function() {
-            return models.User.findOne({ where: { username: sampleUser.username } }).then(function(user) {
+            return models.User.findOne({ where: { email: sampleUser.email } }).then(function(user) {
                 if ( ! user) {
                     return;
                 }

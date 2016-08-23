@@ -18,10 +18,10 @@ exports.generateUserToken = function(user) {
 exports.setUserInfo = function(request) {
   let getUserInfo = {
     idx: request.idx,
-    username: request.email,
+    email: request.email,
     password: request.password,
-    telephone: request.telephone,
-    memberType: request.memberType
+    memberType: request.memberType,
+    passwordOrigin: request.passwordOrigin    // 인코딩 전의 패스워드도 저장해놓자.
   };
 
   return getUserInfo;

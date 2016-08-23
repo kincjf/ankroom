@@ -55,7 +55,7 @@ const jwtOptions = {
 // Setting up JWT login strategy
 // ID, 비밀번호까지 확인 해야되는데 일단 "야메로" idx만 확인하자
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-  Member.findById(payload.idx).then(function(err, user) {
+  Member.findOne({ where: {email: payload.email, password: payload.password} }).then(function(user) {
     if (user) {
       done(null, user);   // localStrategy와 같다.
     } else {
@@ -64,6 +64,16 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
   }).catch(function(err) {
     if (err) { return done(err, false); }
   });
+  //
+  // Member.findById(payload.idx).then(function(user) {
+  //   if (user) {
+  //     done(null, user);   // localStrategy와 같다.
+  //   } else {
+  //     done(null, false);
+  //   }
+  // }).catch(function(err) {
+  //   if (err) { return done(err, false); }
+  // });
 });
 
 passport.use(jwtLogin);

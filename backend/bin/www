@@ -38,13 +38,13 @@ function setTestDatabase(members) {
     members = [
       {
         idx: 1,
-        email: "pastelbook89@gmail.com",    // 사업주 회원
+        email: "pastelbook89@gmail.com",    // 일반 회원
         password: "$2a$05$Ak0Z3z7ntwuAAGwr75XoiO2aYO.d1CRbkT37tOYamWXtflgk4TPO6",   // 11112222
         memberType: "1"
       },
       {
         idx: 2,
-        email: "sinho0689@gmail.com",       // 일반 회원
+        email: "sinho0689@gmail.com",       // 사업주 회원
         password: "$2a$05$Ak0Z3z7ntwuAAGwr75XoiO2aYO.d1CRbkT37tOYamWXtflgk4TPO6",   // 11112222
         memberType: "2"
       }
@@ -53,6 +53,7 @@ function setTestDatabase(members) {
 
   models.Member.bulkCreate(members).then(function() {
     debug('create Test Database');
+    return models.BusinessMember.create({memberIdx: 2});
     }).catch(function(err) {
       debug('create Test Database Error ' + err);
     });
