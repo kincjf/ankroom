@@ -27,5 +27,25 @@ export class BuildCaseInput {
   public fileOverAnother(e:any):void {
     this.hasAnotherDropZoneOver = e;
   }
+
+  addBuildCase(event, buildName, buildSelect, buildArea, buildLocation, buildCost, buildContent, buildImage)
+  {
+      event.preventDefault();
+      let body = JSON.stringify({buildName, buildSelect, buildArea, buildLocation, buildCost, buildContent, buildImage});
+      //html받은 값들을 json형식으로 저장
+      this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
+        .subscribe(
+          response => {
+            this.router.navigate(['/login']);
+            //서버로부터 응답 성공시 home으로 이동
+          },
+          error => {
+            alert(error.text());
+            console.log(error.text());
+            //서버로부터 응답 실패시 경고창
+          }
+        );
+
+  }
 }
 

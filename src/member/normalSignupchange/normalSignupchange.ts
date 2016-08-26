@@ -11,22 +11,29 @@ const template = require('./normalSignupchange.html');
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
+
+
 export class NormalSignupChange {
   jwt:string;
   decodedJwt: string;
   public data;
+  email: string;
+
 
   constructor(public router: Router, public http: Http) {
 
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-    contentHeaders.append('Authorzation',this.jwt);//Header에 jwt값 추가하기
+    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+    console.log(this.decodedJwt);
 
-    this.http.get('http://localhost:3001/api/user/:'+this.decodedJwt.idx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get('http://localhost:3001/api/user/'+this.decodedJwt.idx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
+          this.email = this.data.user.email;
+
         },
         error => {
           alert(error.text());
@@ -37,7 +44,7 @@ export class NormalSignupChange {
   }
 
 
-  normalsignupchange(event, username, password, password_ok, telephone, memberType) {
+  normalsignupchange(event, email, password, password_ok, telephone, memberType) {
     //html에서의 value값
     var passwords = password;
     var confirmpasswords = password_ok;
@@ -47,13 +54,9 @@ export class NormalSignupChange {
     }//password 일치하는지 점검
     else {
 
-      event.preventDefault();
-      let body = JSON.stringify({username, password, telephone, memberType});
-      //html받은 값들을 json형식으로 저장
 
-      this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-      contentHeaders.append('Authorzation',this.jwt);//Header에 jwt값 추가하기
+      let body = JSON.stringify({email, password, telephone, memberType});
+      //html받은 값들을 json형식으로 저장
 
       this.http.put('http://localhost:3001/api/user/'+this.decodedJwt.idx, body, {headers: contentHeaders})
         .subscribe(

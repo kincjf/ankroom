@@ -15,12 +15,12 @@ export class Login {
   constructor(public router: Router, public http: Http) {
   }
 
-  login(event, username, password) {
+  login(event, email, password) {
     //html에서의 value값
     event.preventDefault();
-    let body = JSON.stringify({ username, password });
+    let body = JSON.stringify({ email, password });
     //html받은 값들을 json형식으로 저장
-    this.http.post('http://localhost:3001/api/session/create', body, { headers: contentHeaders })
+    this.http.post('http://localhost:3001/api/auth/login', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('id_token', response.json().id_token);

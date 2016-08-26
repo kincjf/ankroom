@@ -51,7 +51,7 @@ export class BusinessSignupChange {
       this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
       contentHeaders.append('Authorzation',this.jwt);//Header에 jwt값 추가하기
 
-      this.http.put('http://localhost:3001/api/business-user/'+this.decodedJwt.idx, body, { headers: contentHeaders })
+      this.http.put('http://localhost:3001/api/auth/register'+this.decodedJwt.idx, body, { headers: contentHeaders })
         .subscribe(
           response => {
             this.router.navigate(['/mainPage']);

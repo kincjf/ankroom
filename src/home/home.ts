@@ -3,6 +3,7 @@ import { CORE_DIRECTIVES } from '@angular/common';
 import { Http, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { AuthHttp } from 'angular2-jwt';
+import { NormalSignupChange } from '../member/normalSignupchange'
 
 const styles = require('./home.css');
 const template = require('./home.html');
@@ -18,6 +19,7 @@ export class Home {
   decodedJwt: string;
   response: string;
   api: string;
+
 
   constructor(public router: Router, public http: Http, public authHttp: AuthHttp) {
     this.jwt = localStorage.getItem('id_token');

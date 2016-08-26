@@ -5,7 +5,7 @@
     <pre *ngIf="jwt" class="jwt"><code>{{ jwt }}</code></pre>
     <pre *ngIf="jwt" class="jwt"><code>{{ decodedJwt | json }}</code></pre>
     <p>Click any of the buttons to call an API and get a response</p>
-    <p><a class="btn btn-primary btn-lg" role="button" (click)="callAnonymousApi()">Call Anonymous API</a></p>
+    <p><a class="btn btn-primary btn-lg" role="button" (click)="callAnonymousApi()">회원수정</a></p>
     <p><a class="btn btn-primary btn-lg" role="button" (click)="callSecuredApi()">Call Secure API</a></p>
     <p><a class="btn btn-primary btn-lg" role="button" (click)="logout()">Logout</a></p>
     <h2 *ngIf="response">The response of calling the <span class="red">{{ api }}</span> API is:</h2>
