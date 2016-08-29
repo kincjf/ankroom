@@ -3,6 +3,9 @@
  */
 "use strict";
 
+// comment 작성된 부분이 있으나 sequelize create DB시에는 적용되지 않음.
+// 작성을 하거나 auto creation시 comment도 작성이 되게 해서 model data를 수정하자.
+
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");

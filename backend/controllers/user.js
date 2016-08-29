@@ -9,6 +9,8 @@ const models = require('../models');
 const Member = models.Member;
 const BusinessMember = models.BusinessMember;
 
+const staticValue = require('../utils/staticValue');
+
 // statusCode나 memberType을 enum으로 처리하자
 const BIZMEMBER = 2;
 //========================================
@@ -32,7 +34,7 @@ exports.viewProfile = function(req, res, next) {
     if (err) {
       res.status(400).json({
         errorMsg: 'No user could be found for this ID.',
-        statusCode: -1
+        statusCode: 2
       });
       return next(err);
     }
@@ -50,12 +52,20 @@ exports.updateProfile = function(req, res, next) {
     });
   }
 
+  if (!req.body.email || !req.body.password) {
+    return res.status(401).json({
+      errorMsg: 'You must enter an required field! please check email, password',
+      statusCode: -1
+    });
+  }
+
   const current = {
     email: req.user.email,
     password: req.user.passwordOrigin,
     telephone: req.user.telephone
   }
 
+  // 공백으로 넘어올 때 에러처리하자!
   const changes = {
     email: req.body.email,
     password: req.body.password,
@@ -67,10 +77,15 @@ exports.updateProfile = function(req, res, next) {
     if(array[0] == 1) {   // 변경 된 경우
       // email, pwd이 바뀐 경우
       if(!_.eq(current.email, changes.email) || !_.eq(current.password, changes.password)) {
+        // 재로그인을 위하여 다음 middleware(passport - LocalStrategy)로 email, password값을 넘겨줌
+        // 사실 안 적어도 되는데, 체크하는 측면에서 적음. 나중에 잘 작동되면 지워도 됨
+        req.body.email = changes.email;
+        req.body.password = changes.password;
+
         return next();
       } else {    // 바뀌지 않거나, 전화번호만 바뀌었을 경우
         return res.status(200).json({
-          msg: 'change Only telephone',
+          msg: 'changed only telephone',
           statusCode: 0
         });
       }
@@ -86,22 +101,13 @@ exports.updateProfile = function(req, res, next) {
     if (err) {
       res.status(400).json({
         errorMsg: 'No user could be found for this ID.',
-        statusCode: -1
+        statusCode: 2
       });
       return next(err);
     }
   });
 }
 
-// {
-//   let userInfo = genToken.setUserInfo(user);
-//
-//   res.status(200).json({
-//     id_token: 'JWT ' + genToken.generateUserToken(userInfo),
-//     user: user,
-//     statusCode: 1
-//   });
-// }
 
 // 사업주 회원 정보 조회
 exports.viewBizProfile = function(req, res, next) {
@@ -129,6 +135,7 @@ exports.viewBizProfile = function(req, res, next) {
 }
 
 // 사업주 회원 정보 입력, 수정
+// 회사 로고 이미지, 회사 소개 대표 이미지에 대한 file upload 구현해야함.
 exports.updateBizProfile = function(req, res, next) {
   const userId = _.toNumber(req.params.memberIdx);
 
@@ -165,7 +172,7 @@ exports.updateBizProfile = function(req, res, next) {
     if (err) {
       res.status(400).json({
         errorMsg: 'No user could be found for this ID.',
-        statusCode: -1
+        statusCode: 2
       });
       return next(err);
     }

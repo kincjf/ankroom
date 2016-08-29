@@ -1,19 +1,27 @@
 module.exports = {
   // Secret key for JWT signing and encryption
   "secret": "ankroom by moblab",
+
   "development": {
-    "username": "root",
-    "password": "hitit113112",
-    "database": "mydb",
-    "host": "ankroom.moblab.kr",
-    "dialect": "mysql",
-    "pool": {
-      "max": 5,
-      "min": 3,
-      "idle": 10000
-    },
-    "serverPort": 3001
+    "dialect": "sqlite",
+    "storage": "./db.development.sqlite"
   },
+
+  // 동시 작업시 하나의 DB를 쓰기 때문에 치명적인 문제가 있다.
+  // "development": {
+  //   "username": "root",
+  //   "password": "hitit113112",
+  //   "database": "mydb",
+  //   "host": "ankroom.moblab.kr",
+  //   "dialect": "mysql",
+  //   "pool": {
+  //     "max": 5,
+  //     "min": 3,
+  //     "idle": 10000
+  //   },
+  //   "serverPort": 3001
+  // },
+
   "production": {
     "username": "root",
     "password": "hitit113112",

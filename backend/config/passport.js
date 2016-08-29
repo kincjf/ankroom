@@ -53,7 +53,6 @@ const jwtOptions = {
 };
 
 // Setting up JWT login strategy
-// ID, 비밀번호까지 확인 해야되는데 일단 "야메로" idx만 확인하자
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
   Member.findOne({ where: {email: payload.email, password: payload.password} }).then(function(user) {
     if (user) {

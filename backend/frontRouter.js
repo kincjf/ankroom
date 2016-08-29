@@ -3,8 +3,10 @@
  */
 const passport = require('passport'),
   express = require('express'),
+  multer = require('multer'),
   AuthenticationController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
+  BuildCaseController = require('./controllers/build-case'),
   // ChatController = require('./controllers/chat'),
   // CommunicationController = require('./controllers/communication'),
   // StripeController = require('./controllers/stripe'),
@@ -23,12 +25,28 @@ const REQUIRE_ADMIN = "Admin",
       REQUIRE_CLIENT = "Client",
       REQUIRE_MEMBER = "Member";
 
+// Setting file upload to save file
+// 수정시 중복체크를 할 수 있도록 fileFilter를 구현하기
+const buildCaseInfoStorage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads/images/buildCaseInfo/' + file.fieldname);
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname + '-' + Date.now());
+  }
+});
+
+const buildCaseImageUpload = multer({ storage: buildCaseInfoStorage }).fields([
+  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage' }]);
+
 module.exports = function(app) {
   // Initializing route groups
   var apiRoutes = express.Router(),
     authRoutes = express.Router(),
     userRoutes = express.Router();
-    // chatRoutes = express.Router(),
+    buildCaseRoutes = express.Router();
+
+  // chatRoutes = express.Router(),
     // payRoutes = express.Router(),
     // communicationRoutes = express.Router();
 
@@ -83,6 +101,28 @@ module.exports = function(app) {
   // update business user profile route
   userRoutes.put('/biz/:memberIdx', requireAuth, UserController.updateBizProfile);
 
+
+  //=========================
+  // Build Case Routes
+  //=========================
+
+  // Set BuildCase routes as a subgroup/middleware to apiRoutes
+  apiRoutes.use('/build-case', buildCaseRoutes);
+
+  // View Build Case List from authenticated user(must get query(?pageSize={}&pageStartIndex={}) param)
+  buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
+
+  // create new Build Case Info from authenticated user
+  buildCaseRoutes.post('/', requireAuth, buildCaseImageUpload, BuildCaseController.createBuildCase);
+
+  // update Build Case Info from authenticated user
+  buildCaseRoutes.put('/:buildCaseIdx', requireAuth, BuildCaseController.updateBuildCase);
+
+  // delete Build Case Info from authenticated user
+  buildCaseRoutes.delete('/:buildCaseIdx', requireAuth, BuildCaseController.deleteBuildCase);
+
+  // search Build Case Info (must get query(?query={}) param)
+  buildCaseRoutes.get('/search', BuildCaseController.searchBuildCase);
 
   //=========================
   // Chat Routes
