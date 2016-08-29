@@ -11,6 +11,9 @@ import { BuildCaseInput} from './buildCase/buildCaseInput';
 import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
 import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
 import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
+import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCounsel';
+import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
+import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
 
 
 export const routes: RouterConfig = [
@@ -26,6 +29,9 @@ export const routes: RouterConfig = [
   { path: 'buildcaseselected', component: BuildCaseSelected },
   { path: 'home',   component: Home, canActivate: [AuthGuard] },
   { path: 'mainPage',   component: MainPage },
+  { path: 'consultingCounsel',   component: ConsultingCounsel },
+  { path: 'consultingDetail',   component: ConsultingDetail },
+  { path: 'consultingInfo',   component: ConsultingInfo },
   { path: '**',     component: Login },
 
 

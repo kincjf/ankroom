@@ -1,0 +1,52 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "description": "This is a NodeJS full API that you can use to test with your SPAs or Mobile apps.",
+  "main": "./bin/www",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cors": "^2.7.1",
+    "dotenv": "^0.4.0",
+    "errorhandler": "^1.4.3",
+    "express": "^4.14.0",
+    "express-jwt": "^0.3.2",
+    "jsonwebtoken": "^1.3.0",
+    "lodash": "^4.15.0",
+    "morgan": "^1.7.0",
+    "multer": "^1.2.0",
+    "promise-mysql": "^1.3.2",
+    "sequelize": "^3.23.6"
+  },
+  "devDependencies": {
+    "sqlite": "^2.2.0",
+    "sqlite3": "^3.1.4"
+  },
+  "scripts": {
+    "test": "npm run test-unit && npm run test-integration",
+    "test-unit": "./node_modules/.bin/mocha test/unit/*.test.js",
+    "test-integration": "./node_modules/.bin/mocha test/integration/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kincjf/ankroom.git"
+  },
+  "keywords": [
+    "jwt",
+    "auth0",
+    "sequelize",
+    "passport",
+    "mysql",
+    "restful",
+    "api"
+  ],
+  "author": "Seonho Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kincjf/ankroom/issues"
+  },
+  "homepage": "https://github.com/kincjf/ankroom#readme"
+}
