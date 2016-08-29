@@ -23,6 +23,7 @@
     "sequelize": "^3.23.6"
   },
   "devDependencies": {
+    "debug": "^2.2.0",
     "sqlite": "^2.2.0",
     "sqlite3": "^3.1.4"
   },
