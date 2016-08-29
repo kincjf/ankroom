@@ -22,7 +22,7 @@ var Home = (function () {
         this.router.navigate(['/login']);
     };
     Home.prototype.callAnonymousApi = function () {
-        this._callApi('Anonymous', 'http://localhost:3001/api/random-quote');
+        this.router.navigate(['/normalsignupchange']);
     };
     Home.prototype.callSecuredApi = function () {
         this._callApi('Secured', 'http://localhost:3001/api/protected/random-quote');

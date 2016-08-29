@@ -15,19 +15,20 @@ var NormalSignup = (function () {
         this.router = router;
         this.http = http;
     }
-    NormalSignup.prototype.normalsignup = function (event, username, password, password_ok, telephone, memberType) {
+    NormalSignup.prototype.normalsignup = function (event, email, password, password_ok, telephone, memberType) {
         var _this = this;
         //html에서의 value값
         var passwords = password;
         var confirmpasswords = password_ok;
+        console.log(memberType);
         if (passwords != confirmpasswords) {
             alert("비밀번호가 일치하지 않습니다");
         } //password 일치하는지 점검
         else {
             event.preventDefault();
-            var body = JSON.stringify({ username: username, password: password, telephone: telephone, memberType: memberType });
+            var body = JSON.stringify({ email: email, password: password, telephone: telephone, memberType: memberType });
             //html받은 값들을 json형식으로 저장
-            this.http.post('http://localhost:3001/api/user', body, { headers: headers_1.contentHeaders })
+            this.http.post('http://localhost:3001/api/auth/register', body, { headers: headers_1.contentHeaders })
                 .subscribe(function (response) {
                 _this.router.navigate(['/login']);
                 //서버로부터 응답 성공시 home으로 이동

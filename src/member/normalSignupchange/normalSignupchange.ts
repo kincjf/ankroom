@@ -25,7 +25,6 @@ export class NormalSignupChange {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
-    console.log(this.decodedJwt);
 
     this.http.get('http://localhost:3001/api/user/'+this.decodedJwt.idx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
@@ -33,7 +32,6 @@ export class NormalSignupChange {
         response => {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.email = this.data.user.email;
-
         },
         error => {
           alert(error.text());
@@ -61,7 +59,11 @@ export class NormalSignupChange {
       this.http.put('http://localhost:3001/api/user/'+this.decodedJwt.idx, body, {headers: contentHeaders})
         .subscribe(
           response => {
-            this.router.navigate(['mainPage']);
+            localStorage.setItem('id_token', response.json().id_token);
+            this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+            contentHeaders.delete('Authorization');
+            contentHeaders.append('Authorization',this.jwt);
+            this.router.navigate(['/mainPage']);
             //서버로부터 응답 성공시 home으로 이동
           },
           error => {

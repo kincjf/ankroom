@@ -15,13 +15,13 @@ var Login = (function () {
         this.router = router;
         this.http = http;
     }
-    Login.prototype.login = function (event, username, password) {
+    Login.prototype.login = function (event, email, password) {
         var _this = this;
         //html에서의 value값
         event.preventDefault();
-        var body = JSON.stringify({ username: username, password: password });
+        var body = JSON.stringify({ email: email, password: password });
         //html받은 값들을 json형식으로 저장
-        this.http.post('http://localhost:3001/api/session/create', body, { headers: headers_1.contentHeaders })
+        this.http.post('http://localhost:3001/api/auth/login', body, { headers: headers_1.contentHeaders })
             .subscribe(function (response) {
             localStorage.setItem('id_token', response.json().id_token);
             _this.router.navigate(['/home']);

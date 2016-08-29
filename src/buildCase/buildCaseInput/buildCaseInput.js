@@ -9,6 +9,7 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var ng2_file_upload_1 = require('../../../node_modules/ng2-file-upload');
+var headers_1 = require('../../common/headers');
 var template = require('./buildCaseInput.html');
 var URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 var BuildCaseInput = (function () {
@@ -24,6 +25,21 @@ var BuildCaseInput = (function () {
     };
     BuildCaseInput.prototype.fileOverAnother = function (e) {
         this.hasAnotherDropZoneOver = e;
+    };
+    BuildCaseInput.prototype.addBuildCase = function (event, buildName, buildSelect, buildArea, buildLocation, buildCost, buildContent, buildImage) {
+        var _this = this;
+        event.preventDefault();
+        var body = JSON.stringify({ buildName: buildName, buildSelect: buildSelect, buildArea: buildArea, buildLocation: buildLocation, buildCost: buildCost, buildContent: buildContent, buildImage: buildImage });
+        //html받은 값들을 json형식으로 저장
+        this.http.post('http://localhost:3001/api/build-case', body, { headers: headers_1.contentHeaders })
+            .subscribe(function (response) {
+            _this.router.navigate(['/login']);
+            //서버로부터 응답 성공시 home으로 이동
+        }, function (error) {
+            alert(error.text());
+            console.log(error.text());
+            //서버로부터 응답 실패시 경고창
+        });
     };
     BuildCaseInput = __decorate([
         core_1.Component({
