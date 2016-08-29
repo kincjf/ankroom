@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="src/assets/css/main.css">
   <!-- Util -->
   <script type="text/javascript" src="/node_modules/jwt-decode/build/jwt-decode.js"></script>
+  <script src="src/app.routes.ts"></script>
 </head>
 <body>
 
@@ -40,6 +41,8 @@
   <script src="src/assets/js/app.js"></script>
   <!-- summernote -->
   <script src="src/assets/js/lib/summernote.js"></script>
+  <!-- salvattore -->
+  <script src="src/assets/js/lib/salvattore.min.js"></script>
   <script>
     $(document).ready(function() {
       $('.summernote').summernote({
@@ -83,24 +86,24 @@
             if(data.buildingName !== ''){
               extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
             }
-            // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-            fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-          }
+          // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+          fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+        }
 
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById('sample3_postcode').value = data.zonecode; //5자리 새우편번호 사용
-          document.getElementById('sample3_address').value = fullAddr;
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.getElementById('sample3_postcode').value = data.zonecode; //5자리 새우편번호 사용
+      document.getElementById('sample3_address').value = fullAddr;
 
-          // iframe을 넣은 element를 안보이게 한다.
-          // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-          element_wrap.style.display = 'none';
+      // iframe을 넣은 element를 안보이게 한다.
+      // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+      element_wrap.style.display = 'none';
 
-          // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
-          document.body.scrollTop = currentScroll;
-        },
-        // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-        onresize : function(size) {
-          element_wrap.style.height = size.height+'px';
+      // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+      document.body.scrollTop = currentScroll;
+    },
+      // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+      onresize : function(size) {
+        element_wrap.style.height = size.height+'px';
         },
         width : '100%',
         height : '100%'
