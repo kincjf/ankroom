@@ -14,8 +14,60 @@ const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
   template: template
 })
 export class BuildCaseInput {
+  jwt:string;
+  decodedJwt: string;
+  public data;
+  memberType: string;
+
   constructor(public router: Router, public http: Http) {
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+
+    this.http.get('http://localhost:3001/api/user/'+this.decodedJwt.idx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+      .map(res => res.json())//받아온 값을 json형식으로 변경
+      .subscribe(
+        response => {
+          this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
+          this.memberType = this.data.user.memberType;
+        },
+        error => {
+          alert(error.text());
+          console.log(error.text());
+          //서버로부터 응답 실패시 경고창
+        }
+      );
   }
+
+  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, mainPreviewImage, buildTotalPrice)
+  {
+      event.preventDefault();
+      var confirmMemberType = "2";
+      var HTMLText = "test";
+      var VRImages = "test";
+
+      if (this.memberType != confirmMemberType) {
+        alert("시공사례 입력은 사업주만 가능합니다");
+      }//사업주 인지 점검
+      else {
+        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, mainPreviewImage, buildTotalPrice, HTMLText, VRImages});
+        //html받은 값들을 json형식으로 저장
+
+        this.http.post('http://localhost:3001/api/bulid-case', body, { headers: contentHeaders })
+          .subscribe(
+            response => {
+              this.router.navigate(['/mainPage']);
+              //서버로부터 응답 성공시 mainPage으로 이동
+            },
+            error => {
+              alert(error.text());
+              console.log(error.text());
+              //서버로부터 응답 실패시 경고창
+            }
+          );
+      }
+  }
+
   public uploader:FileUploader = new FileUploader({url: URL});
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
@@ -26,26 +78,6 @@ export class BuildCaseInput {
 
   public fileOverAnother(e:any):void {
     this.hasAnotherDropZoneOver = e;
-  }
-
-  addBuildCase(event, buildName, buildSelect, buildArea, buildLocation, buildCost, buildContent, buildImage)
-  {
-      event.preventDefault();
-      let body = JSON.stringify({buildName, buildSelect, buildArea, buildLocation, buildCost, buildContent, buildImage});
-      //html받은 값들을 json형식으로 저장
-      this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
-        .subscribe(
-          response => {
-            this.router.navigate(['/login']);
-            //서버로부터 응답 성공시 home으로 이동
-          },
-          error => {
-            alert(error.text());
-            console.log(error.text());
-            //서버로부터 응답 실패시 경고창
-          }
-        );
-
   }
 }
 

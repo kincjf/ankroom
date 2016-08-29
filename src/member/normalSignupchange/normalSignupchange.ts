@@ -64,7 +64,7 @@ export class NormalSignupChange {
             contentHeaders.delete('Authorization');
             contentHeaders.append('Authorization',this.jwt);
             this.router.navigate(['/mainPage']);
-            //서버로부터 응답 성공시 home으로 이동
+            //서버로부터 응답 성공시 mainPage으로 이동
           },
           error => {
             alert(error.text());
