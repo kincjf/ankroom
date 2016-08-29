@@ -32,7 +32,7 @@ export class Home {
   }
 
   callAnonymousApi() {
-    this._callApi('Anonymous', 'http://localhost:3001/api/random-quote');
+    this.router.navigate(['/normalsignupchange']);
   }
 
   callSecuredApi() {
