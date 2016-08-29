@@ -6,8 +6,12 @@ import { NormalSignup } from './member/normalSignup';
 import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
 import { AuthGuard } from './common/auth.guard';
-import {MainPage} from './common/mainPage/mainPage';
-import {BuildCaseInput} from './buildCase/buildCaseInput';
+import { MainPage} from './common/mainPage/mainPage';
+import { BuildCaseInput} from './buildCase/buildCaseInput';
+import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
+import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
+import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
+
 
 export const routes: RouterConfig = [
   { path: '',       component:  Login },
@@ -17,8 +21,12 @@ export const routes: RouterConfig = [
   { path: 'normalsignupchange', component: NormalSignupChange },
   { path: 'businesssignup', component: BusinessSignup },
   { path: 'buildcaseinput', component: BuildCaseInput },
+  { path: 'buildcasecase', component: BuildCaseCase },
+  { path: 'buildcaselately', component: BuildCaseLately },
+  { path: 'buildcaseselected', component: BuildCaseSelected },
   { path: 'home',   component: Home, canActivate: [AuthGuard] },
   { path: 'mainPage',   component: MainPage },
   { path: '**',     component: Login },
+
 
 ];
