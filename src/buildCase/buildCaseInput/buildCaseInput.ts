@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle } from '@angular/common';
-import {FILE_UPLOAD_DIRECTIVES, FileUploader} from '../../../node_modules/ng2-file-upload';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 
@@ -39,10 +39,10 @@ export class BuildCaseInput {
       );
   }
 
-  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, mainPreviewImage, buildTotalPrice)
+  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice)
   {
       event.preventDefault();
-      var confirmMemberType = "2";
+      var confirmMemberType = "2"; // 2:사업주
       var HTMLText = "test";
       var VRImages = "test";
 
@@ -50,10 +50,10 @@ export class BuildCaseInput {
         alert("시공사례 입력은 사업주만 가능합니다");
       }//사업주 인지 점검
       else {
-        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, mainPreviewImage, buildTotalPrice, HTMLText, VRImages});
+        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
         //html받은 값들을 json형식으로 저장
 
-        this.http.post('http://localhost:3001/api/bulid-case', body, { headers: contentHeaders })
+        this.http.post('http://localhost:3001/api/build-case', body, { headers: contentHeaders })
           .subscribe(
             response => {
               this.router.navigate(['/mainPage']);

@@ -24,11 +24,13 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 form-control-label">사업자등록번호</label>
+          <label for="buildType" class="col-sm-2 form-control-label">공사구분</label>
           <div class="col-sm-10">
-            <p class="form-control-static">
-              <input type="text" #buildType class="form-control" id="buildType" placeholder="사업자등록번호">
-            </p>
+            <select #buildType id="buildType" class="form-control">
+              <option>주거공간</option>
+              <option>상업공간</option>
+              <option>기타</option>
+            </select>
           </div>
         </div>
         <div class="form-group row">
@@ -56,33 +58,14 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-2 form-control-label">VR 사진</label>
+          <label class="col-sm-2 form-control-label">사진</label>
           <div class="col-sm-10">
             <div>
+              VR 이미지
+              <input type="file" name="vrImage" ng2FileSelect [uploader]="uploader" multiple  /><br/>
 
-              <h3>Select files</h3>
-
-              <div ng2FileDrop
-                   [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-                   (fileOver)="fileOverBase($event)"
-                   [uploader]="uploader"
-                   class="well my-drop-zone">
-                Base drop zone
-              </div>
-
-              <div ng2FileDrop
-                   [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
-                   (fileOver)="fileOverAnother($event)"
-                   [uploader]="uploader"
-                   class="well my-drop-zone">
-                Another drop zone
-              </div>
-
-              Multiple
-              <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
-
-              Single
-              <input type="file" ng2FileSelect [uploader]="uploader" />
+              시공사례 미리보기 대표 이미지
+              <input type="file" name="previewImage " ng2FileSelect [uploader]="uploader" />
             </div>
 
             <div>
