@@ -18,7 +18,7 @@ export class NormalSignupChange {
   decodedJwt: string;
   public data;
   email: string;
-  telephone :string;
+  telephones :string;
 
 
   constructor(public router: Router, public http: Http) {
@@ -33,7 +33,7 @@ export class NormalSignupChange {
         response => {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.email = this.data.user.email;
-          this.telephone = this.data.user.telephone;
+          this.telephones = this.data.user.telephone;
         },
         error => {
           alert(error.text());
@@ -76,7 +76,9 @@ export class NormalSignupChange {
         );
     }
   }
-
+  cancel(){
+    contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
+  }
 
 
 }

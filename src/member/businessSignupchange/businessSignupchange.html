@@ -2,7 +2,8 @@
     <div class="page-center-in">
         <div class="container-fluid">
             <form class="sign-box" style="max-width: 720px" role="form" (submit)="businesssignupchange($event,
-                contact.value ,companyName.value,ownerName.value,bizRegNo.value,workPlace.value,mainWorkField.value,mailWorkArea.value,memberType.value)">
+                contact.value ,companyName.value,ownerName.value,bizRegNo.value,workPlace.value,mainWorkField.value,mailWorkArea.value,memberType.value)"
+                  (cancel)="backs($event)">
                 <header class="sign-title">회원가입</header>
                 <div class="row">
                     <div class="col-sm-6">
@@ -42,8 +43,8 @@
                 </div>
                 <input type="hidden" #memberType value="2"/>
                 <div class="form-group">
-                    <button type="button" class="btn btn-rounded btn-success sign-up">회원가입</button>
-                    <button type="button" class="btn btn-rounded btn-success sign-up">취소</button>
+                    <button type="submit" class="btn btn-rounded btn-success sign-up">회원가입</button>
+                    <button type="cancel" class="btn btn-rounded btn-success sign-up">취소</button>
                 </div>
             </form>
         </div>

@@ -77,6 +77,9 @@ export class BusinessNormalChange {
         );
     }
   }
+  cancel(){
+    contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
+  }
 
 
 
