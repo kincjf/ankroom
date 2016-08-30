@@ -13,6 +13,8 @@
     "src/home/index.ts",
     "src/login/index.ts",
     "src/member/signup/index.ts",
+    "src/member/change/change.ts",
+    "src/member/businessNormalchange/index.ts",
     "src/member/normalSignup/index.ts",
     "src/member/normalSignupchange/index.ts",
     "src/member/businessSignup/index.ts",

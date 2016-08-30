@@ -2,6 +2,8 @@ import { RouterConfig } from '@angular/router';
 import { Home } from './home';
 import { Login } from './login';
 import { Signup } from './member/signup';
+import { Change } from './member/change';
+import { BusinessNormalChange } from './member/businessNormalchange';
 import { NormalSignup } from './member/normalSignup';
 import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
@@ -21,6 +23,8 @@ export const routes: RouterConfig = [
   { path: '',       component:  Login },
   { path: 'login',  component: Login },
   { path: 'signup', component: Signup },
+  { path: 'change', component: Change },
+  { path: 'businessnormalchange', component: BusinessNormalChange },
   { path: 'normalsignup', component: NormalSignup },
   { path: 'normalsignupchange', component: NormalSignupChange },
   { path: 'businesssignup', component: BusinessSignup },

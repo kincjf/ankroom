@@ -1,0 +1,26 @@
+<div class="page-center">
+  <div class="page-center-in">
+    <div class="container-fluid">
+      <form class="sign-box" role="form" (submit)="businessnormalchange($event, username.value, password.value, password_ok.value, telephone.value ,memberType.value)">
+        <header class="sign-title">회원가입</header>
+        <div class="form-group">
+          <input type="text" #username class="form-control" value={{email}}/>
+        </div>
+        <div class="form-group">
+          <input type="password" #password class="form-control" placeholder="비밀번호"/>
+        </div>
+        <div class="form-group">
+          <input type="password" #password_ok class="form-control" placeholder="비밀번호 확인"/>
+        </div>
+        <div class="form-group">
+          <input type="text" #telephone class="form-control" placeholder="전화번호 or 휴대전화번호" value={{telephones}}/>
+        </div>
+        <input type="hidden" #memberType value="2"/>
+        <div class="form-group">
+          <button type="submit" class="btn btn-rounded btn-success sign-up">정보수정</button>
+          <button type="cancel" class="btn btn-rounded btn-success sign-up">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@ import { Http, Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { AuthHttp } from 'angular2-jwt';
 import { NormalSignupChange } from '../member/normalSignupchange'
+import {contentHeaders} from "../common/headers";
 
 const styles = require('./home.css');
 const template = require('./home.html');
@@ -28,6 +29,7 @@ export class Home {
 
   logout() {
     localStorage.removeItem('id_token');
+    contentHeaders.delete('Authorization');
     this.router.navigate(['/login']);
   }
 
@@ -36,7 +38,7 @@ export class Home {
   }
 
   callSecuredApi() {
-    this._callApi('Secured', 'http://localhost:3001/api/protected/random-quote');
+    this.router.navigate(['/change']);
   }
 
   _callApi(type, url) {

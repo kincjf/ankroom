@@ -1,43 +1,35 @@
 <div class="page-center">
     <div class="page-center-in">
         <div class="container-fluid">
-            <form class="sign-box" style="max-width: 720px" role="form" (submit)="businesssignupchange($event, username.value, password.value,password_ok.value,
+            <form class="sign-box" style="max-width: 720px" role="form" (submit)="businesssignupchange($event,
                 contact.value ,companyName.value,ownerName.value,bizRegNo.value,workPlace.value,mainWorkField.value,mailWorkArea.value,memberType.value)">
                 <header class="sign-title">회원가입</header>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="text" #username class="form-control" placeholder="E-Mail"/>
+                          <input type="text" #companyName class="form-control" placeholder="업체명" value={{companyNames}}/>
                         </div>
                         <div class="form-group">
-                            <input type="password" #password class="form-control" placeholder="비밀번호 확인"/>
+                          <input type="text" #ownerName class="form-control" placeholder="대표명" value={{ownerNames}}/>
                         </div>
                         <div class="form-group">
-                            <input type="password" #password_ok class="form-control" placeholder="비밀번호 확인"/>
+                          <input type="text" #bizRegNo class="form-control" placeholder="사업자등록번호" value={{bizRegNos}}/>
                         </div>
                         <div class="form-group">
-                            <input type="text" #contact class="form-control" placeholder="전화번호 or 휴대전화번호"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" #companyName class="form-control" placeholder="업체명"/>
+                            <input type="text" #contact class="form-control" placeholder="사업용 연락처" value={{contacts}}/>
                         </div>
                     </div>
 
                     <div class="col-sm-6">
+
                         <div class="form-group">
-                            <input type="text" #ownerName class="form-control" placeholder="대표명"/>
+                            <input type="text" #workPlace class="form-control" placeholder="사업장위치" value={{workPlaces}}/>
                         </div>
                         <div class="form-group">
-                            <input type="text" #bizRegNo class="form-control" placeholder="사업자등록번호"/>
+                            <input type="text" #mainWorkField class="form-control" placeholder="주요시공분야" value={{mainWorkFields}}/>
                         </div>
                         <div class="form-group">
-                            <input type="text" #workPlace class="form-control" placeholder="사업장위치"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" #mainWorkField class="form-control" placeholder="주요시공분야"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" #mailWorkArea class="form-control" placeholder="시공지역"/>
+                            <input type="text" #mailWorkArea class="form-control" placeholder="시공지역" value={{mailWorkAreas}}/>
                         </div>
                         <div class="form-group">
                             <textarea rows="2" class="form-control" placeholder="요약글"></textarea>
