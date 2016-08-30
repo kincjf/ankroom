@@ -66,7 +66,7 @@ export class NormalSignupChange {
             contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
             contentHeaders.append('Authorization',this.jwt);
             this.router.navigate(['/mainPage']);
-            //서버로부터 응답 성공시 home으로 이동
+            //서버로부터 응답 성공시 mainPage으로 이동
           },
           error => {
             alert(error.text());
