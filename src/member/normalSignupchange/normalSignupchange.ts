@@ -18,6 +18,7 @@ export class NormalSignupChange {
   decodedJwt: string;
   public data;
   email: string;
+  telephones :string;
 
 
   constructor(public router: Router, public http: Http) {
@@ -32,6 +33,7 @@ export class NormalSignupChange {
         response => {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.email = this.data.user.email;
+          this.telephones = this.data.user.telephone;
         },
         error => {
           alert(error.text());
@@ -61,7 +63,7 @@ export class NormalSignupChange {
           response => {
             localStorage.setItem('id_token', response.json().id_token);
             this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-            contentHeaders.delete('Authorization');
+            contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
             contentHeaders.append('Authorization',this.jwt);
             this.router.navigate(['/mainPage']);
             //서버로부터 응답 성공시 mainPage으로 이동
@@ -74,7 +76,9 @@ export class NormalSignupChange {
         );
     }
   }
-
+  cancel(){
+    contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
+  }
 
 
 }

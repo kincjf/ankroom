@@ -16,7 +16,7 @@ export class NormalSignup {
   constructor(public router: Router, public http: Http) {
   }
 
-  normalsignup(event, email, password, password_ok, telephone, memberType)
+  normalsignup(event, email, password, password_ok, memberType)
   {
     //html에서의 value값
     var passwords = password;
@@ -29,7 +29,7 @@ export class NormalSignup {
     }//password 일치하는지 점검
     else {
       event.preventDefault();
-      let body = JSON.stringify({email, password, telephone, memberType });
+      let body = JSON.stringify({email, password,  memberType });
       //html받은 값들을 json형식으로 저장
       this.http.post('http://localhost:3001/api/auth/register', body, {headers: contentHeaders})
         .subscribe(
