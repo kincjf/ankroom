@@ -19,7 +19,7 @@ export class BuildCaseList {
   public data;
   pageSize: number;
   pageStartIndex: number;
-  email: string;
+  bulidCaseData: string[];
 
 
   constructor(public router: Router, public http: Http) {
@@ -27,13 +27,16 @@ export class BuildCaseList {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+    this.pageSize= 10;
+    this.pageStartIndex=0;
 
-    this.http.get('http://localhost:3001/api/build-case?pageSize={' + this.pageSize + '}'+'&pageStartIndex={' + this.pageStartIndex + '}', {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+
+    this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex , {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
-          this.email = this.data.user.email;
+          this.bulidCaseData = this.data;
         },
         error => {
           alert(error.text());

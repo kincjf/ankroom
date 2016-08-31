@@ -6,7 +6,7 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 
 const template = require('./buildCaseInput.html');
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = 'http://localhost:3001/api/build-case';
 
 @Component({
   selector: 'buildCaseInput',
@@ -28,7 +28,7 @@ export class BuildCaseInput {
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
-          this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
+          this.data=response; //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.memberType = this.data.user.memberType;
         },
         error => {
@@ -39,18 +39,58 @@ export class BuildCaseInput {
       );
   }
 
-  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice)
-  {
-      event.preventDefault();
+  public uploader:FileUploader = new FileUploader({
+    url: 'http://localhost:3001/api/build-case',
+    headers: contentHeaders
+  });
+
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+
+  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice) {
+    event.preventDefault();
+
+    var confirmMemberType = "2"; // 2:사업주
+    var HTMLText = "test";
+
+    if (this.memberType != confirmMemberType) {
+      alert("시공사례 입력은 사업주만 가능합니다");
+    }//사업주 인지 점검
+    else {
+      let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice,HTMLText});
+      this.uploader.onBuildItemForm = (item, form) => {
+        form.append(body, body);
+      };
+
+      this.uploader.uploadAll();
+    }
+
+
+
+
+
+
+
+
+/*
       var confirmMemberType = "2"; // 2:사업주
       var HTMLText = "test";
-      var VRImages = "test";
+      var vrImage ;
+      var previewImage ;
 
       if (this.memberType != confirmMemberType) {
         alert("시공사례 입력은 사업주만 가능합니다");
       }//사업주 인지 점검
       else {
-        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
+        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, vrImage, previewImage ,HTMLText});
         //html받은 값들을 json형식으로 저장
 
         this.http.post('http://localhost:3001/api/build-case', body, { headers: contentHeaders })
@@ -66,18 +106,7 @@ export class BuildCaseInput {
             }
           );
       }
-  }
-
-  public uploader:FileUploader = new FileUploader({url: URL});
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
-
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
+      */
   }
 }
 
