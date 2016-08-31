@@ -116,7 +116,7 @@ module.exports = function(app) {
   buildCaseRoutes.post('/', requireAuth, buildCaseImageUpload, BuildCaseController.createBuildCase);
 
   // update Build Case Info from authenticated user
-  buildCaseRoutes.put('/:buildCaseIdx', requireAuth, BuildCaseController.updateBuildCase);
+  buildCaseRoutes.put('/:buildCaseIdx', requireAuth, buildCaseImageUpload, BuildCaseController.updateBuildCase);
 
   // delete Build Case Info from authenticated user
   buildCaseRoutes.delete('/:buildCaseIdx', requireAuth, BuildCaseController.deleteBuildCase);
