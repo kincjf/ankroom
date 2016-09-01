@@ -75,7 +75,9 @@ export class BuildCaseInput {
 
   public uploader:FileUploader = new FileUploader({
     url: URL,
-    headers: contentHeaders
+    headers: contentHeaders,
+    authToken: this.jwt,
+    withCredentials: false
   });
 
 

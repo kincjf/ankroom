@@ -25,9 +25,8 @@ app.options("*", cors());
 app.use(cors({
   "origin": "*",
   "allowedHeaders": 'X-Requested-With, Content-Type, Accept, Authorization',
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS",
-  "credentials": true,
-  "preflightContinue": true
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "credentials": true
 }));    // 왜 안먹는거지?
 
 // app.use(function (req, res, next) {
