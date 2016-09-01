@@ -41,7 +41,7 @@ export class BuildCaseInput {
     else {
       let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
       //html받은 값들을 json형식으로 저장
-/*
+
       this.uploader.onBuildItemForm = (item, form) => {
         form.append(title, title);
         form.append(buildType, buildType);
@@ -56,7 +56,7 @@ export class BuildCaseInput {
         var responsePath = JSON.parse(response);
         console.log(response, responsePath);// the url will be in the response
       };
-*/
+/*
       this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
         .subscribe(
           response => {
@@ -69,14 +69,15 @@ export class BuildCaseInput {
             //서버로부터 응답 실패시 경고창
           }
         );
+*/
     }
-
   }
 
   public uploader:FileUploader = new FileUploader({
     url: URL,
     headers: contentHeaders
   });
+
 
   public hasBaseDropZoneOver:boolean = false;
   public hasAnotherDropZoneOver:boolean = false;
