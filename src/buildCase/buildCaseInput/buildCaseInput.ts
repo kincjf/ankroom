@@ -45,7 +45,7 @@ export class BuildCaseInput {
     event.preventDefault();
 
     var confirmMemberType = "2"; // 2:사업주
-    var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');
+    var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');// 섬머노트 이미지 업로드는 추후에 변경예정
     var VRImages = "test";
 
     if (this.memberType != confirmMemberType) {
