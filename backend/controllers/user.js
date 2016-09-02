@@ -165,7 +165,7 @@ exports.updateBizProfile = function(req, res, next) {
     aboutCompany: req.body.aboutCompany,
     companyLogo: req.body.companyLogo,
     companyIntroImage: req.body.companyIntroImage
-  }, {where: { id: userId }}).then(function(user) {
+  }, {where: { memberIdx: userId }}).then(function(user) {
     res.status(200).json({ bizUserInfo: user, statusCode: 1 });
     return next();
   }).catch(function(err) {
