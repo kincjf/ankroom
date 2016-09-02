@@ -3,6 +3,7 @@
  */
 const passport = require('passport'),
   express = require('express'),
+  cors = require('cors'),
   multer = require('multer'),
   AuthenticationController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
@@ -113,10 +114,10 @@ module.exports = function(app) {
   buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
 
   // create new Build Case Info from authenticated user
-  buildCaseRoutes.post('/', requireAuth, buildCaseImageUpload, BuildCaseController.createBuildCase);
+  buildCaseRoutes.post('/', cors(), requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
 
   // update Build Case Info from authenticated user
-  buildCaseRoutes.put('/:buildCaseIdx', requireAuth, BuildCaseController.updateBuildCase);
+  buildCaseRoutes.put('/:buildCaseIdx', requireAuth, buildCaseImageUpload, BuildCaseController.updateBuildCase);
 
   // delete Build Case Info from authenticated user
   buildCaseRoutes.delete('/:buildCaseIdx', requireAuth, BuildCaseController.deleteBuildCase);

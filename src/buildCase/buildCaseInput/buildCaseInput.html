@@ -14,7 +14,7 @@
 
       <h5 class="m-t-lg with-border">시공사례 입력</h5>
 
-      <form role="form" (submit)="addBuildCase($event, title.value, buildType.value, buildPlace.value, buildTotalArea.value, buildTotalPrice.value)">
+      <form enctype="multipart/form-data" (submit)="addBuildCase($event, title.value, buildType.value, buildPlace.value, buildTotalArea.value, buildTotalPrice.value)">
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사명</label>
           <div class="col-sm-10">
@@ -63,25 +63,10 @@
           <div class="col-sm-10">
             <div>
               VR 이미지
-              <input type="file" name="vrImage" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+              <input type="file" name="vrImage" ng2FileSelect [uploader]="uploader"/><br/>
 
               시공사례 미리보기 대표 이미지
-              <input type="file" name="previewImage " ng2FileSelect [uploader]="uploader" />
-            </div>
-
-            <div>
-              <button type="button" class="btn btn-success btn-s"
-                      (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                <span class="glyphicon glyphicon-upload"></span> Upload all
-              </button>
-              <button type="button" class="btn btn-warning btn-s"
-                      (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-              </button>
-              <button type="button" class="btn btn-danger btn-s"
-                      (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                <span class="glyphicon glyphicon-trash"></span> Remove all
-              </button>
+              <input type="file" name="previewImage " ng2FileSelect [uploader]="uploader" multiple />
             </div>
           </div>
         </div>
