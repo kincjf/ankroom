@@ -32,7 +32,7 @@ export class BuildCaseInput {
     event.preventDefault();
 
     var confirmMemberType = "2"; // 2:사업주
-    var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');
+    var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');// 섬머노트 이미지 업로드는 추후에 변경예정
     var VRImages = "test";
 
     if (this.memberType != confirmMemberType) {
@@ -56,20 +56,20 @@ export class BuildCaseInput {
         this.showUploadLayer = false;
         console.log("onCompleteAll");  // this one get called correctly.
       };
-/*
-      this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
-        .subscribe(
-          response => {
-            this.router.navigate(['/mainPage']);
-            //서버로부터 응답 성공시 mainPage으로 이동
-          },
-          error => {
-            alert(error.text());
-            console.log(error.text());
-            //서버로부터 응답 실패시 경고창
-          }
-        );
-*/
+      /*
+       this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
+       .subscribe(
+       response => {
+       this.router.navigate(['/mainPage']);
+       //서버로부터 응답 성공시 mainPage으로 이동
+       },
+       error => {
+       alert(error.text());
+       console.log(error.text());
+       //서버로부터 응답 실패시 경고창
+       }
+       );
+       */
     }
   }
 
