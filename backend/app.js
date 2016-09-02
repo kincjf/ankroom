@@ -9,7 +9,6 @@ var logger          = require('morgan'),
     bodyParser      = require('body-parser'),
     router = require('./frontRouter');
 
-
 var app = express();
 
 dotenv.load();
