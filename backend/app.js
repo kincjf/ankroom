@@ -25,18 +25,10 @@ app.options("*", cors());
 app.use(cors({
   "origin": "*",
   "allowedHeaders": 'X-Requested-With, Content-Type, Accept, Authorization',
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   "credentials": true,
   "preflightContinue": true
 }));    // 왜 안먹는거지?
-
-// app.use(function (req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Authorization');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
 
 // catch 404 and forward to error handler
 // app.use(function(err, req, res, next) {

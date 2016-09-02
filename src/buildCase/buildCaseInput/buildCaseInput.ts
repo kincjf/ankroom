@@ -56,7 +56,15 @@ export class BuildCaseInput {
         var responsePath = JSON.parse(response);
         console.log(response, responsePath);// the url will be in the response
       };
+
+      this.uploader.onAfterAddingFile = (file: any) => {
+        file.withCredentials = false;
+        console.log(file);
+      };
+
+      console.log(this.uploader);
 /*
+
       this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
         .subscribe(
           response => {
@@ -75,7 +83,9 @@ export class BuildCaseInput {
 
   public uploader:FileUploader = new FileUploader({
     url: URL,
-    headers: contentHeaders
+    authToken: this.jwt,
+    // headers: contentHeaders,
+    withCredentials: false
   });
 
 

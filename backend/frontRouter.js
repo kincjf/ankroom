@@ -3,11 +3,15 @@
  */
 const passport = require('passport'),
   express = require('express'),
-  cors = require('cors'),
   multer = require('multer'),
-  AuthenticationController = require('./controllers/authentication'),
+
+  multerConfig = require('./config/multer'),
+  PublicController = require('./controllers/public'),
+  AuthController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
   BuildCaseController = require('./controllers/build-case'),
+  BizStoreController = require('./controllers/biz-store'),
+
   // ChatController = require('./controllers/chat'),
   // CommunicationController = require('./controllers/communication'),
   // StripeController = require('./controllers/stripe'),
@@ -20,32 +24,21 @@ const passport = require('passport'),
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
-// Constants for role types
-const REQUIRE_ADMIN = "Admin",
-      REQUIRE_OWNER = "Owner",
-      REQUIRE_CLIENT = "Client",
-      REQUIRE_MEMBER = "Member";
 
-// Setting file upload to save file
-// 수정시 중복체크를 할 수 있도록 fileFilter를 구현하기
-const buildCaseInfoStorage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads/images/buildCaseInfo/' + file.fieldname);
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.originalname + '-' + Date.now());
-  }
-});
+const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
+  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
+const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
+  .array('editorImage', 12);
 
-const buildCaseImageUpload = multer({ storage: buildCaseInfoStorage }).fields([
-  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage' }]);
 
 module.exports = function(app) {
   // Initializing route groups
   var apiRoutes = express.Router(),
+    publicRoutes = express.Router(),
     authRoutes = express.Router(),
     userRoutes = express.Router();
     buildCaseRoutes = express.Router();
+    bizStoreRoutes = express.Router();
 
   // chatRoutes = express.Router(),
     // payRoutes = express.Router(),
@@ -66,6 +59,17 @@ module.exports = function(app) {
   });
 
   //=========================
+  // public Routes
+  //=========================
+
+  // Set public routes as subgroup/middleware to apiRoutes
+  apiRoutes.use('/public', publicRoutes);
+
+  // upload Image and return path when try to attaching device image
+  authRoutes.post('/image', requireAuth, editorImageUpload, PublicController.uploadEditorImage);
+
+
+  //=========================
   // Auth Routes
   //=========================
 
@@ -73,15 +77,15 @@ module.exports = function(app) {
   apiRoutes.use('/auth', authRoutes);
 
   // Registration route
-  authRoutes.post('/register', AuthenticationController.register);
+  authRoutes.post('/register', AuthController.register);
 
   // Login route
-  authRoutes.post('/login', requireLogin, AuthenticationController.login);
+  authRoutes.post('/login', requireLogin, AuthController.login);
 
   // Password reset request route (generate/send token)
-  authRoutes.post('/forgot-password', AuthenticationController.forgotPassword);
+  authRoutes.post('/forgot-password', AuthController.forgotPassword);
 
-  authRoutes.post('/reset-password/:token', AuthenticationController.verifyToken);
+  authRoutes.post('/reset-password/:token', AuthController.verifyToken);
 
   //=========================
   // Member Routes
@@ -94,7 +98,7 @@ module.exports = function(app) {
   userRoutes.get('/:memberIdx', requireAuth, UserController.viewProfile);
 
   // Update user profile route
-  userRoutes.put('/:memberIdx', requireAuth, UserController.updateProfile, requireLogin, AuthenticationController.login);
+  userRoutes.put('/:memberIdx', requireAuth, UserController.updateProfile, requireLogin, AuthController.login);
 
   // View business user profile route
   userRoutes.get('/biz/:memberIdx', requireAuth, UserController.viewBizProfile);
@@ -114,7 +118,7 @@ module.exports = function(app) {
   buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
 
   // create new Build Case Info from authenticated user
-  buildCaseRoutes.post('/', cors(), requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
+  buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
 
   // update Build Case Info from authenticated user
   buildCaseRoutes.put('/:buildCaseIdx', requireAuth, buildCaseImageUpload, BuildCaseController.updateBuildCase);
@@ -126,23 +130,18 @@ module.exports = function(app) {
   buildCaseRoutes.get('/search', BuildCaseController.searchBuildCase);
 
   //=========================
-  // Chat Routes
+  // Biz Store Route - 업체 목록 조회
   //=========================
 
   // Set chat routes as a subgroup/middleware to apiRoutes
-  // apiRoutes.use('/chat', chatRoutes);
+  apiRoutes.use('/biz-store', bizStoreRoutes);
 
-  // View messages to and from authenticated user
-  // chatRoutes.get('/', requireAuth, ChatController.getConversations);
+  // View business user profile list route(must get query(?pageSize={}&pageStartIndex={}) param)
+  bizStoreRoutes.get('/', BizStoreController.viewBizProfileList);
 
-  // Retrieve single conversation
-  // chatRoutes.get('/:conversationId', requireAuth, ChatController.getConversation);
+  // View business user profile to customer route
+  bizStoreRoutes.get('/:memberIdx', BizStoreController.viewBizProfile);
 
-  // Send reply in conversation
-  // chatRoutes.post('/:conversationId', requireAuth, ChatController.sendReply);
-
-  // Start new conversation
-  // chatRoutes.post('/new/:recipient', requireAuth, ChatController.newConversation);
 
   //=========================
   // Payment Routes
