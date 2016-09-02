@@ -16,8 +16,10 @@
   <![endif]-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="src/assets/css/lib/font-awesome/font-awesome.min.css">
-  <link rel="stylesheet" href="src/assets/css/lib/summernote.css">
   <link rel="stylesheet" href="src/assets/css/main.css">
+  <!-- include summernote css-->
+  <link rel="stylesheet" href="src/assets/css/lib/summernote.css">
+  <link rel="stylesheet" href="src/assets/css/lib/summernote_modalsolution.css">
   <!-- Util -->
   <script type="text/javascript" src="/node_modules/jwt-decode/build/jwt-decode.js"></script>
   <script src="src/app.routes.ts"></script>
@@ -41,18 +43,44 @@
   <script src="src/assets/js/app.js"></script>
   <!-- summernote -->
   <script src="src/assets/js/lib/summernote.js"></script>
-  <!-- salvattore -->
-  <script src="src/assets/js/lib/salvattore.min.js"></script>
   <script>
     $(document).ready(function() {
       $('.summernote').summernote({
         height: 300,                 // set editor height
         minHeight: null,             // set minimum height of editor
         maxHeight: null,             // set maximum height of editor
-        focus: true                  // set focus to editable area after initializing summernote
+        focus: true,
+        onImageUpload: function (files, modules, editable) {
+          // $.each(files, function(idx, file) {
+          sendFile(files, modules, editable);
+          //});
+        },
       });
-    });
+      lang : 'ko-KR',
+        function sendFile(files, modules, editable) {
+          for(var i=0; i < files.length; i++){
+            (function(i) {
+              var data = new FormData();
+              data.append("uploadFile", files[i]);
+              $.ajax({
+                data:data,
+                type:"POST",
+                url:"api/imageUpload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success : function (data) {
+                  $('#summernote').summernote("insertImage",data.url, data.filename);
+                }
+              });
+            })(i);
+          }
+        }
+      });
   </script>
+  <!-- salvattore -->
+  <script src="src/assets/js/lib/salvattore.min.js"></script>
+
   <!-- daum 우편 API -->
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script>
