@@ -4,6 +4,7 @@
 const passport = require('passport'),
   express = require('express'),
   multer = require('multer'),
+  bodyParser = require('body-parser'),
 
   multerConfig = require('./config/multer'),
   PublicController = require('./controllers/public'),
@@ -35,14 +36,15 @@ module.exports = function(app) {
   // Initializing route groups
   var apiRoutes = express.Router(),
     publicRoutes = express.Router(),
+//    publicRoutes = express(),
     authRoutes = express.Router(),
     userRoutes = express.Router();
-    buildCaseRoutes = express.Router();
-    bizStoreRoutes = express.Router();
+  buildCaseRoutes = express.Router();
+  bizStoreRoutes = express.Router();
 
   // chatRoutes = express.Router(),
-    // payRoutes = express.Router(),
-    // communicationRoutes = express.Router();
+  // payRoutes = express.Router(),
+  // communicationRoutes = express.Router();
 
   //=========================
   // Test Routes
@@ -66,8 +68,10 @@ module.exports = function(app) {
   apiRoutes.use('/public', publicRoutes);
 
   // upload Image and return path when try to attaching device image
-  authRoutes.post('/image', requireAuth, editorImageUpload, PublicController.uploadEditorImage);
+  publicRoutes.post('/image', PublicController.uploadEditorImage);
 
+  // download image
+  publicRoutes.get('/images/*', PublicController.getImage);
 
   //=========================
   // Auth Routes
