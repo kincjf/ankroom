@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.options("*", cors());
 app.use(cors({
   "origin": "*",
-  "allowedHeaders": 'X-Requested-With, Content-Type, Accept, Authorization',
+  "allowedHeaders": 'X-Requested-With, Content-Type, Content-Range, Content-Disposition, Content-Description, Accept, Authorization',
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   "credentials": true,
   "preflightContinue": true
