@@ -1,13 +1,13 @@
 'use strict';
 
 var logger          = require('morgan'),
-    cors            = require('cors'),
-    http            = require('http'),
-    express         = require('express'),
-    errorhandler    = require('errorhandler'),
-    dotenv          = require('dotenv'),
-    bodyParser      = require('body-parser'),
-    router = require('./frontRouter');
+  cors            = require('cors'),
+  http            = require('http'),
+  express         = require('express'),
+  errorhandler    = require('errorhandler'),
+  dotenv          = require('dotenv'),
+  bodyParser      = require('body-parser'),
+  router = require('./frontRouter');
 
 
 var app = express();
@@ -18,8 +18,10 @@ dotenv.load();
 // old version of line
 // app.use(bodyParser.urlencoded());
 // new version of line
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '30mb'}));
+app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
 app.options("*", cors());
 app.use(cors({
