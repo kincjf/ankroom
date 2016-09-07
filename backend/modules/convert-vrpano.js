@@ -11,6 +11,8 @@ var spawn = childProcess.spawnSync;
 var os = require('os');
 var path = require('path');
 var _ = require('underscore');
+var env       = process.env.NODE_ENV || "development";
+var config = require('../config/main')[env];
 
 var log = require('console-log-level')({
     prefix: function () { return new Date().toISOString() },
@@ -30,7 +32,7 @@ if (platform === 'linux') {
     okMsg = "echo $?";
     deleteNewline = '/\n/g';
     delimeter = ':';
-    krpanoDirectory = __dirname + "/tools/krpano-1.19.pre6-linux64";
+    krpanoDirectory = config.krpanoDir.linux;
 }
 else if (platform === 'win32' && process.env.SHELL === undefined) {
     // support for Win32 outside Cygwin
@@ -47,7 +49,7 @@ else if (platform === 'win32' && process.env.SHELL === undefined) {
     okMsg = "echo %ERRORLEVEL%";
     deleteNewline = '/\r\n/g';
     delimeter = ';';
-    krpanoDirectory = __dirname + "\\tools\\krpano-1.19.pre6-win";
+    krpanoDirectory = config.krpanoDir.win;
 }
 
 _.extend(process.env, { PATH : process.env.PATH + delimeter + krpanoDirectory });
