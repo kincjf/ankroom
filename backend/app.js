@@ -23,6 +23,8 @@ dotenv.load();
 app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
+app.use(express.static(__dirname + '/uploads'));
+
 app.options("*", cors());
 app.use(cors({
   "origin": "*",

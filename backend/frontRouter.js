@@ -70,8 +70,11 @@ module.exports = function(app) {
   // upload Image and return path when try to attaching device image
   publicRoutes.post('/image', PublicController.uploadEditorImage);
 
-  // download image
+  // download image - app에서 처리했으니 나중에 삭제하자.
   publicRoutes.get('/images/*', PublicController.getImage);
+
+  // test - upload Image and return path when try to attaching device image
+  publicRoutes.post('/image/test', editorImageUpload, PublicController.uploadTestImage);
 
   //=========================
   // Auth Routes

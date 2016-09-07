@@ -35,6 +35,37 @@ exports.uploadEditorImage = function(req, res) {
   });
 }
 
+/**
+ * multer 이용 - https://github.com/expressjs/multer
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
+exports.uploadTestImage = function(req, res, next) {
+  var editorImagePath;
+
+  if (req.files['editorImage']) {
+    editorImagePath = [];
+
+    _forEach(req.files['editorImage'], function(file, key) {
+      if(file) {
+        editorImagePath.push(file.name);
+      }
+    });
+  } else {
+    return res.status(400).json({
+      errorMsg: 'You must enter an required form field! please check editorImage',
+      statusCode: -1
+    });
+  }
+
+  return res.status(200).json({
+    imagePath: editorImagePath,
+    statusCode: 1
+  });
+}
+
 
 exports.getImage = function(req, res) {
 
