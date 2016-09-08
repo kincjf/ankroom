@@ -16,7 +16,7 @@ exports.uploadEditorImage = function(req, res) {
 
   var hostname = "http://localhost:3001/";
   var serverhome = "./";
-  var request_dir = "api/public/images/";
+  var request_dir = "images/";
 
   var imagePath = hostname + request_dir + file_name + "." + file_ext; // url
   var savePath = serverhome + img_dir + file_name + "." + file_ext;
@@ -35,39 +35,33 @@ exports.uploadEditorImage = function(req, res) {
   });
 }
 
+/**
+ * multer 이용 - https://github.com/expressjs/multer
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
+exports.uploadTestImage = function(req, res, next) {
+  var editorImagePath;
 
-exports.getImage = function(req, res) {
+  if (req.files['editorImage']) {
+    editorImagePath = [];
 
-  var url = req.url;
-  var file_name = url.replace("/images/", '');
-  var image_dir = "./uploads/images/";
-
-  var image_path = image_dir + file_name;
-  var ext = image_path.substr(image_path.lastIndexOf('.') + 1);
-
-  if (fs.existsSync(image_path)) {
-    fs.readFile(image_path, function(err, data) {
-      if (err) throw err;
-      switch (ext) {
-        case "jpg":
-        case "jpeg":
-          var content = 'image/jpeg'; break;
-        case "png":
-          var content = 'image/png'; break;
-        case "gif":
-          var content = 'image/gif'; break;
-        default:
-          var content = 'not';
-      }
-
-      if (content == 'not') {
-        res.status(404).send('Not image')
-      } else {
-        res.writeHead(200, { 'Content-Type':  content });
-        res.end(data, 'utf-8');
+    _forEach(req.files['editorImage'], function(file, key) {
+      if(file) {
+        editorImagePath.push(file.name);
       }
     });
   } else {
-    res.status(404).send('Not found');
+    return res.status(400).json({
+      errorMsg: 'You must enter an required form field! please check editorImage',
+      statusCode: -1
+    });
   }
+
+  return res.status(200).json({
+    imagePath: editorImagePath,
+    statusCode: 1
+  });
 }
