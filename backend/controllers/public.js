@@ -45,17 +45,17 @@ exports.uploadEditorImage = function(req, res) {
 exports.uploadTestImage = function(req, res, next) {
   var editorImagePath;
 
-  if (req.files['editorImage']) {
+  if (req.files['file']) {
     editorImagePath = [];
 
-    _forEach(req.files['editorImage'], function(file, key) {
+    _forEach(req.files['file'], function(file, key) {
       if(file) {
         editorImagePath.push(file.name);
       }
     });
   } else {
     return res.status(400).json({
-      errorMsg: 'You must enter an required form field! please check editorImage',
+      errorMsg: 'You must enter an required form field! please check file',
       statusCode: -1
     });
   }

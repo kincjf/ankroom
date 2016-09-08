@@ -1,4 +1,4 @@
-import { Component,ElementRef } from '@angular/core';
+import { Component,ElementRef,NgZone } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle } from '@angular/common';
 import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload';
@@ -8,10 +8,11 @@ import { contentHeaders } from '../../common/headers';
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseInput.html');
 const URL = 'http://localhost:3001/api/build-case';
+const imageURL = 'http://localhost:3001/api/public/image/test';
 
 @Component({
   selector: 'buildCaseInput',
-  directives: [ FILE_UPLOAD_DIRECTIVES,CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, NgClass, NgStyle ],
+  directives: [FILE_UPLOAD_DIRECTIVES,CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, NgClass, NgStyle ],
   template: template
 })
 export class BuildCaseInput {
@@ -21,12 +22,15 @@ export class BuildCaseInput {
   public data;
   memberType: string;
 
+
+
   constructor(public router: Router, public http: Http, private el:ElementRef) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     this.memberType = this.decodedJwt.memberType;
-//    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
+
 
   addBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice) {
     event.preventDefault();
@@ -42,21 +46,14 @@ export class BuildCaseInput {
       let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
       //html받은 값들을 json형식으로 저장
 
-      this.uploader.onBuildItemForm = (item, form) => {
-        form.append(title, title);
-        form.append(buildType, buildType);
-        form.append(buildPlace, buildPlace);
-        form.append(buildTotalArea, buildTotalArea);
-        form.append(buildTotalPrice, buildTotalPrice);
-        form.append(HTMLText, HTMLText);
-      };
 
       this.uploader.uploadAll();
       this.uploader.onCompleteAll = function(){
         this.showUploadLayer = false;
         console.log("onCompleteAll");  // this one get called correctly.
       };
-      /*
+
+/*
        this.http.post('http://localhost:3001/api/build-case', body, {headers: contentHeaders})
        .subscribe(
        response => {
@@ -69,28 +66,15 @@ export class BuildCaseInput {
        //서버로부터 응답 실패시 경고창
        }
        );
-       */
+*/
     }
   }
 
   public uploader:FileUploader = new FileUploader({
-    url: URL,
+    url: imageURL,
     headers: contentHeaders,
-    authToken: this.jwt,
-    withCredentials: false
+    itemAlias: 'editorImage'
   });
-
-
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
-
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
-  }
 
 
 }
