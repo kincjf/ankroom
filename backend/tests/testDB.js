@@ -1,6 +1,8 @@
 /**
  * Created by KIMSEONHO on 2016-09-02.
  */
+var moment = require('moment');
+
 exports.member = [
   {
     idx: 1,
@@ -143,5 +145,108 @@ exports.buildCaseInfoBoard = [
     VRImages: JSON.stringify(["./test/testVRImage1.jpg", "./test/testVRImage2.jpg", "./test/testVRImage3.jpg"]),
     initWriteDate: Date.now()
   },
+];
+
+exports.userConsultInfoBoard = [
+  {
+    idx: 1,
+    memberIdx: 1,
+    title: "제목(String, 고객 상담 조회시 제목)",
+    acceptStatus: 0,    // 접수 대기중
+    initWriteDate: Date.now(),    // 최초 작성일
+    prefBizMemberIdx: 5,    // 선호업체명, 사업주 회원 정보 참조 인덱스(FK)
+    buildType: "시공분야 - 1 : 아파트, 아직은 string임",
+    prefBuildCaseInfoIdx: 1,
+    userName: "김선호",
+    telephone: "작성자 연락처(Member에 작성이 되어 있으면 불러오기)",
+    email: "pastelbook89@gmail.com",
+    expectBuildPrice: 10000000,   // 예상 공사 예산
+    buildPlace: JSON.stringify(["우편번호", "일반주소(String, 사업장위치)", "상세주소"]),    // 공사 예정지 주소
+    lived: 0,   // 거주 여부, - 0, 다른 값 : false(비거주중), 1 : true(거주중)
+    expectBuildTotalArea: 50,   // 예상 공사 면적(평)
+    expectBuildStartDate: moment().format('YYYY-MM-DD'),   // 예상 공사 예정일, DATE
+    expectConsultDate: moment().format(),   // 방문 상담 희망일, TIMESTAMP
+    reqContents: "공사시 요청사항, String(HTML Text)"
+  },
+  {
+    idx: 2,
+    memberIdx: 1,
+    title: "제목(String, 고객 상담 조회시 제목)",
+    acceptStatus: 0,    // 접수 대기중
+    initWriteDate: Date.now(),    // 최초 작성일
+    prefBizMemberIdx: 5,    // 선호업체명, 사업주 회원 정보 참조 인덱스(FK)
+    buildType: "시공분야 - 1 : 아파트, 아직은 string임",
+    prefBuildCaseInfoIdx: 1,
+    userName: "김선호",
+    telephone: "작성자 연락처(Member에 작성이 되어 있으면 불러오기)",
+    email: "pastelbook89@gmail.com",
+    expectBuildPrice: 10000000,   // 예상 공사 예산
+    buildPlace: JSON.stringify(["우편번호", "일반주소(String, 사업장위치)", "상세주소"]),    // 공사 예정지 주소
+    lived: 0,   // 거주 여부, - 0, 다른 값 : false(비거주중), 1 : true(거주중)
+    expectBuildTotalArea: 50,   // 예상 공사 면적(평)
+    expectBuildStartDate: moment().format('YYYY-MM-DD'),   // 예상 공사 예정일, DATE
+    expectConsultDate: moment().format(),   // 방문 상담 희망일, TIMESTAMP
+    reqContents: "공사시 요청사항, String(HTML Text)"
+  },
+  {
+    idx: 3,
+    memberIdx: 1,
+    title: "제목(String, 고객 상담 조회시 제목)",
+    acceptStatus: 0,    // 접수 대기중
+    initWriteDate: Date.now(),    // 최초 작성일
+    prefBizMemberIdx: 5,    // 선호업체명, 사업주 회원 정보 참조 인덱스(FK)
+    buildType: "시공분야 - 1 : 아파트, 아직은 string임",
+    prefBuildCaseInfoIdx: 1,
+    userName: "김선호",
+    telephone: "작성자 연락처(Member에 작성이 되어 있으면 불러오기)",
+    email: "pastelbook89@gmail.com",
+    expectBuildPrice: 10000000,   // 예상 공사 예산
+    buildPlace: JSON.stringify(["우편번호", "일반주소(String, 사업장위치)", "상세주소"]),    // 공사 예정지 주소
+    lived: 0,   // 거주 여부, - 0, 다른 값 : false(비거주중), 1 : true(거주중)
+    expectBuildTotalArea: 50,   // 예상 공사 면적(평)
+    expectBuildStartDate: moment().format('YYYY-MM-DD'),   // 예상 공사 예정일, DATE
+    expectConsultDate: moment().format(),   // 방문 상담 희망일, TIMESTAMP
+    reqContents: "공사시 요청사항, String(HTML Text)"
+  },
+  {
+    idx: 4,
+    memberIdx: 1,
+    title: "제목(String, 고객 상담 조회시 제목)",
+    acceptStatus: 0,    // 접수 대기중
+    initWriteDate: Date.now(),    // 최초 작성일
+    prefBizMemberIdx: 5,    // 선호업체명, 사업주 회원 정보 참조 인덱스(FK)
+    buildType: "시공분야 - 1 : 아파트, 아직은 string임",
+    prefBuildCaseInfoIdx: 1,
+    userName: "김선호",
+    telephone: "작성자 연락처(Member에 작성이 되어 있으면 불러오기)",
+    email: "pastelbook89@gmail.com",
+    expectBuildPrice: 10000000,   // 예상 공사 예산
+    buildPlace: JSON.stringify(["우편번호", "일반주소(String, 사업장위치)", "상세주소"]),    // 공사 예정지 주소
+    lived: 0,   // 거주 여부, - 0, 다른 값 : false(비거주중), 1 : true(거주중)
+    expectBuildTotalArea: 50,   // 예상 공사 면적(평)
+    expectBuildStartDate: moment().format('YYYY-MM-DD'),   // 예상 공사 예정일, DATE
+    expectConsultDate: moment().format(),   // 방문 상담 희망일, TIMESTAMP
+    reqContents: "공사시 요청사항, String(HTML Text)"
+  },
+  {
+    idx: 5,
+    memberIdx: 1,
+    title: "제목(String, 고객 상담 조회시 제목)",
+    acceptStatus: 0,    // 접수 대기중
+    initWriteDate: Date.now(),    // 최초 작성일
+    prefBizMemberIdx: 5,    // 선호업체명, 사업주 회원 정보 참조 인덱스(FK)
+    buildType: "시공분야 - 1 : 아파트, 아직은 string임",
+    prefBuildCaseInfoIdx: 1,
+    userName: "김선호",
+    telephone: "작성자 연락처(Member에 작성이 되어 있으면 불러오기)",
+    email: "pastelbook89@gmail.com",
+    expectBuildPrice: 10000000,   // 예상 공사 예산
+    buildPlace: JSON.stringify(["우편번호", "일반주소(String, 사업장위치)", "상세주소"]),    // 공사 예정지 주소
+    lived: 0,   // 거주 여부, - 0, 다른 값 : false(비거주중), 1 : true(거주중)
+    expectBuildTotalArea: 50,   // 예상 공사 면적(평)
+    expectBuildStartDate: moment().format('YYYY-MM-DD'),   // 예상 공사 예정일, DATE
+    expectConsultDate: moment().format(),   // 방문 상담 희망일, TIMESTAMP
+    reqContents: "공사시 요청사항, String(HTML Text)"
+  }
 ];
 
