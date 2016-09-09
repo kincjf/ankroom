@@ -9,7 +9,6 @@ var logger          = require('morgan'),
   bodyParser      = require('body-parser'),
   router = require('./frontRouter');
 
-
 var app = express();
 
 dotenv.load();
@@ -40,6 +39,9 @@ app.use(cors({
 //   err.status = 404;
 //   next(err);
 // });
+
+// You can explicitly set the path, using the environmental variable APP_ROOT_PATH or by calling
+require('app-root-path').setPath(__dirname);
 
 // error handler
 // no stacktraces leaked to user unless in development environment

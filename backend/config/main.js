@@ -1,3 +1,13 @@
+const path = require('path');
+const appRoot = require('app-root-path');
+
+// root project path 찾는 방법에 대해서는 여러가지 방법이 구현되어 있으나,
+// 현재는 이 방법을 사용한다.
+const serverPath = 'backend';
+const krpano_win = path.join(appRoot.toString(), serverPath, "\\tools\\krpano-1.19-pr6-win");
+const krpano_linux = path.join(appRoot.toString(), serverPath, "/tools/krpano-1.19-pr6-linux64");
+const vtour_config = "templates/vtour-normal-custom.config";
+
 module.exports = {
   // Secret key for JWT signing and encryption
   "secret": "ankroom by moblab",
@@ -6,9 +16,10 @@ module.exports = {
     "dialect": "sqlite",
     "storage": "./db.development.sqlite",
     "serverPort": 3001,
-    "krpanoDir": {
-      win: __dirname + "\\tools\\krpano-1.19.pre6-win",
-      linux: __dirname + "/tools/krpano-1.19.pre6-linux64"
+    "krpano": {
+      win: krpano_win,
+      linux: krpano_linux,
+      vtour_config: vtour_config
     }
   },
 
@@ -38,8 +49,12 @@ module.exports = {
       "min": 10,
       "idle": 10000
     },
-    "krpanoDirectory-win": __dirname + "\\tools\\krpano-1.19.pre6-win",
-    "krpanoDirectory-linux": __dirname + "\\tools\\krpano-1.19.pre6-linux",
+    "krpano": {
+      win: krpano_win,
+      linux: krpano_linux,
+      vtour_config: vtour_config
+    },
+
     // Setting port for server
     "serverPort": 3001,
     // Configuring Mailgun API for sending transactional email

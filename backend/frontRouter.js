@@ -36,11 +36,10 @@ module.exports = function(app) {
   // Initializing route groups
   var apiRoutes = express.Router(),
     publicRoutes = express.Router(),
-//    publicRoutes = express(),
     authRoutes = express.Router(),
     userRoutes = express.Router();
-  buildCaseRoutes = express.Router();
-  bizStoreRoutes = express.Router();
+    buildCaseRoutes = express.Router();
+    bizStoreRoutes = express.Router();
 
   // chatRoutes = express.Router(),
   // payRoutes = express.Router(),
