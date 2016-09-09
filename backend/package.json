@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.1.0",
   "description": "This is a NodeJS full API that you can use to test with your SPAs or Mobile apps.",
-  "main": "./bin/www.js",
+  "main": "./bin/www",
   "directories": {
     "test": "tests"
   },

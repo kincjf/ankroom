@@ -16,7 +16,7 @@ exports.uploadEditorImage = function(req, res) {
 
   var hostname = "http://localhost:3001/";
   var serverhome = "./";
-  var request_dir = "api/public/images/";
+  var request_dir = "images/";
 
   var imagePath = hostname + request_dir + file_name + "." + file_ext; // url
   var savePath = serverhome + img_dir + file_name + "." + file_ext;
@@ -45,17 +45,17 @@ exports.uploadEditorImage = function(req, res) {
 exports.uploadTestImage = function(req, res, next) {
   var editorImagePath;
 
-  if (req.files['editorImage']) {
+  if (req.files['file']) {
     editorImagePath = [];
 
-    _forEach(req.files['editorImage'], function(file, key) {
+    _forEach(req.files['file'], function(file, key) {
       if(file) {
         editorImagePath.push(file.name);
       }
     });
   } else {
     return res.status(400).json({
-      errorMsg: 'You must enter an required form field! please check editorImage',
+      errorMsg: 'You must enter an required form field! please check file',
       statusCode: -1
     });
   }
@@ -64,41 +64,4 @@ exports.uploadTestImage = function(req, res, next) {
     imagePath: editorImagePath,
     statusCode: 1
   });
-}
-
-
-exports.getImage = function(req, res) {
-
-  var url = req.url;
-  var file_name = url.replace("/images/", '');
-  var image_dir = "./uploads/images/";
-
-  var image_path = image_dir + file_name;
-  var ext = image_path.substr(image_path.lastIndexOf('.') + 1);
-
-  if (fs.existsSync(image_path)) {
-    fs.readFile(image_path, function(err, data) {
-      if (err) throw err;
-      switch (ext) {
-        case "jpg":
-        case "jpeg":
-          var content = 'image/jpeg'; break;
-        case "png":
-          var content = 'image/png'; break;
-        case "gif":
-          var content = 'image/gif'; break;
-        default:
-          var content = 'not';
-      }
-
-      if (content == 'not') {
-        res.status(404).send('Not image')
-      } else {
-        res.writeHead(200, { 'Content-Type':  content });
-        res.end(data, 'utf-8');
-      }
-    });
-  } else {
-    res.status(404).send('Not found');
-  }
 }

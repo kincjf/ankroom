@@ -28,8 +28,9 @@ const requireLogin = passport.authenticate('local', { session: false });
 
 const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
   { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
-const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
-  .array('editorImage', 12);
+// const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
+//   .array('editorImage', 12);
+var editorImageUpload = multer({ dest: 'uploads/images' }).any();
 
 
 module.exports = function(app) {
@@ -68,9 +69,6 @@ module.exports = function(app) {
 
   // upload Image and return path when try to attaching device image
   publicRoutes.post('/image', PublicController.uploadEditorImage);
-
-  // download image - app에서 처리했으니 나중에 삭제하자.
-  publicRoutes.get('/images/*', PublicController.getImage);
 
   // test - upload Image and return path when try to attaching device image
   publicRoutes.post('/image/test', editorImageUpload, PublicController.uploadTestImage);
