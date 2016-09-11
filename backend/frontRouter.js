@@ -122,7 +122,10 @@ module.exports = function(app) {
   buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
 
   // create new Build Case Info from authenticated user
-  buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
+  // buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
+
+  // create new Build Case Info from authenticated user
+  buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCaseAndVRPano);
 
   // update Build Case Info from authenticated user
   buildCaseRoutes.put('/:buildCaseIdx', requireAuth, buildCaseImageUpload, BuildCaseController.updateBuildCase);

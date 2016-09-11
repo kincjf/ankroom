@@ -5,11 +5,19 @@
 
 const _ = require('lodash');
 const multer = require('multer');
-// var fsp = require('fs-promise');
+
+var log = require('console-log-level')({
+  prefix: function () { return new Date().toISOString() },
+  level: 'debug'
+})
 
 const genToken = require('../utils/genToken');
 const staticValue = require('../utils/staticValue');
 const models = require('../models');
+const vrpano = require('../modules/convert-vrpano');
+const vrpanoPromise = require('../modules/convert-vrpano-promise');
+
+
 const Member = models.Member;
 const BuildCaseInfoBoard = models.BuildCaseInfoBoard;
 
@@ -102,10 +110,12 @@ exports.createBuildCase = function(req, res, next) {
     mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
     buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
     HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)
+    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)   // 현재는 변환 전임을 표시함.
   }
 
   BuildCaseInfoBoard.create(buildCase).then(function(newBuildCase) {
+    vrpano(newBuildCase.idx, vrImagePath);    // 비동기로 작동한다.
+
     return res.status(201).json({
       buildCaseInfo: newBuildCase,
       statusCode: staticValue.statusCode.RequestActionCompleted_20x
@@ -120,6 +130,110 @@ exports.createBuildCase = function(req, res, next) {
     }
   });
 }
+
+/**
+ * 시공사례입력(use vrpano-promise)
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.createBuildCaseAndVRPano = function(req, res, next) {
+  if (req.user.memberType != staticValue.memberType.BusinessMember) {
+    return res.status(401).json({
+      errorMsg: 'You are not authorized to create build case.',
+      statusCode: 2
+    });
+  }
+
+  if (!req.body.title) {
+    return res.status(401).json({
+      errorMsg: 'You must enter an required field! please check title',
+      statusCode: -1
+    });
+  }
+
+  let previewImagePath;
+  if (req.files['previewImage']) {
+    // const previewImagePath = req.files['prewviewImage'][0].originalname;
+    previewImagePath = req.files['previewImage'][0].name;
+  }
+
+  let vrImagePath;
+  if (req.files['vrImage']) {
+    vrImagePath = [];
+
+    _forEach(req.files['vrImage'], function(file, key) {
+      if(file) {
+        vrImagePath.push(file.name);
+      }
+    });
+  }
+
+  const buildCase = {
+    memberIdx: req.user.idx,
+    title: req.body.title,
+    buildType: req.body.buildType == "" ? null : req.body.buildType,
+    buildPlace: req.body.buildPlace == "" ? null : req.body.buildPlace,
+    buildTotalArea: req.body.buildTotalArea == "" ? null : _.toNumber(req.body.buildTotalArea),
+    mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
+    buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
+    HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
+    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)   // 현재는 변환 전임을 표시함.
+  }
+
+  var newIdx;
+
+  BuildCaseInfoBoard.create(buildCase).then(function(newBuildCase) {
+    res.status(201).json({
+      buildCaseInfo: newBuildCase,
+      statusCode: staticValue.statusCode.RequestActionCompleted_20x
+    });
+
+    newIdx = newBuildCase.idx;
+
+    return vrpanoPromise(vrImagePath).then(() => {
+      log.debug('[convert-vrpano-promise] done!');
+    }).catch(err => {
+      log.error('[convert-vrpano-promise] ERROR: ', err);
+    });    // 비동기로 작동한다.
+  }).then(result => {
+    return BuildCaseInfo.findById(newIdx).then(buildCaseInfo => {
+      let vrImages = [];
+
+      _(imagePaths).forEach(value => {
+        let baseDirPath = _.replace(regpath.dirname(value), '.*(?=uploads)', "");   // uploads의 앞부분은 삭제한다.
+        let extension = path.extname(value);    // imagefile name의 확장자부분만 추출
+        let imageName = path.basename(value, extension);    // imagefile name의 파일 이름만 추출
+        let imagePath = imageName + extension;
+        let tileDir = path.join(baseDirPath, TOUR_PATH, PANO_PATH, imageName + "tiles");
+
+        vrImages.push({
+          baseDirPath: baseDirPath,
+          originalImage: imagePath,
+          xmlPath: path.join(baseDIrPath, TOUR_PATH, "tour.xml"),
+          previewImagePath: path.join(tileDir, 'thumb.jpg')
+        });
+      });
+
+      return buildCaseInfo.update({
+        VRImages: JSON.stringify(vrImages)    // convert 된 후의 정보가 들어감
+      }).then(result => {
+        log.debug(`update buildCaseInfo: %j : ${result}`);
+      }).catch(err => {
+        log.debug(`update buildCaseInfo: %j : ${err}`);
+      });
+    })
+  }).catch(function(err) {
+    if (err) {
+      res.status(400).json({
+        errorMsg: 'BuildCaseInfoBoard Error : No BuildCase could be create for this info.',
+        statusCode: 2
+      });
+      return next(err);
+    }
+  });
+}
+
 
 
 // 일단 중복으로 파일 수정이 되게 하고,

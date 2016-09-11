@@ -1,7 +1,7 @@
 /**
  * Created by KIMSEONHO on 2016-09-08.
  */
-var spawn = require('cross-spawn');
+var spawn = require('child-process-promise').spawn;
 var addToPath = require('add-to-path');   // process.env.path 등록
 
 var os = require('os');
@@ -57,7 +57,7 @@ const BuildCaseInfo = models.BuildCaseInfoBoard;
  * @param imagePaths
  * @returns {number}
  */
-module.exports = function(idx, imagePaths) {
+module.exports = function(imagePaths) {
   if (!scriptFile) {
     log.error("not compatible with machine OS :  " + arch);
     return 1;
@@ -83,56 +83,21 @@ module.exports = function(idx, imagePaths) {
   // 일단 임시방편으로 이렇게 제작하자.
 
   // run convert cubical
-  var proc = spawn(scriptFile, makepanoArgs, {
+  var promise = spawn(scriptFile, makepanoArgs, {
     cwd: undefined,
     env: process.env
   })
 
-  proc.stdout.on('data', (data) => {
-    log.debug(`stdout: ${data}`);
+  var childProcess = promise.childProcess;
+
+  log.debug('[convert-vrpano-promise] childProcess.pid: ', childProcess.pid);
+  childProcess.stdout.on('data', (data) => {
+    log.debug(`[convert-vrpano-promise] stdout: ${data}`);
   });
 
-  proc.stderr.on('data', (data) => {
-    log.debug(`stderr: ${data}`);
+  childProcess.stderr.on('data', (data) => {
+    log.debug(`[convert-vrpano-promise] stderr: ${data}`);
   });
 
-  proc.stderr.on('error', (err) => {
-    log.error(scriptFile + ` process exited with code ${err}`);
-  });
-
-  proc.on('close', (code) => {
-    if (code === 0) {
-      // db insert, 한 폴더에서 들어온 이미지로 가정한다.
-      BuildCaseInfo.findById(idx).then(buildCaseInfo => {
-        var vrImages = [];
-
-        _(imagePaths).forEach(value => {
-          var baseDirPath = _.replace(regpath.dirname(value), '.*(?=uploads)', "");   // uploads의 앞부분은 삭제한다.
-          var extension = path.extname(value);
-          var imageName = path.basename(value, extension);
-          var imagePath = imageName + extension;
-          var tileDir = path.join(baseDirPath, TOUR_PATH, PANO_PATH, imageName + "tiles");
-
-          vrImages.push({
-            baseDirPath: baseDirPath,
-            originalImage: imagePath,
-            xmlPath: path.join(baseDIrPath, TOUR_PATH, "tour.xml"),
-            previewImagePath: path.join(tileDir, 'thumb.jpg')
-          });
-        });
-
-        return buildCaseInfo.update({
-          VRImages: JSON.stringify(vrImages)
-        });
-      }).then(result => {
-        log.debug(`update buildCaseInfo: %j : ${result}`);
-      }).catch(err => {
-        log.debug(`update buildCaseInfo: %j : ${err}`);
-      });
-
-      log.debug(scriptFile + ` : process exited with code ${code}`);
-    }
-  });
-
-  return 0;
+  return promise;
 }

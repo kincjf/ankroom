@@ -4,8 +4,8 @@
   "description": "This is a sample project that shows how to add authentication to an Angular 2 (ng2) and express 4, mysql, sequelize",
   "main": "",
   "scripts": {
-    "server": "cd backend && npm i && node ./bin/www",
-    "server:debug": "cd backend && npm i && node --debug ./bin/www",
+    "server": "cd backend && npm i && node ./bin/www.js",
+    "server:debug": "cd backend && npm i && node --debug ./bin/www.js",
     "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000",
     "start": "npm run front",
     "test": "echo \"Error: no test specified\" && exit 1"
