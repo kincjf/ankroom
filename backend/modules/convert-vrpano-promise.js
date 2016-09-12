@@ -20,8 +20,6 @@ var platform = os.platform();
 var arch = os.arch();
 
 var shell, scriptFile, vtourConfig, toolPath;
-const TOUR_PATH = "vtour";
-const PANO_PATH = "panos";
 
 if (platform === 'linux') {
 // HACK: to make our calls to exec() testable,

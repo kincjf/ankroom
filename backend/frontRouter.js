@@ -26,8 +26,10 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 
+// 'name=file'로 들어옴(X)
+// const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).array('file', 11);
 const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
-  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
+  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 10 }]);
 const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
   .array('editorImage', 12);
 var testImageUpload = multer({ dest: 'uploads/images' }).any();
