@@ -1,0 +1,27 @@
+ <!--업체목록 조회하기-->
+    <div class="page-content" style="padding-left: 0px">
+        <h3>업체목록조회</h3>
+        <div class="container-fluid">
+            <section class="box-typical box-typical-full-height-with-header" style="max-width: 1073px">
+
+                <!--card의 내용 for문으로 데이터를 받아온만큼 만들어야함-->
+                <div class="cards-grid">
+                    <div class="cards-grid-col" *ngFor="let bizUserInfo of returnedDatas" (click)="onSelectBizList(bizUserInfo)">
+                        <article class="card-typical">
+                            <div class="card-typical-section card-typical-content">
+                                <div class="photo">
+                                    <img src="./src/assets/images/test.jpg" alt>
+                                </div>
+                                <header>
+                                    <a href="/listDetailinfo"  >{{bizUserInfo.companyName}}</a><!--db의 회사이름-->
+                                </header>
+                                <p>{{bizUserInfo.aboutCompanyShort}}</p><!--db의 짧은 회사 소개-->
+                                <p>{{bizUserInfo.memberIdx}}</p><!--db의 정보를 잘 가져왔는지 확인하기위한 idx-->
+                            </div>
+                        </article>
+                    </div>
+                </div><!--.box-typical-body-->
+            </section><!--.box-typical-->
+        </div><!--.container-fluid-->
+    </div><!--.page-content-->
+

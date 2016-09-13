@@ -9,10 +9,9 @@ const models = require('../models');
 const Member = models.Member;
 const BusinessMember = models.BusinessMember;
 
+// statusCode, memberType, uploadPath등
 const staticValue = require('../utils/staticValue');
 
-// statusCode나 memberType을 enum으로 처리하자
-const BIZMEMBER = 2;
 //========================================
 // Member Routes
 //========================================
@@ -113,7 +112,7 @@ exports.updateProfile = function(req, res, next) {
 exports.viewBizProfile = function(req, res, next) {
   const userId = _.toNumber(req.params.memberIdx);
 
-  if ((req.user.idx != userId) || (req.user.memberType != BIZMEMBER)) {
+  if ((req.user.idx != userId) || (req.user.memberType != staticValue.memberType.BusinessMember)) {
     return res.status(401).json({
       errorMsg: 'You are not authorized to view this user profile.',
       statusCode: 2
@@ -165,7 +164,7 @@ exports.updateBizProfile = function(req, res, next) {
     aboutCompany: req.body.aboutCompany,
     companyLogo: req.body.companyLogo,
     companyIntroImage: req.body.companyIntroImage
-  }, {where: { id: userId }}).then(function(user) {
+  }, {where: { memberIdx: userId }}).then(function(user) {
     res.status(200).json({ bizUserInfo: user, statusCode: 1 });
     return next();
   }).catch(function(err) {

@@ -2,37 +2,45 @@ import { RouterConfig } from '@angular/router';
 import { Home } from './home';
 import { Login } from './login';
 import { Signup } from './member/signup';
+import { Change } from './member/change';
+import { BusinessNormalChange } from './member/businessNormalchange';
 import { NormalSignup } from './member/normalSignup';
 import { BuildCaseInput} from './buildCase/buildCaseInput';
 import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
 import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
+import { BusinessSignupChange } from './member/businessSignupchange';
 import { AuthGuard } from './common/auth.guard';
 import { MainPage} from './common/mainPage/mainPage';
 import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
 import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
+import { BuildCaseList } from './buildCase/buildCaseList/buildCaseList';
 import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCounsel';
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
 
 
 export const routes: RouterConfig = [
-  { path: '',       component:  Login },
-  { path: 'login',  component: Login },
-  { path: 'signup', component: Signup },
-  { path: 'normalsignup', component: NormalSignup },
-  { path: 'normalsignupchange', component: NormalSignupChange },
-  { path: 'businesssignup', component: BusinessSignup },
-  { path: 'buildcaseinput', component: BuildCaseInput },
-  { path: 'buildcasecase', component: BuildCaseCase },
-  { path: 'buildcaselately', component: BuildCaseLately },
-  { path: 'buildcaseselected', component: BuildCaseSelected },
-  { path: 'home',   component: Home, canActivate: [AuthGuard] },
-  { path: 'mainPage',   component: MainPage },
-  { path: 'consultingCounsel',   component: ConsultingCounsel },
-  { path: 'consultingDetail',   component: ConsultingDetail },
-  { path: 'consultingInfo',   component: ConsultingInfo },
-  { path: '**',     component: Login },
+  { path: '',       component:  Login },  // 기본 페이지 화면 : 현재는 로그인 페이지
+  { path: 'login',  component: Login }, // URL/login : 로그인
+  { path: 'signup', component: Signup },  // URL/signup : 회원가입시 일반과 사업주 선택화면
+  { path: 'change', component: Change },  // URL/change : 사업주 회원정보변경시 일반과 사업주정보선택화면
+  { path: 'businessnormalchange', component: BusinessNormalChange },  // URL/businessnormalchange :  사업주가입자에서의 일반정보변경
+  { path: 'normalsignup', component: NormalSignup },  // URL/normalsignup : 일반회원가입
+  { path: 'normalsignupchange', component: NormalSignupChange },  // URL/normalsignupchange : 일반회원정보변경
+  { path: 'businesssignup', component: BusinessSignup },  // URL/businesssignup : 사업주회원가입
+  { path: 'businesssignupchange', component: BusinessSignupChange },  // URL/businesssignupchange : 사업주 회원정보변경
+  { path: 'buildcaseinput', component: BuildCaseInput },  // URL/buildcaseinput : 시공사례입력
+  { path: 'buildcasecase', component: BuildCaseCase },  // URL/buildcasecase : 시공사례 검색 결과
+  { path: 'buildcaselately', component: BuildCaseLately },  // URL/buildcaselately : 최근 본 시공사례 조회
+  { path: 'buildcaseselected', component: BuildCaseSelected },  // URL/buildcaseselected : 찜 한 시공사례 조회
+  { path: 'buildcaselist', component: BuildCaseList },  // URL/buildcaselist : 시공사례 조회
+  { path: 'home',   component: Home, canActivate: [AuthGuard] },  //URL/home : 로그인 결과 테스트
+  { path: 'mainPage',   component: MainPage },  // URL/mainPage : 메인페이지
+  { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담
+  { path: 'consultingDetail',   component: ConsultingDetail },  // URL/consultingDetail : 컨설팅 정보 상세보기
+  { path: 'consultingInfo',   component: ConsultingInfo },  // URL/consultingInfo : 내 컨설팅 정보조회
+  { path: '**',     component: Login }, // 라우터 설정에 없는 URL이 입력 되었을때  :  로그인 화면으로 이동
 
 
 ];

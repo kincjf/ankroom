@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
-import { contentHeaders } from '../../common/headers';
 
 const template = require('./signup.html');
 
@@ -14,5 +13,5 @@ const template = require('./signup.html');
 export class Signup {
   constructor(public router: Router, public http: Http) {
   }
-  
+
 }
