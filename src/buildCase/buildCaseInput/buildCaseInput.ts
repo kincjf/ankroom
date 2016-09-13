@@ -2,7 +2,6 @@ import { Component,ElementRef,NgZone } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle } from '@angular/common';
 //import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload';
-import {FILE_UPLOAD_DIRECTIVES, FileUploader} from '../../common/ng2-file-upload/ng2-file-upload';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 
@@ -13,7 +12,7 @@ const imageURL = 'http://localhost:3001/api/public/image/test';
 
 @Component({
   selector: 'buildCaseInput',
-  directives: [FILE_UPLOAD_DIRECTIVES,CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, NgClass, NgStyle ],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, NgClass, NgStyle ],
   template: template
 })
 export class BuildCaseInput {
