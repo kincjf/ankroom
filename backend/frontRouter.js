@@ -182,6 +182,25 @@ module.exports = function(app) {
 
   // Send email from contact form
   // communicationRoutes.post('/contact', CommunicationController.sendContactForm);
+  //=========================
+  // Consult Routes
+  //=========================
+  apiRoutes.use('/consult', consultRoutes);
+
+  // insert consulting information
+  consultRoutes.post('/', requireAuth, ConsultController.consultingCounsel);
+
+  // consulting information list
+  consultRoutes.get('/', ConsultController.consultingList);
+
+  // consulting information list
+  consultRoutes.get('/my/', requireAuth, ConsultController.consultingMyList);
+
+  // consulting information detail
+  consultRoutes.get('/:consultDataIdx', requireAuth, ConsultController.consultingDetail);
+
+  // modify consulting information
+  consultRoutes.put('/:consultDataIdx', requireAuth, ConsultController.consultingModify);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);
