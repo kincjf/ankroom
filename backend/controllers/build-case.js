@@ -150,6 +150,9 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     });
   }
 
+  // console.log("req body Json : %j", ${req.body});
+  // console.log("req body Json : %j", ${req.files});
+
   if (!req.body.title) {
     return res.status(401).json({
       errorMsg: 'You must enter an required field! please check title',
@@ -185,7 +188,7 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
       originalImage: []    // 변환전 파일 경로
     };
 
-    _forEach(req.files['vrImage'], function(file) {
+    _.forEach(req.files['vrImage'], function(file) {
       if(file) {
         vrImages.originalImage.push(file.filename);
       }
@@ -214,7 +217,7 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
 
     newIdx = newBuildCase.idx;
 
-    return vrpanoPromise(vrImages).then(() => {
+    return vrpanoPromise(vrImages.originalImage).then(() => {
       log.debug('[convert-vrpano-promise] done!');
     }).catch(err => {
       log.error('[convert-vrpano-promise] ERROR: ', err);
