@@ -150,6 +150,9 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     });
   }
 
+  // console.log("req body Json : %j", ${req.body});
+  // console.log("req body Json : %j", ${req.files});
+
   if (!req.body.title) {
     return res.status(401).json({
       errorMsg: 'You must enter an required field! please check title',
