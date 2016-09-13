@@ -12,6 +12,7 @@ const passport = require('passport'),
   UserController = require('./controllers/user'),
   BuildCaseController = require('./controllers/build-case'),
   BizStoreController = require('./controllers/biz-store'),
+  ConsultController = require('./controllers/consult')
 
   // ChatController = require('./controllers/chat'),
   // CommunicationController = require('./controllers/communication'),
@@ -43,6 +44,7 @@ module.exports = function(app) {
     userRoutes = express.Router();
     buildCaseRoutes = express.Router();
     bizStoreRoutes = express.Router();
+    consultRoutes = express.Router();
 
   // chatRoutes = express.Router(),
   // payRoutes = express.Router(),
