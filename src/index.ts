@@ -7,6 +7,23 @@ import { AuthGuard } from './common/auth.guard';
 
 import { App } from './app';
 import { routes } from './app.routes';
+import { Header_App } from './header_app'
+import { header_routes } from './header_app.routes'
+
+
+bootstrap(
+  Header_App,
+  [
+    provideRouter(header_routes),
+    FORM_PROVIDERS,
+    HTTP_PROVIDERS,
+    AUTH_PROVIDERS,
+    AuthGuard
+  ],
+
+);
+
+
 
 bootstrap(
   App,
@@ -16,5 +33,5 @@ bootstrap(
     HTTP_PROVIDERS,
     AUTH_PROVIDERS,
     AuthGuard
-  ]
+  ],
 );
