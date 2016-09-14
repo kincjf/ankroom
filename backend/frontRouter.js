@@ -10,6 +10,7 @@ const passport = require('passport'),
   PublicController = require('./controllers/public'),
   AuthController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
+  ConsultController = require('./controllers/consult'),
   BuildCaseController = require('./controllers/build-case'),
   BizStoreController = require('./controllers/biz-store'),
 
@@ -39,8 +40,9 @@ module.exports = function(app) {
     publicRoutes = express.Router(),
     authRoutes = express.Router(),
     userRoutes = express.Router();
+  consultRoutes = express.Router(),
     buildCaseRoutes = express.Router();
-    bizStoreRoutes = express.Router();
+  bizStoreRoutes = express.Router();
 
   // chatRoutes = express.Router(),
   // payRoutes = express.Router(),
@@ -177,6 +179,26 @@ module.exports = function(app) {
 
   // Send email from contact form
   // communicationRoutes.post('/contact', CommunicationController.sendContactForm);
+
+  //=========================
+  // Consult Routes
+  //=========================
+  apiRoutes.use('/consult', consultRoutes);
+
+  // insert consulting information
+  consultRoutes.post('/', requireAuth, ConsultController.consultingCounsel);
+
+  // consulting information list
+  consultRoutes.get('/', ConsultController.consultingList);
+
+  // consulting information list
+  consultRoutes.get('/my/', requireAuth, ConsultController.consultingMyList);
+
+  // consulting information detail
+  consultRoutes.get('/:consultDataIdx', requireAuth, ConsultController.consultingDetail);
+
+  // modify consulting information
+  consultRoutes.put('/:consultDataIdx', requireAuth, ConsultController.consultingModify);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);

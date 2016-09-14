@@ -11,9 +11,6 @@ var log = require('console-log-level')({
   level: 'debug'
 })
 
-var env       = process.env.NODE_ENV || "development";
-var config    = require("../config/main")[env];
-
 const genToken = require('../utils/genToken');
 const staticValue = require('../utils/staticValue');
 const models = require('../models');
@@ -66,7 +63,7 @@ exports.viewBuildCaseList = function(req, res, next) {
 
 
 /**
- * 시공 사례 입력, 나중에 잘 되면 삭제하자(deprecated)
+ * 시공 사례 입력
  * @param req
  * @param res
  * @param next
@@ -134,8 +131,6 @@ exports.createBuildCase = function(req, res, next) {
   });
 }
 
-// 동일 중복 파일을 체크할 수 있도록 개발해야함
-// Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
 /**
  * 시공사례입력(use vrpano-promise)
  * @param req
@@ -150,9 +145,6 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     });
   }
 
-  // console.log("req body Json : %j", ${req.body});
-  // console.log("req body Json : %j", ${req.files});
-
   if (!req.body.title) {
     return res.status(401).json({
       errorMsg: 'You must enter an required field! please check title',
@@ -160,37 +152,17 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     });
   }
 
-
-  // req.files["fieldname"[i] - structure example
-  // { fieldname: 'myfile',
-  //   originalname: '20160224_104138.jpg',
-  //   encoding: '7bit',
-  //   mimetype: 'image/jpeg',
-  //   destination: '/tmp/upload/',
-  //   filename: '8563e0bef6efcc4d709f2d1debb35777',
-  //   path: '/tmp/upload/8563e0bef6efcc4d709f2d1debb35777',
-  //   size: 1268337 }
-
   let previewImage, vrImages;
   if (req.files['previewImage']) {
-    // path의 "uploads" 포함 앞부분 문자열은 삭제한다.
-    let tmpPath = _.replace(req.files['previewImage'][0].path, ".*(?=uploads/)", "");
-    previewImage = _.replace(tmpPath, "\\", "/");
-    // url path이기 때문에 windows에서 작동할 경우 separator(\\) 변환 필요
+    previewImage = req.files['previewImage'][0].filename;
   }
 
   if (req.files['vrImage']) {
-    let tmpPath = _.replace(req.files['vrImage'][0].destination, ".*(?=uploads/)", "");
-
-    vrImages = {
-      statusCode: 0,    // 아직 변환 전임을 표시함
-      baseDir: _.replace(tmpPath, "\\", "/"),   // request path이기 때문에
-      originalImage: []    // 변환전 파일 경로
-    };
+    vrImages = [];
 
     _forEach(req.files['vrImage'], function(file) {
       if(file) {
-        vrImages.originalImage.push(file.filename);
+        vrImages.push(file.filename);
       }
     });
   }
@@ -204,7 +176,7 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     mainPreviewImage: _.isNil(previewImage) ? null : previewImage,
     buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
     HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-    VRImages: _.isNil(vrImages) ? null : JSON.stringify(vrImages)   // 현재((array)는 변환 전임을 표시함.
+    VRImages: _.isNil(vrImages) ? null : JSON.stringify(vrImages)   // 현재는 변환 전임을 표시함.
   }
 
   var newIdx;
@@ -224,31 +196,25 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
     });    // 비동기로 작동한다.
   }).then(result => {
     return BuildCaseInfo.findById(newIdx).then(buildCaseInfo => {
-      let vrImageObj = JSON.stringify(buildCaseInfo.VRImages);
 
-      vrImageObj.statusCode = 1;    // 변환 완료
-      vrImageObj.xmlName = "tour.xml";    // vtour-normal-custom.config에서 설정함
-      vrImageObj.tiles = [];
 
-      let prevImageName = 'thumb.jpg';   // vtour-normal-custom.config에서 설정함
-
-      _(vrImageObj.originalImage).forEach(value => {
-        let extension = path.extname(value);    // imagefile name의 확장자부분만 추출
-        let imageName = path.basename(value, extension);    // imagefile name의 파일 이름만 추출
-        // let imagePath = imageName + extension;
-        // requestpath이기 때문에
-        let tmpDir = path.join(vrImageObj.baseDir, config.panotour_path, imageName + "tiles");
-        let tileDir = _.replace(tmpDir, "\\", "/");
-
-        vrImageObj.tiles.push({
-          dir: tileDir,
-          previewImageName: prevImageName,
-          previewImagePath: _.join([tileDir, prevImageName], "/")   // 편하게 쓰라고 만들어준거임
-        });
-      });
+      // _(imagePaths).forEach(value => {
+      //   let baseDirPath = _.replace(regpath.dirname(value), '.*(?=uploads)', "");   // uploads의 앞부분은 삭제한다.
+      //   let extension = path.extname(value);    // imagefile name의 확장자부분만 추출
+      //   let imageName = path.basename(value, extension);    // imagefile name의 파일 이름만 추출
+      //   let imagePath = imageName + extension;
+      //   let tileDir = path.join(baseDirPath, TOUR_PATH, PANO_PATH, imageName + "tiles");
+      //
+      //   vrImages.push({
+      //     baseDirPath: baseDirPath,
+      //     originalImage: imagePath,
+      //     xmlPath: path.join(baseDIrPath, TOUR_PATH, "tour.xml"),
+      //     previewImagePath: path.join(tileDir, 'thumb.jpg')
+      //   });
+      // });
 
       return buildCaseInfo.update({
-        VRImages: JSON.stringify(vrImageObj)    // convert 된 후의 정보가 들어감
+        VRImages: JSON.stringify(vrImages)    // convert 된 후의 정보가 들어감
       }).then(result => {
         log.debug(`update buildCaseInfo: %j : ${result}`);
       }).catch(err => {
@@ -267,8 +233,7 @@ exports.createBuildCaseAndVRPano = function(req, res, next) {
 }
 
 
-// 동일 중복 파일을 체크할 수 있도록 개발해야함
-// Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
+
 // 현재 상황으로는 특히 VR Panorama에 대한 수정시 다시 만들어야되는 결함이 있다.
 // 일단 중복으로 파일 수정이 되어 VR파노라마가 생성되게 하고,
 // 차후에 파일이 중복으로 첨부되었을 경우, 중복 처리를 통해서 업로드 되지 않게 한다.

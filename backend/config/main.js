@@ -4,9 +4,10 @@ const appRoot = require('app-root-path');
 // root project path 찾는 방법에 대해서는 여러가지 방법이 구현되어 있으나,
 // 현재는 이 방법을 사용한다.
 const serverPath = 'backend';
-const krpano_win = path.join(appRoot.toString(), serverPath, "\\tools\\krpano-1.19-pr6-win");
-const krpano_linux = path.join(appRoot.toString(), serverPath, "/tools/krpano-1.19-pr6-linux64");
-const vtour_config = "templates/vtour-normal-custom.config";
+const KRPANO_WIN_PATH = path.join(appRoot.toString(), serverPath, "\\tools\\krpano-1.19-pr6-win");
+const KRPANO_LINUX_PATH = path.join(appRoot.toString(), serverPath, "/tools/krpano-1.19-pr6-linux64");
+const VTOUR_CONFIG_PATH = "templates/vtour-normal-custom.config";
+const PANOTOUR_PATH = path.join("vtour", "panos");
 
 module.exports = {
   // Secret key for JWT signing and encryption
@@ -17,9 +18,10 @@ module.exports = {
     "storage": "./db.development.sqlite",
     "serverPort": 3001,
     "krpano": {
-      win: krpano_win,
-      linux: krpano_linux,
-      vtour_config: vtour_config
+      win: KRPANO_WIN_PATH,
+      linux: KRPANO_LINUX_PATH,
+      vtour_config: VTOUR_CONFIG_PATH,
+      panotour_path: PANOTOUR_PATH
     }
   },
 
@@ -50,9 +52,10 @@ module.exports = {
       "idle": 10000
     },
     "krpano": {
-      win: krpano_win,
-      linux: krpano_linux,
-      vtour_config: vtour_config
+      win: KRPANO_WIN_PATH,
+      linux: KRPANO_LINUX_PATH,
+      vtour_config: VTOUR_CONFIG_PATH,
+      panotour_path: PANOTOUR_PATH
     },
 
     // Setting port for server
