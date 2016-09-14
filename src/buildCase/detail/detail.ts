@@ -3,14 +3,15 @@ import { Router, ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Subscription }       from 'rxjs/Subscription';
 
-const template = require('./buildCaseCase.html');
+const template = require('./detail.html');
 
 @Component({
-    selector: 'buildCaseCase',
+    selector: 'buildCaseDetail',
     directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],
     template: template
 })
-export class BuildCaseCase {
+
+export class BuildCaseDetail {
   private sub:Subscription;
   private route:ActivatedRoute;
   private router:Router;
@@ -25,4 +26,3 @@ export class BuildCaseCase {
       });
   }
 }
-

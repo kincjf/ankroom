@@ -10,9 +10,9 @@ const passport = require('passport'),
   PublicController = require('./controllers/public'),
   AuthController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
+  ConsultController = require('./controllers/consult'),
   BuildCaseController = require('./controllers/build-case'),
   BizStoreController = require('./controllers/biz-store'),
-  ConsultController = require('./controllers/consult')
 
   // ChatController = require('./controllers/chat'),
   // CommunicationController = require('./controllers/communication'),
@@ -27,10 +27,8 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 
-// 'name=file'로 들어옴(X)
-// const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).array('file', 11);
 const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
-  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 10 }]);
+  { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
 const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
   .array('editorImage', 12);
 var testImageUpload = multer({ dest: 'uploads/images' }).any();
@@ -41,10 +39,10 @@ module.exports = function(app) {
   var apiRoutes = express.Router(),
     publicRoutes = express.Router(),
     authRoutes = express.Router(),
-    userRoutes = express.Router();
-    buildCaseRoutes = express.Router();
+    userRoutes = express.Router(),
+    consultRoutes = express.Router(),
+    buildCaseRoutes = express.Router(),
     bizStoreRoutes = express.Router();
-    consultRoutes = express.Router();
 
   // chatRoutes = express.Router(),
   // payRoutes = express.Router(),
@@ -129,7 +127,7 @@ module.exports = function(app) {
   buildCaseRoutes.get('/:buildCaseIdx', BuildCaseController.viewBuildCase);
 
   // create new Build Case Info from authenticated user
-  // buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
+  // buildCaseRoutes.post('/', requireAuth,  testImageUpload, BuildCaseController.createBuildCaseAndVRPano);
 
   // create new Build Case Info from authenticated user
   buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCaseAndVRPano);
@@ -187,6 +185,7 @@ module.exports = function(app) {
 
   // Send email from contact form
   // communicationRoutes.post('/contact', CommunicationController.sendContactForm);
+
   //=========================
   // Consult Routes
   //=========================
