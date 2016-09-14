@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 
-const template = require('./app.html');
+const templates = require('./header_app.html');
 
 @Component({
-  selector: 'auth-app',
-  template: template,
+  selector: 'header-app',
+  template: templates,
   directives: [ ROUTER_DIRECTIVES ]
 })
 
-
-
-export class App {
+export class Header_App {
   constructor(public router: Router) {}
 }
+

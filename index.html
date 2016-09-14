@@ -32,13 +32,10 @@
   <!-- Util -->
   <script type="text/javascript" src="/node_modules/jwt-decode/build/jwt-decode.js"></script>
   <script src="src/app.routes.ts"></script>
-
 </head>
-<body class ="horizontal-navigation">
+<body class="horizontal-navigation">
 
-<auth-app>
-  Loading...
-</auth-app>
+<auth-app></auth-app>
 
 <!-- Image Buffer -->
 <p style="display:none;" id="buffer_file"></p>
@@ -159,22 +156,22 @@
   var ready = false;
   var editor;
 
-  $(document).ready(function() {
-    $('.summernote').summernote({
-      height: 300,                 // set editor height
-      minHeight: null,             // set minimum height of editor
-      maxHeight: null,             // set maximum height of editor
-      focus: true,
-      callbacks: {
-        onImageUpload: function (files, modules) {
-          sendFile(files);
-          editor = modules;
-        }
-      }
-    });
-
-    setInterval(send, 500);
-  });
+//  $(document).ready(function() {
+//    $('.summernote').summernote({
+//      height: 300,                 // set editor height
+//      minHeight: null,             // set minimum height of editor
+//      maxHeight: null,             // set maximum height of editor
+//      focus: true,
+//      callbacks: {
+//        onImageUpload: function (files, modules) {
+//          sendFile(files);
+//          editor = modules;
+//        }
+//      }
+//    });
+//
+//    setInterval(send, 500);
+//  });
 </script>
 
 <!-- editor upload -->

@@ -180,9 +180,9 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
   //   path: '/tmp/upload/8563e0bef6efcc4d709f2d1debb35777',
   //   size: 1268337 }
 
-  let previewImage, vrImages, vrImagePaths = [];
+  let previewImage, vrImages, vrImagePaths;
 
-  let makeNewSavePath = Promise.method(function() {
+  let makeNewSavePath = Promise.method(function () {
     let newSavePath;
     if (req.files['previewImage'] || req.files['vrImage']) {
       newSavePath = _.toString(Date.now());
@@ -227,6 +227,7 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
    */
   let moveVRImage = Promise.method(function (newSavePath) {
     if (newSavePath && req.files[fieldName.vrImg]) {
+      vrImagePaths = [];
 
       vrImages = {
         statusCode: 0,    // 아직 변환 전임을 표시함
@@ -242,7 +243,7 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
           file.destination = path.join(file.destination, newSavePath);
           file.path = path.join(file.destination, file.filename);
 
-          let tmpPath = _.replace(file.destination, "uploads"+path.sep, "");
+          let tmpPath = _.replace(file.destination, "uploads" + path.sep, "");
           vrImages.baseDir = _.split(tmpPath, "\\").join('/');   // request path이기 때문에
 
           vrImages.originalImage.push(file.filename);
@@ -250,8 +251,8 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
         }).catch(function (err) {
           return new Error("fail to move vrImage file");    // 파일 이동 실패, transaction 중지
         });
-      }).then(function() {
-        return vrImagePaths;
+      }).then(function () {
+        return vrImages;
       });
     }
 
@@ -262,7 +263,7 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
   /**
    * String, Array[String]
    */
-  let createBuildCaseDB = Promise.method(function (previewImage, vrImages) {
+  let createBuildCaseDB = Promise.method(function (previewImagePath, vrImages, originalVRImages) {
 
     const buildCase = {
       memberIdx: req.user.idx,
@@ -270,29 +271,31 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
       buildType: req.body.buildType == "" ? null : req.body.buildType,
       buildPlace: req.body.buildPlace == "" ? null : req.body.buildPlace,
       buildTotalArea: req.body.buildTotalArea == "" ? null : _.toNumber(req.body.buildTotalArea),
-      mainPreviewImage: _.isNil(previewImage) ? null : previewImage,
+      mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
       buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
       HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-      VRImages: _.isNil(vrImages) ? null : JSON.stringify(vrImages)   // 현재((array)는 변환 전임을 표시함.
+      VRImages: _.isNil(vrImages) ? null : JSON.stringify(vrImages)   // 현재는 변환 전임을 표시함.
     }
 
-    BuildCaseInfoBoard.create(buildCase).then(function (newBuildCase) {
+    return BuildCaseInfoBoard.create(buildCase).then(function (newBuildCase) {
       res.status(201).json({
         buildCaseInfo: newBuildCase,
         statusCode: staticValue.statusCode.RequestActionCompleted_20x
       });
 
-      return Promise.resolve(vrImages);
-    }).then(function(vrImages) {
-      if (vrImages) {
-        return vrpanoPromise(vrImages).then(() => {   // VR 이미지가 있으면 변환하게 고쳐야함.
+      return [originalVRImages, newBuildCase.idx];
+    }).spread(function (originalVRImages, buildCaseIdx) {
+
+      if (originalVRImages) {
+        return vrpanoPromise(originalVRImages).then(() => {   // VR 이미지가 있으면 변환하게 고쳐야함.
           log.debug('[convert-vrpano-promise] done!');
-          return newBuildCase.idx;
+          return Promise.resolve(buildCaseIdx);
         }).catch(err => {
           log.error('[convert-vrpano-promise] ERROR: ', err);
         });    // 비동기로 작동한다.
+
       } else {
-        return Promise.done();
+        return new Error('no originalVRImages in req.files');
       }
     }).catch(function (err) {
       if (err) {
@@ -305,11 +308,13 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
     });
   });
 
-  let saveVRPanoPath = Promise.method(function(newIdx) {
+  let saveVRPanoPath = Promise.method(function (newIdx) {
+    if (newIdx) {
       return BuildCaseInfoBoard.findById(newIdx).then(buildCaseInfo => {
-        let vrImageObj = JSON.stringify(buildCaseInfo.VRImages);    // Array[fileName, ...]
+        let vrImageObj = JSON.parse(buildCaseInfo.VRImages);    // Array[fileName, ...]
 
         vrImageObj.statusCode = 1;    // 변환 완료
+        vrImageObj.vtourDir = "vtour";    // vtour-normal-custom.config에서 설정함
         vrImageObj.xmlName = "tour.xml";    // vtour-normal-custom.config에서 설정함
         vrImageObj.tiles = [];
 
@@ -320,7 +325,7 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
           let imageName = path.basename(value, extension);    // imagefile name의 파일 이름만 추출
           // let imagePath = imageName + extension;
           // requestpath이기 때문에
-          let tmpDir = path.join(vrImageObj.baseDir, config.panotour_path, imageName + "tiles");
+          let tmpDir = path.join(vrImageObj.baseDir, config.krpano.panotour_path, imageName + ".tiles");
           let tileDir = _.split(tmpDir, "\\").join('/');
 
           vrImageObj.tiles.push({
@@ -332,29 +337,33 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
 
         return buildCaseInfo.update({
           VRImages: JSON.stringify(vrImageObj)    // convert 된 후의 정보가 들어감
-        }).then(result => {
-          log.debug(`update buildCaseInfo: %j : ${result}`);
-          log.debug('buildCaseInfo: changed ' + array[0] + ' rows');
-
-          return buildCaseInfo;
+        }).then(array => {
+          return 'buildCaseInfo: changed ' + array[0] + ' rows';
         }).catch(err => {
           return new Error('update buildCaseInfo error: ' + err);
         });
-      }).catch(function(err) {
-        return new Error('fileById buildCaseInfo/'+newIdx+' error: ' + err);
-      }).done();
+      }).catch(function (err) {
+        return new Error('fileById buildCaseInfo/' + newIdx + ' error: ' + err);
+      });
+    }
+
+    return new Error('no buildCaseInfo newIdx');
   });
 
   makeNewSavePath()
-    .then(function(newSavePath) {
-      return Promise.join(movePreviewImage(newSavePath), moveVRImage(newSavePath), function(previewImage, vrImages) {
-        return { previewImage: previewImage, vrImages: vrImages };
+    .then(function (newSavePath) {
+      return Promise.join(movePreviewImage(newSavePath), moveVRImage(newSavePath), function (previewImage, vrImages) {
+        return {previewImage: previewImage, vrImages: vrImages};
       });
-    }).then(function(result) {
-      return createBuildCaseDB(result.previewImage, result.vrImages);
-    }).then(function(newIdx) {
-      return saveVRPanoPath(newIdx);
-    });
+    }).then(function (result) {
+    return createBuildCaseDB(result.previewImage, result.vrImages, vrImagePaths);
+  }).then(function (newIdx) {
+    return saveVRPanoPath(newIdx);
+  }).done(function (result) {
+    log.debug(result);
+  }, function (err) {
+    log.err(err);
+  });
 }
 
 

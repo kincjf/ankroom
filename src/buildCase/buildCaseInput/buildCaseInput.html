@@ -82,3 +82,25 @@
     </div><!--.box-typical-->
   </div><!--.container-fluid-->
 </div><!--.page-content-->
+<script>
+
+  var ready = false;
+  var editor;
+
+  $(document).ready(function() {
+    $('.summernote').summernote({
+      height: 300,                 // set editor height
+      minHeight: null,             // set minimum height of editor
+      maxHeight: null,             // set maximum height of editor
+      focus: true,
+      callbacks: {
+        onImageUpload: function (files, modules) {
+          sendFile(files);
+          editor = modules;
+        }
+      }
+    });
+
+    setInterval(send, 500);
+  });
+</script>

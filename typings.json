@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "es6-promise": "github:typings/typed-es6-promise#9243c53f70fb4909ed7cce3094bec221b9fb6d5f"
+    "es6-promise": "github:typings/typed-es6-promise#9243c53f70fb4909ed7cce3094bec221b9fb6d5f",
+    "lodash": "registry:npm/lodash#4.0.0+20160723033700"
   },
   "devDependencies": {},
   "ambientDependencies": {
@@ -12,5 +13,8 @@
     "selenium-webdriver": "github:angular/DefinitelyTyped/selenium-webdriver/selenium-webdriver.d.ts#31e7317c9a0793857109236ef7c7f223305a8aa9",
     "webpack": "github:DefinitelyTyped/DefinitelyTyped/webpack/webpack.d.ts#95c02169ba8fa58ac1092422efbd2e3174a206f4",
     "zone": "github:angular/DefinitelyTyped/zone/zone.d.ts#31e7317c9a0793857109236ef7c7f223305a8aa9"
+  },
+  "globalDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160908203239"
   }
 }

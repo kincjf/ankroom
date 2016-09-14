@@ -19,9 +19,10 @@ import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCoun
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
 
+import { headerRoutes } from './header_app.routes';
 
 export const routes: RouterConfig = [
-  { path: '',       component:  Login },  // 기본 페이지 화면 : 현재는 로그인 페이지
+  { path: '',       component:  MainPage },  // 기본 페이지 화면 : 현재는 로그인 페이지
   { path: 'login',  component: Login }, // URL/login : 로그인
   { path: 'signup', component: Signup },  // URL/signup : 회원가입시 일반과 사업주 선택화면
   { path: 'change', component: Change },  // URL/change : 사업주 회원정보변경시 일반과 사업주정보선택화면
@@ -40,7 +41,5 @@ export const routes: RouterConfig = [
   { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담
   { path: 'consultingDetail',   component: ConsultingDetail },  // URL/consultingDetail : 컨설팅 정보 상세보기
   { path: 'consultingInfo',   component: ConsultingInfo },  // URL/consultingInfo : 내 컨설팅 정보조회
-  { path: '**',     component: Login }, // 라우터 설정에 없는 URL이 입력 되었을때  :  로그인 화면으로 이동
-
-
+  { path: '**',     component: MainPage }    // 라우터 설정에 없는 URL이 입력 되었을때  :  메인페이지로 이동
 ];
