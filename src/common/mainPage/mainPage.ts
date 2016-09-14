@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
-import { Http } from '@angular/http'
-import { contentHeaders } from '../../common/headers';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {Http} from '@angular/http'
+import {contentHeaders} from '../../common/headers';
 import * as _ from 'lodash';
 
 // const _ = require('lodash');
@@ -22,15 +22,15 @@ export class MainPage {
 
   constructor(public router: Router, public http: Http) {
 
-    this.pageSize = 4;
-    this.pageStartIndex = 0;
+    this.pageSize = 6;
+    this.pageStartIndex=0;
 
-    this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
           //for of문으로 for~of 루프구문은 배열의 요소들, data 순회하기 위한구문
-          for(var buildCaseInfo of response.buildCaseInfo) {
+          for (var buildCaseInfo of response.buildCaseInfo) {
 
             this.returnedDatas.push(buildCaseInfo);
 
@@ -51,7 +51,7 @@ export class MainPage {
       )
   }
 
-  transform(numOfSet: number) {
+  transform(numOfSet:number) {
     return _.chunk(this.returnedDatas, numOfSet);
   }
 }

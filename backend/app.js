@@ -23,7 +23,7 @@ app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
 app.use(express.static(__dirname + '/uploads'));
-app.use('tests/images', express.static(__dirname + '/tests/images'));
+app.use('/tests/images', express.static(__dirname + '/tests/images'));
 
 app.options("*", cors());
 app.use(cors({
