@@ -35,7 +35,7 @@ export class BuildCaseInput {
   multipartItem:MultipartItem = new MultipartItem(this.uploader);
 
 
-  uploadCallback : (data) => void;
+  // uploadCallback : (data) => void;
 
   private vrImage: File;
   private previewImage: File;
@@ -71,10 +71,7 @@ export class BuildCaseInput {
 //      this.multipartItem.formData.append("vrImage", this.vrImage );
       this.multipartItem.formData.append("previewImage", this.previewImage );
 
-      this.multipartItem.callback = this.uploadCallback;
-      this.multipartItem.upload();
-
-      this.uploadCallback = (data) => {
+      this.multipartItem.callback = (data) => {
         console.debug("home.ts & uploadCallback() ==>");
         this.vrImage = null;
         this.previewImage = null;
@@ -84,6 +81,8 @@ export class BuildCaseInput {
           console.error("home.ts & uploadCallback() upload file false.");
         }
       }
+
+      this.multipartItem.upload();
 
       /*
        let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
