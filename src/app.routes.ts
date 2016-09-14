@@ -15,6 +15,7 @@ import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
 import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
 import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
 import { BuildCaseList } from './buildCase/buildCaseList/buildCaseList';
+import { BuildCaseDetailInfo } from './buildCase/buildCaseDetailInfo/buildCaseDetailInfo';
 import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCounsel';
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
@@ -35,6 +36,7 @@ export const routes: RouterConfig = [
   { path: 'buildcaselately', component: BuildCaseLately },  // URL/buildcaselately : 최근 본 시공사례 조회
   { path: 'buildcaseselected', component: BuildCaseSelected },  // URL/buildcaseselected : 찜 한 시공사례 조회
   { path: 'buildcaselist', component: BuildCaseList },  // URL/buildcaselist : 시공사례 조회
+  { path: 'buildcasedetailinfo', component: BuildCaseDetailInfo },  // URL/buildcaselist : 시공사례 조회
   { path: 'home',   component: Home, canActivate: [AuthGuard] },  //URL/home : 로그인 결과 테스트
   { path: 'mainPage',   component: MainPage },  // URL/mainPage : 메인페이지
   { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담

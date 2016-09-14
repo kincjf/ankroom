@@ -125,6 +125,9 @@ module.exports = function(app) {
   // View Build Case List from authenticated user(must get query(?pageSize={}&pageStartIndex={}) param)
   buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
 
+  // View Build Case Info
+  buildCaseRoutes.get('/:buildCaseIdx', BuildCaseController.viewBuildCase);
+
   // create new Build Case Info from authenticated user
   // buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
 

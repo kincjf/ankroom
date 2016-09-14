@@ -16,18 +16,18 @@
                     <iframe width="100%" height="300px" allowfullscreen frameborder="0" src="//storage.googleapis.com/vrview/index.html?image=//storage.googleapis.com/vrview/examples/coral.jpg&is_stereo=true"></iframe>
                 </div>
                 <ul class="nav" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#tabs-4-tab-1" role="tab" data-toggle="tab">
+                    <li class="nav-item col-sm-3" >
+                        <a class="nav-link" href="#tabs-4-tab-1" role="tab" data-toggle="tab">
                             인테리어 소개
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item col-sm-3" >
                         <a class="nav-link" href="#tabs-4-tab-2" role="tab" data-toggle="tab">
                             인테리어 상세정보
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tabs-4-tab-3" role="tab" data-toggle="tab">
+                    <li class="nav-item col-sm-3" >
+                        <a class="nav-link" href="#tabs-4-tab-3" role="tab" data-toggle="tab" (click)="onBizUserInfo()">
                             시공업체 정보
                         </a>
                     </li>
@@ -35,7 +35,9 @@
             </div><!--.tabs-section-nav-->
 
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1">Summernote로 저장된 글 내용 보여주기</div><!--.tab-pane-->
+                <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1" contenteditable="true" [innerHTML]="HTMLText">
+                  <!-- summernote에 저장된 내용을 보여줌 [innerHTML]을 사용하면 String값에 있는 HTML tag들이 브라우저에 적용되게 하는기능 -->
+                </div><!--.tab-pane-->
                 <div role="tabpanel" class="tab-pane fade" id="tabs-4-tab-2">
                     <header class="section-header">
                         <div class="tbl">
@@ -49,31 +51,31 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">공사명</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">모던 옷가게 인테리어</p>
+                                    <p class="form-control-static">{{title}}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">공사구분</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">상업공간/매장</p>
+                                    <p class="form-control-static">{{buildType}}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">공사면적</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">50평</p>
+                                    <p class="form-control-static">{{buildTotalArea}}평</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">공사지역</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">전주시 완산구 효자동</p>
+                                    <p class="form-control-static">{{buildPlace}}</p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">시공비용</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">1000만원</p>
+                                    <p class="form-control-static">{{buildTotalPrice}}원</p>
                                 </div>
                             </div>
                         </form>
@@ -84,23 +86,27 @@
                         <div class="card-block">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <img class="gallery-picture" src="img/photo-64-1.jpg" style="width: 100%;">
+                                    <img class="gallery-picture" src={{conmpanyIntroImage}} style="width: 100%;">
                                 </div>
                                 <div class="col-sm-8" style="margin-top: 45px">
-                                    <h4>회사 소개</h4>
-                                    <p>안녕하세요 현인테리어입니다^^</p>
-                                    <p>경기도 수도권 지역을 중심으로 상업, 주거공간 모두 시공하고 있습니다.</p>
-                                    <p>원활한 커뮤니케이션을 통해 만족스러운 생활공간이 탄생되도록 노력하겠습니다.</p>
+                                    <h2>{{companyName}}</h2>
+                                    <p>{{aboutCompany}}</p>
                                 </div>
                             </div><!--.row-->
 
                             <div class="row" style="margin-top: 45px">
-                                <div class="col-sm-6">
-                                    <p>주요시공분야</p>
-                                </div>
-                                <div class="col-sm-6" >
-                                    <p>시공지역</p>
-                                </div>
+                              <div class="col-sm-2">
+                                <h4>주요시공분야</h4>
+                              </div>
+                              <div class="col-sm-4">
+                                <p>{{mainWorkField}}</p>
+                              </div>
+                              <div class="col-sm-2" >
+                                <h4>시공지역</h4>
+                              </div>
+                              <div class="col-sm-4">
+                                <p>{{mainWorkArea}}</p>
+                              </div>
                             </div><!--.row-->
                         </div>
                     </section>
