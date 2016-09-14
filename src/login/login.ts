@@ -10,8 +10,8 @@ const template = require('./login.html');
   selector: 'login',
   directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],
   template: template
-})
-export class Login {
+  })
+  export class Login {
   constructor(public router: Router, public http: Http) {
   }
 
