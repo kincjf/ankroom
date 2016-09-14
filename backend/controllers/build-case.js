@@ -316,6 +316,9 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
         vrImageObj.statusCode = 1;    // 변환 완료
         vrImageObj.vtourDir = "vtour";    // vtour-normal-custom.config에서 설정함
         vrImageObj.xmlName = "tour.xml";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.swfName = "tour.swf";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.jsName = "tour.js";    // vtour-normal-custom.config에서 설정함
+
         vrImageObj.tiles = [];
 
         let prevImageName = 'thumb.jpg';   // vtour-normal-custom.config에서 설정함
