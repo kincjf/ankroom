@@ -181,10 +181,12 @@
                 <img src="img/avatar-2-64.png" alt="">
               </button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>Profile</a>
-                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-cog"></span>Settings</a>
-                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>Help</a>
+                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>내 정보</a>
+                <a class="dropdown-item" href="/buildcaselately"><span class="font-icon glyphicon glyphicon-book"></span>최근 본 사례 조회</a>
+                <a class="dropdown-item" href="/buildcaseselected"><span class="font-icon glyphicon glyphicon-check"></span>찜한 사례 조회</a>
+                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>회원정보수정</a>
                 <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
               </div>
             </div>
@@ -385,40 +387,33 @@
       </div><!--.site-header-content-->
     </div><!--.container-fluid-->
   </header><!--.site-header-->
-
   <div class="mobile-menu-left-overlay"></div>
   <ul class="main-nav nav nav-inline">
     <li class="nav-item">
-      <a class="nav-link" href="#">Contact</a>
+      <a class="nav-link" href="/mainPage">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Prperties</a>
+      <a class="nav-link" href="/buildcasecase">시공사례보기</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" href="#">Documents</a>
+      <a class="nav-link active" href="/consultingCounsel">시공사례등록</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Sales</a>
+      <a class="nav-link" href="#">인테리어 설명</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Projects</a>
+      <a class="nav-link" href="#">고객 상담소</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Contact</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Prperties</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Documents</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Sales</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Projects</a>
+      <a class="nav-link" href="#">인테리어 후기</a>
     </li>
   </ul>
+
+
+
+
+
+
 
   <!-- 이미지 슬라이드 시작(부트스트랩 carousel 방법 사용 CSS3를 이용한 방식 -->
   <div class="page-content" style="padding-left: 0px; padding-right: 0px">
@@ -459,64 +454,29 @@
 
     <div class="container-fluid" style="max-width: 1073px">
       <section style="max-width: 1073px">
-
         <div style="max-width: 1073px">
-          <div class="gallery-grid">
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg" >
-              </article>
-            </div><!--.gallery-col-->
+          <div class="cards-grid" data-columns="2">
 
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
+            <div class="column size-lof3" *ngFor="let buildCaseInfos of transform(2);">
+              <!-- *ngIf="even || (index == 0)" -->
 
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
+              <div class="cards-grid-col" *ngFor="let buildCaseInfo of buildCaseInfos">
+                <article class="card-typical">
+                  <div class="card-typical-section card-typical-content">
+                    <div class="photo">
+                      <img src="http://localhost:3001/{{buildCaseInfo.mainPreviewImage}}" alt>
+                    </div>
+                    <header class="title">
+                      <a href="buildcasedetail/{{buildCaseInfo.idx}}">{{buildCaseInfo.title}}</a>
+                    </header>
+                    <p> {{buildCaseInfo.companyName}} </p>
+                    <p> buildCaseInfo.idx : {{buildCaseInfo.idx}} </p>
+                  </div>
+                </article>
+              </div>
+            </div ><!--.lof3 grid-col1-->
 
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg" >
-              </article>
-            </div><!--.gallery-col-->
-
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
-
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
-
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg" >
-              </article>
-            </div><!--.gallery-col-->
-
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
-
-            <div class="gallery-col">
-              <article class="gallery-item">
-                <img class="gallery-picture" src="src/assets/images/test.jpg"  >
-              </article>
-            </div><!--.gallery-col-->
-
-          </div><!--.gallery-grid-->
+         </div>
         </div><!--.box-typical-body-->
       </section><!--.box-typical-->
     </div><!--.container-fluid-->

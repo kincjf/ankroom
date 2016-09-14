@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { Http } from '@angular/http'
 import { contentHeaders } from '../../common/headers';
-import * as _ from 'lodash';
 
-// const _ = require('lodash');
+
 const template = require('./mainPage.html');
 
 @Component({
@@ -14,6 +13,8 @@ const template = require('./mainPage.html');
 })
 
 export class MainPage {
+  private router: Router;
+
   jwt: string;
   public data;
    pageSize: number;
@@ -22,8 +23,8 @@ export class MainPage {
 
    constructor(public router: Router, public http: Http) {
 
-   this.pageSize = 4;
-   this.pageStartIndex = 0;
+   this.pageSize = 6;
+   this.pageStartIndex=0;
 
    this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
        .map(res => res.json())//받아온 값을 json형식으로 변경
@@ -51,8 +52,12 @@ export class MainPage {
         }
       )
   }
-
-  transform(numOfSet: number) {
-    return _.chunk(this.returnedDatas, numOfSet);
-  }
+  // onSelectBizList(bizUser: bizUserInfo): void {
+  //   this.selectedmemberIdx = bizUser;//bizUser는 클릭한 업체의 정보를 가지고 있고 이 정보를 selectedmemberIdx로 옮겼다.
+  //   localStorage.setItem('bizUserDetail',bizUser.memberIdx);
+  //   console.log(this.selectedmemberIdx);
+    // console.log(bizUser.memberIdx);
+    // console.log(localStorage.getItem('bizUserDetail'));
+    // this.router.navigate(['/listDetailInfo']);
+    // 서버로부터 응답 성공시 home으로 이동
 }
