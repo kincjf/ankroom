@@ -13,7 +13,7 @@ var config = require('../config/main')[env];
 
 var log = require('console-log-level')({
   prefix: function () { return new Date().toISOString() },
-  level: 'debug'
+  level: config.logLevel
 })
 
 var platform = os.platform();
@@ -44,9 +44,6 @@ else if (platform === 'win32' && process.env.SHELL === undefined) {
 }
 
 vtourConfig = config.krpano.vtour_config;
-
-const models = require('../models');
-const BuildCaseInfo = models.BuildCaseInfoBoard;
 
 /**
  * Convert spherical image to cubical image and save converted info to DB

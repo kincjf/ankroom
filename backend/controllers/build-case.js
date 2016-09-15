@@ -9,15 +9,15 @@ const path = require('path');
 const fsp = require('fs-promise');
 const Promise = require("bluebird");
 
+var env = process.env.NODE_ENV || "development";
+var config = require("../config/main")[env];
+
 var log = require('console-log-level')({
   prefix: function () {
     return new Date().toISOString()
   },
-  level: 'debug'
-})
-
-var env = process.env.NODE_ENV || "development";
-var config = require("../config/main")[env];
+  level: config.logLevel
+});
 
 const genToken = require('../utils/genToken');
 const staticValue = require('../utils/staticValue');
@@ -316,6 +316,9 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
         vrImageObj.statusCode = 1;    // 변환 완료
         vrImageObj.vtourDir = "vtour";    // vtour-normal-custom.config에서 설정함
         vrImageObj.xmlName = "tour.xml";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.swfName = "tour.swf";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.jsName = "tour.js";    // vtour-normal-custom.config에서 설정함
+
         vrImageObj.tiles = [];
 
         let prevImageName = 'thumb.jpg';   // vtour-normal-custom.config에서 설정함
@@ -337,8 +340,8 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
 
         return buildCaseInfo.update({
           VRImages: JSON.stringify(vrImageObj)    // convert 된 후의 정보가 들어감
-        }).then(array => {
-          return 'buildCaseInfo: changed ' + array[0] + ' rows';
+        }).then(result => {
+          return 'buildCaseInfo: changed VRImages : ' + result.VRImages;
         }).catch(err => {
           return new Error('update buildCaseInfo error: ' + err);
         });
