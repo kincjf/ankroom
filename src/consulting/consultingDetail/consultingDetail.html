@@ -12,79 +12,84 @@
 
             <table class="table table-bordered">
                 <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>상세정보</th>
-                </tr>
+                    <tr>
+                        <th>이름</th>
+                        <th>상세정보</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>번호</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>제목</td>
-                    <td>사무실 인테리어 디자인 문</td>
-                </tr>
-                <tr>
-                    <td>업체명</td>
-                    <td>최고업체</td>
-                </tr>
-                <tr>
-                    <td>작성자</td>
-                    <td>정인수</td>
-                </tr>
-                <tr>
-                    <td>연락처</td>
-                    <td>010-1234-5678</td>
-                </tr>
-                <tr>
-                    <td>이메일</td>
-                    <td>hong1234@naver.com</td>
-                </tr>
-                <tr>
-                    <td>작성일</td>
-                    <td>16-08-08</td>
-                </tr>
-                <tr>
-                    <td>접수현황</td>
-                    <td>미접수</td>
-                </tr>
-                <tr>
-                    <td>시공종류</td>
-                    <td>인테리어 확장</td>
-                </tr>
-                <tr>
-                    <td>주소</td>
-                    <td>전북대학교 공대7호관</td>
-                </tr>
-                <tr>
-                    <td>거주유무</td>
-                    <td>거주</td>
-                </tr>
-                <tr>
-                    <td>공사면적</td>
-                    <td>107평</td>
-                </tr>
-                <tr>
-                    <td>공사예산</td>
-                    <td>없음</td>
-                </tr>
-                <tr>
-                    <td>상담희망일</td>
-                    <td>9/6</td>
-                </tr>
-                <tr>
-                    <td>공사예정일</td>
-                    <td>10/17</td>
-                </tr>
-                <tr>
-                    <td>공사요청사항</td>
-                    <td>공사요청사항 여러가지 기타등등</td>
-                </tr>
+                  <tr>
+                      <td>번호</td>
+                      <td>{{idx}}</td>
+                  </tr>
+                  <tr>
+                      <td>제목</td>
+                      <td>{{title}}</td>
+                  </tr>
+                  <tr>
+                      <td>업체명</td>
+                      <!--선호업체 명인지 현제 접수를 받은 업체명인지 확인-->
+                      <td>{{prefBizMemberIdx}}</td>
+                  </tr>
+                  <tr>
+                      <td>작성자</td>
+                      <td>{{userName}}</td>
+                  </tr>
+                  <tr>
+                      <td>연락처</td>
+                      <td>{{telephone}}</td>
+                  </tr>
+                  <tr>
+                      <td>이메일</td>
+                      <td>{{email}}</td>
+                  </tr>
+                  <tr>
+                      <td>작성일</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>접수현황</td>
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td>시공종류</td>
+                      <td>{{buildType}}</td>
+                  </tr>
+                  <tr>
+                      <td>주소</td>
+                      <td>{{buildPlace}}</td>
+                  </tr>
+                  <tr>
+                      <td>거주유무</td>
+                      <td>{{lived}}</td>
+                  </tr>
+                  <tr>
+                      <td>공사면적</td>
+                      <td>{{expectBuildTotalArea}}</td>
+                  </tr>
+                  <tr>
+                      <td>공사예산</td>
+                      <td>{{expectBuildPrice}}</td>
+                  </tr>
+                  <tr>
+                      <td>상담희망일</td>
+                      <td>{{expectConsultDate}}</td>
+                  </tr>
+                  <tr>
+                      <td>공사예정일</td>
+                      <td>{{expectBuildStartDate}}</td>
+                  </tr>
+                  <tr>
+                      <td>공사요청사항</td>
+                      <td>{{reqContents}}</td>
+                  </tr>
                 </tbody>
             </table>
         </section><!--.box-typical-->
+
+        <div class="form-group col-sm-offset-10 col-xs-offset-10">
+          <button type="button" class="btn btn-inline"  onclick="window.location.href='/consultingChange'">수정</button>
+        </div>
 
     </div><!--.container-fluid-->
 </div><!--.page-content-->

@@ -21,26 +21,12 @@
 
         <!--table내용-->
         <tbody>
-        <tr>
-          <td class="col-xs-4">제목테스...</td>
-          <td class="col-xs-4">접수중</td>
-          <td class="col-xs-4">16-06-06</td>
-        </tr>
-        <tr>
-          <td class="col-md-4 col-xs-4">제목테스...</td>
-          <td class="col-md-4 col-xs-4">접수중</td>
-          <td class="col-md-4 col-xs-4">16-06-06</td>
-        </tr>
-        <tr>
-          <td class="col-md-4 col-xs-4">제목테스...</td>
-          <td class="col-md-4 col-xs-4">접수중</td>
-          <td class="col-md-4 col-xs-4">16-06-06</td>
-        </tr>
-        <tr>
-          <td class="col-md-4 col-xs-4">제목테스...</td>
-          <td class="col-md-4 col-xs-4">접수중</td>
-          <td class="col-md-4 col-xs-4">16-06-06</td>
-        </tr>
+          <tr *ngFor="let consultInfo of returnedDatas" (click)="onSelectConsultingInfo(consultInfo)">
+            <td class="col-xs-4"><a href="/consultingDetail" >{{consultInfo.title}}</a></td>
+            <td class="col-xs-4">접수중</td>
+            <td class="col-xs-4">16-09-15</td>
+
+          </tr>
         </tbody>
       </table>
     </section><!--.box-typical-->
