@@ -1,19 +1,27 @@
 <div class="page-content">
-    <div class="container-fluid">
-        <div *ngFor="let buildCase of returnedDatas" class="cards-grid" data-columns (click)="onSelectBuildCaseList(buildCase)">
-            <div class="card-grid-col">
-                <article class="card-typical">
-                    <div class="card-typical-section card-typical-content">
-                        <div class="photo">
-                            <img src={{buildCase.mainPreviewImage}} alt="">
-                        </div>
-                        <header class="title"><a href="/buildcasedetailinfo" >{{buildCase.title}}</a></header>
-                        <p [innerHTML]="buildCase.HTMLText"></p>
-                    </div>
-                </article><!--.card-typical-->
-            </div><!--.card-grid-col-->
-        </div><!--.card-grid-->
-        <div class="clear"></div>
+  <div class="container-fluid">
+    <div class="cards-grid" data-columns>
+      <div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let buildCase of returnedDatas">
+        <article class="card-typical">
+          <div class="card-typical-section card-typical-content">
+            <div class="photo">
+              <img src="http://localhost:3001/{{buildCase.mainPreviewImage}}" alt="">
+            </div>
+            <header class="title"><a href="buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a></header>
+            <div class="photo" [innerHTML]="buildCase.HTMLText"></div>
+          </div>
+        </article><!--.card-typical-->
+      </div><!--.card-grid-col-->
+    </div><!--.card-grid-->
+    <div class="clear"></div>
 
-    </div><!--.container-fluid-->
+  </div><!--.container-fluid-->
 </div><!--.page-content-->
+
+
+
+
+
+
+
+

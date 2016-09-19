@@ -42,7 +42,6 @@ export class BuildCaseList {
               mainPreviewImage: buildCaseData.mainPreviewImage,
               HTMLText: buildCaseData.HTMLText
             });
-            console.log(this.returnedDatas);
           }
         },
         error => {
@@ -52,14 +51,4 @@ export class BuildCaseList {
         }
       );
   }
-
-  onSelectBuildCaseList(buildCaseData: any): void {
-    localStorage.setItem('buildCaseDetailIdx',buildCaseData.selectedBuildCaseIdx);
-    //console.log(this.selectedmemberIdx);
-    console.log(buildCaseData.idx);
-    console.log(localStorage.getItem('buildCaseDetailIdx'));
-    //this.router.navigate(['/listDetailInfo']);
-    //서버로부터 응답 성공시 home으로 이동
-  }
-
 }
