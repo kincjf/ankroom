@@ -15,7 +15,7 @@ const log = require('console-log-level')({
     return new Date().toISOString()
   },
   level: 'debug'
-})
+});
 
 const ROOT_IMAGE_DIR = "./uploads/images";
 const EDITOR_IMAGE_DIR = "editor";
@@ -61,7 +61,7 @@ var editorImageStorage = multer.diskStorage({
     callback(null, editorImagePath);
   },
   filename: function (req, file, callback) {
-    callback(null, file.originalname + '-' + _.toString(Date.now()));
+    callback(null, _.toString(Date.now()) + '-' +  file.originalname);
   }
 });
 

@@ -6,6 +6,8 @@ import { contentHeaders } from '../../common/headers';
 import {MultipartItem} from "../../common/multipart-upload/multipart-item";
 import {MultipartUploader} from "../../common/multipart-upload/multipart-uploader";
 
+import { EditorImageUploader } from "../../common/editor-image-uploader";
+
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseInput.html');
 const URL = 'http://localhost:3001/api/build-case';
@@ -16,6 +18,7 @@ const imageURL = 'http://localhost:3001/api/public/image/test';
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, NgClass, NgStyle ],
   template: template
 })
+
 export class BuildCaseInput {
 
   jwt:string;
@@ -68,7 +71,6 @@ export class BuildCaseInput {
       this.multipartItem.formData.append("buildTotalArea", buildTotalArea );
       this.multipartItem.formData.append("buildTotalPrice", buildTotalPrice );
       this.multipartItem.formData.append("HTMLText", HTMLText );
-//      this.multipartItem.formData.append("vrImage", this.vrImage );
       this.multipartItem.formData.append("previewImage", this.previewImage );
 
       this.multipartItem.callback = (data) => {
@@ -83,23 +85,6 @@ export class BuildCaseInput {
       }
 
       this.multipartItem.upload();
-
-      /*
-       let body = JSON.stringify({title, buildType, buildPlace, buildTotalArea, buildTotalPrice, HTMLText});
-       //html받은 값들을 json형식으로 저장
-       this.http.post('http://localhost:3001/api/build-case', {body, vrImage, previewImage }, {headers: contentHeaders})
-       .subscribe(
-       response => {
-       this.router.navigate(['/mainPage']);
-       //서버로부터 응답 성공시 mainPage으로 이동
-       },
-       error => {
-       alert(error.text());
-       console.log(error.text());
-       //서버로부터 응답 실패시 경고창
-       }
-       );
-       */
     }
   }
 
@@ -137,13 +122,12 @@ export class BuildCaseInput {
       maxHeight: null,             // set maximum height of editor
       focus: true,
       callbacks: {
-        onImageUpload: function (files, modules) {
-          window.sendFile(files);
+        onImageUpload: function (files, editor) {
+          EditorImageUploader.getInstance().upload(files, editor);
         }
       }
     });
 
   }
-
 }
 

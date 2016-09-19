@@ -1,4 +1,8 @@
 ﻿<krpano version="1.19" title="Virtual Tour">
+  <security>
+    <crossdomainxml url="http://localhost:3001/config/crossdomain.xml" />
+    <allowdomain domain="*" />
+  </security>
 
 	<include url="skin/vtourskin.xml" />
 
@@ -55,7 +59,7 @@
 	               />
 
 	<!--
-	    For an alternative skin design either change the <skin_settings> values 
+	    For an alternative skin design either change the <skin_settings> values
 	    from above or optionally include one of the predefined designs from below.
 	-->
 	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->

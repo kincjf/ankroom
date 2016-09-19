@@ -4,7 +4,6 @@
 const passport = require('passport'),
   express = require('express'),
   multer = require('multer'),
-  bodyParser = require('body-parser'),
 
   multerConfig = require('./config/multer'),
   PublicController = require('./controllers/public'),
@@ -30,8 +29,8 @@ const requireLogin = passport.authenticate('local', { session: false });
 const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
   { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
 const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
-  .array('editorImage', 12);
-var testImageUpload = multer({ dest: 'uploads/images' }).any();
+  .array('editorImage', 10);
+var testFileUpload = multer({ dest: 'uploads/tests' }).any();
 
 
 module.exports = function(app) {
@@ -70,10 +69,10 @@ module.exports = function(app) {
   apiRoutes.use('/public', publicRoutes);
 
   // upload Image and return path when try to attaching device image
-  publicRoutes.post('/image', PublicController.uploadEditorImage);
+  publicRoutes.post('/image', editorImageUpload, PublicController.uploadEditorImage);
 
-  // test - upload Image and return path when try to attaching device image
-  publicRoutes.post('/image/test', testImageUpload, PublicController.uploadTestImage);
+  // test - upload file and return path when try to attaching device file
+  publicRoutes.post('/file/test', testFileUpload, PublicController.uploadFileTest);
 
   //=========================
   // Auth Routes

@@ -6,7 +6,7 @@
   "scripts": {
     "server": "cd backend && npm i && node ./bin/www.js",
     "server:debug": "cd backend && npm i && node --debug ./bin/www.js",
-    "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000",
+    "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
     "start": "npm i && npm run front",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -34,6 +34,7 @@
     "@angular/platform-server": "2.0.0-rc.3",
     "@angular/router": "3.0.0-alpha.7",
     "@types/lodash": "^4.14.34",
+    "angular2-config": "^1.1.1",
     "angular2-jwt": "0.1.16",
     "app-root-path": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
@@ -87,7 +88,6 @@
     "tslint-loader": "^2.1.3",
     "typedoc": "^0.4.3",
     "typescript": "~1.8.10",
-    "typings": "^1.3.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"

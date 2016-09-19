@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES, ActivatedRoute, Params } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Subscription }       from 'rxjs/Subscription';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 
+declare var jQuery: JQueryStatic;
 const template = require('./detail.html');
 
 @Component({
@@ -14,9 +15,6 @@ const template = require('./detail.html');
 })
 
 export class BuildCaseDetail {
-  private sub:Subscription;
-//  private route:ActivatedRoute;
-
   public selectedId:number;
 
   public data;
@@ -37,38 +35,7 @@ export class BuildCaseDetail {
   mainWorkArea: string;
   conmpanyIntroImage: string;
 
-  constructor(public router: Router, public http: Http, private route:ActivatedRoute) {
-    // URL 주소 뒤에 오는 param 값을 저장
-    this.route.params.forEach((params: Params) => {
-      let buildCaseIdx = +params['buildCaseIdx'];
-      this.selectedId = buildCaseIdx;
-    });
-
-    //시공사례조회에서 클릭한 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
-    this.http.get('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
-      .map(res => res.json())//받아온 값을 json형식으로 변경
-      .subscribe(
-        response => {
-          this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
-
-          this.title = this.data.buildCaseInfo.title;
-          this.buildType = this.data.buildCaseInfo.buildType;
-          this.buildPlace = this.data.buildCaseInfo.buildPlace;
-          this.buildTotalArea = this.data.buildCaseInfo.buildTotalArea;
-          this.mainPreviewImage = this.data.buildCaseInfo.mainPreviewImage;
-          this.buildTotalPrice = this.data.buildCaseInfo.buildTotalPrice;
-          this.HTMLText = this.data.buildCaseInfo.HTMLText;
-          this.VRImages = this.data.buildCaseInfo.VRImages;
-          this.memberIdx = this.data.buildCaseInfo.memberIdx;
-
-          console.log(this.VRImages.basedir);
-        },
-        error => {
-          alert(error.text());
-          console.log(error.text());
-          //서버로 부터 응답 실패시 경고창
-        }
-      )
+  constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
   }
 
   onBizUserInfo() {
@@ -90,5 +57,41 @@ export class BuildCaseDetail {
           //서버로 부터 응답 실패시 경고창
         }
       )
+  }
+
+  ngAfterViewInit() {
+    // URL 주소 뒤에 오는 param 값을 저장
+    this.route.params.forEach((params: Params) => {
+      let buildCaseIdx = +params['buildCaseIdx'];
+      this.selectedId = buildCaseIdx;
+    });
+
+    //시공사례조회에서 클릭한 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
+    this.http.get('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+      .map(res => res.json())//받아온 값을 json형식으로 변경
+      .subscribe(
+        response => {
+          this.title = response.buildCaseInfo.title;
+          this.buildType = response.buildCaseInfo.buildType;
+          this.buildPlace = response.buildCaseInfo.buildPlace;
+          this.buildTotalArea = response.buildCaseInfo.buildTotalArea;
+          this.mainPreviewImage = response.buildCaseInfo.mainPreviewImage;
+          this.buildTotalPrice = response.buildCaseInfo.buildTotalPrice;
+          this.HTMLText = response.buildCaseInfo.HTMLText;
+          this.VRImages = JSON.parse(response.buildCaseInfo.VRImages);
+          this.memberIdx = response.buildCaseInfo.memberIdx;
+
+          // 비동기라서 통신이 완료 된 후에 해야지 member변수 값에 할당이 됨.
+          // 일단 index.html에 짱박아놓음. 나중에 module로 빼자
+          // proxy 이용
+          embedpano({swf:"src/assets/js/lib/krpano-1.19-pr6-viewer/krpano-tour.swf",
+              xml: ['/' + this.VRImages.baseDir, this.VRImages.vtourDir, this.VRImages.xmlName].join('/'),
+              target:"pano", html5:"auto", mobilescale:1.0, passQueryParameters:true});
+        },
+        error => {
+          console.error(error.text());
+          //서버로 부터 응답 실패시 경고창
+        }
+      );
   }
 }

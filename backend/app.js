@@ -23,12 +23,13 @@ app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
 app.use(express.static(__dirname + '/uploads'));
+app.use('/config', express.static(__dirname + '/config/publish'));
 app.use('/tests/images', express.static(__dirname + '/tests/images'));
 
 app.options("*", cors());
 app.use(cors({
   "origin": "*",
-  "allowedHeaders": 'X-Requested-With, Content-Type, Content-Range, Content-Disposition, Content-Description, Accept, Authorization',
+  "allowedHeaders": 'X-Requested-With, Content-Type, Last-modified, Content-Language, Cache-Control, Expires, Pragma, Content-Range, Content-Disposition, Content-Description, Accept, Authorization',
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   "credentials": true,
   "preflightContinue": true

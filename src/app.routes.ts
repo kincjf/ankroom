@@ -24,8 +24,6 @@ import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCoun
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
 
-import { headerRoutes } from './header_app.routes';
-
 export const routes: RouterConfig = [
   { path: '',       component:  MainPage },  // 메인 페이지 화면
 

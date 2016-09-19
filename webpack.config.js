@@ -109,7 +109,14 @@ module.exports = {
   // our Webpack Development Server config
   devServer: {
     historyApiFallback: true,
-    publicPath: '/build'
+    publicPath: '/build',
+    proxy: {
+      '/images/**': {
+        target: 'http://localhost:3001',
+        // pathRewrite: {'^/api' : ''},
+        secure: false
+      }
+    }
   }
 };
 
