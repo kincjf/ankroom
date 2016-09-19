@@ -11,6 +11,7 @@ export const config = {
     "debugging": true
   },
   "production": {
-
+    "serverHost": "http://www.cozyhouzz.co.kr",
+    "editorImageUploadURL": "api/public/image",
   }
 }[env];

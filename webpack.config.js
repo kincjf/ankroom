@@ -110,7 +110,7 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     publicPath: '/build',
-    proxy: {
+    proxy: {    // proxy 추가
       '/images/**': {
         target: 'http://localhost:3001',
         // pathRewrite: {'^/api' : ''},
