@@ -23,11 +23,13 @@ app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
 app.use(express.static(__dirname + '/uploads'));
+app.use('/config', express.static(__dirname + '/config/publish'));
+app.use('/tests/images', express.static(__dirname + '/tests/images'));
 
 app.options("*", cors());
 app.use(cors({
   "origin": "*",
-  "allowedHeaders": 'X-Requested-With, Content-Type, Content-Range, Content-Disposition, Content-Description, Accept, Authorization',
+  "allowedHeaders": 'X-Requested-With, Content-Type, Last-modified, Content-Language, Cache-Control, Expires, Pragma, Content-Range, Content-Disposition, Content-Description, Accept, Authorization',
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   "credentials": true,
   "preflightContinue": true
@@ -39,6 +41,9 @@ app.use(cors({
 //   err.status = 404;
 //   next(err);
 // });
+
+// You can explicitly set the path, using the environmental variable APP_ROOT_PATH or by calling
+require('app-root-path').setPath(__dirname);
 
 // error handler
 // no stacktraces leaked to user unless in development environment

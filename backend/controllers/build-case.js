@@ -5,14 +5,34 @@
 
 const _ = require('lodash');
 const multer = require('multer');
-// var fsp = require('fs-promise');
+const path = require('path');
+const fsp = require('fs-promise');
+const Promise = require("bluebird");
+
+var env = process.env.NODE_ENV || "development";
+var config = require("../config/main")[env];
+
+var log = require('console-log-level')({
+  prefix: function () {
+    return new Date().toISOString()
+  },
+  level: config.logLevel
+});
 
 const genToken = require('../utils/genToken');
 const staticValue = require('../utils/staticValue');
 const models = require('../models');
+const vrpano = require('../modules/convert-vrpano');
+const vrpanoPromise = require('../modules/convert-vrpano-promise');
+
+
 const Member = models.Member;
 const BuildCaseInfoBoard = models.BuildCaseInfoBoard;
 
+const fieldName = {
+  prevImg: "previewImage",
+  vrImg: "vrImage"
+}
 //========================================
 // Build Case Routes
 //========================================
@@ -22,7 +42,7 @@ const BuildCaseInfoBoard = models.BuildCaseInfoBoard;
  * @param res
  * @param next
  */
-exports.viewBuildCaseList = function(req, res, next) {
+exports.viewBuildCaseList = function (req, res, next) {
   let pageSize, pageStartIndex;
 
   if (!req.query.pageSize || !req.query.pageStartIndex) {
@@ -39,10 +59,10 @@ exports.viewBuildCaseList = function(req, res, next) {
   BuildCaseInfoBoard.findAll({
     limit: pageSize,
     offset: pageStartIndex
-  }).then(function(buildCases) {
-    res.status(200).json({ buildCaseInfo: buildCases, statusCode: 1 });
+  }).then(function (buildCases) {
+    res.status(200).json({buildCaseInfo: buildCases, statusCode: 1});
     return next();
-  }).catch(function(err) {
+  }).catch(function (err) {
     if (err) {
       res.status(400).json({
         errorMsg: 'No BuildCase could be found for pageSize, pageStartIndex.',
@@ -55,13 +75,13 @@ exports.viewBuildCaseList = function(req, res, next) {
 
 
 /**
- * 시공 사례 입력
+ * 시공 사례 입력, 나중에 잘 되면 삭제하자(deprecated)
  * @param req
  * @param res
  * @param next
  * @returns {*}
  */
-exports.createBuildCase = function(req, res, next) {
+exports.createBuildCase = function (req, res, next) {
   if (req.user.memberType != staticValue.memberType.BusinessMember) {
     return res.status(401).json({
       errorMsg: 'You are not authorized to create build case.',
@@ -86,8 +106,8 @@ exports.createBuildCase = function(req, res, next) {
   if (req.files['vrImage']) {
     vrImagePath = [];
 
-    _forEach(req.files['vrImage'], function(file, key) {
-      if(file) {
+    _forEach(req.files['vrImage'], function (file, key) {
+      if (file) {
         vrImagePath.push(file.name);
       }
     });
@@ -102,15 +122,17 @@ exports.createBuildCase = function(req, res, next) {
     mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
     buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
     HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)
+    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)   // 현재는 변환 전임을 표시함.
   }
 
-  BuildCaseInfoBoard.create(buildCase).then(function(newBuildCase) {
+  BuildCaseInfoBoard.create(buildCase).then(function (newBuildCase) {
+    vrpano(newBuildCase.idx, vrImagePath);    // 비동기로 작동한다.
+
     return res.status(201).json({
       buildCaseInfo: newBuildCase,
       statusCode: staticValue.statusCode.RequestActionCompleted_20x
     });
-  }).catch(function(err) {
+  }).catch(function (err) {
     if (err) {
       res.status(400).json({
         errorMsg: 'BuildCaseInfoBoard Error : No BuildCase could be create for this info.',
@@ -121,9 +143,239 @@ exports.createBuildCase = function(req, res, next) {
   });
 }
 
+// 동일 중복 파일을 체크할 수 있도록 개발해야함
+// Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
+/**
+ * 시공사례입력(use vrpano-promise)
+ * @param req
+ * @param res
+ * @param next
+ */
+exports.createBuildCaseAndVRPano = function (req, res, next) {
+  if (req.user.memberType != staticValue.memberType.BusinessMember) {
+    return res.status(401).json({
+      errorMsg: 'You are not authorized to create build case.',
+      statusCode: 2
+    });
+  }
 
-// 일단 중복으로 파일 수정이 되게 하고,
+  // console.log("req body Json : %j", ${req.body});
+  // console.log("req body Json : %j", ${req.files});
+
+  if (!req.body.title) {
+    return res.status(401).json({
+      errorMsg: 'You must enter an required field! please check title',
+      statusCode: -1
+    });
+  }
+
+
+  // req.files["fieldname"[i] - structure example
+  // { fieldname: 'myfile',
+  //   originalname: '20160224_104138.jpg',
+  //   encoding: '7bit',
+  //   mimetype: 'image/jpeg',
+  //   destination: '/tmp/upload/',
+  //   filename: '8563e0bef6efcc4d709f2d1debb35777',
+  //   path: '/tmp/upload/8563e0bef6efcc4d709f2d1debb35777',
+  //   size: 1268337 }
+
+  let previewImage, vrImages, vrImagePaths;
+
+  let makeNewSavePath = Promise.method(function () {
+    let newSavePath;
+    if (req.files['previewImage'] || req.files['vrImage']) {
+      newSavePath = _.toString(Date.now());
+
+      return newSavePath;
+    }
+
+    return newSavePath;    // 파일 이동 실패, 파일 없음
+  });
+
+  /**
+   * String
+   */
+  let movePreviewImage = Promise.method(function (newSavePath) {
+
+    if (newSavePath && req.files[fieldName.prevImg]) {
+      let previewImgFile = req.files[fieldName.prevImg][0];
+      let savePath = path.join(previewImgFile.destination, newSavePath, previewImgFile.filename);
+
+      return fsp.move(previewImgFile.path, savePath).then(function () {
+        previewImgFile.destination = path.join(previewImgFile.destination, newSavePath);
+        previewImgFile.path = path.join(previewImgFile.destination, previewImgFile.filename);
+
+        // path의 "uploads" 포함 앞부분 문자열은 삭제한다.
+        let tmpPath = _.replace(previewImgFile.path, "uploads" + path.sep, "");
+
+        // previewImage = _.replace(tmpPath, "/\\/g", "/");    // 될거 같은데 안됨...
+        previewImage = _.split(tmpPath, "\\").join('/');    // 아 ㅅㅂ path문제... 정규표현식으로 해결이 안됨
+        // url path이기 때문에 windows에서 작동할 경우 separator(\\) 변환 필요
+
+        return previewImage;
+      }).catch(function (err) {
+        return new Error("fail to move previewImage file");    // 파일 이동 실패, transaction 중지
+      });
+    }
+
+    return null;    // 파일 없음(에러는 아님)
+  });
+
+  /**
+   * Object
+   */
+  let moveVRImage = Promise.method(function (newSavePath) {
+    if (newSavePath && req.files[fieldName.vrImg]) {
+      vrImagePaths = [];
+
+      vrImages = {
+        statusCode: 0,    // 아직 변환 전임을 표시함
+        // baseDir: _.split(tmpPath, "\\").join('/'),   // request path이기 때문에
+        originalImage: []    // 변환전 파일 경로
+      };
+
+      return Promise.each(req.files[fieldName.vrImg], function (file, index, length) {
+        let baseDir = path.join(file.destination, newSavePath);
+        let savePath = path.join(baseDir, file.filename);
+
+        return fsp.move(file.path, savePath).then(function () {
+          file.destination = path.join(file.destination, newSavePath);
+          file.path = path.join(file.destination, file.filename);
+
+          let tmpPath = _.replace(file.destination, "uploads" + path.sep, "");
+          vrImages.baseDir = _.split(tmpPath, "\\").join('/');   // request path이기 때문에
+
+          vrImages.originalImage.push(file.filename);
+          vrImagePaths.push(file.path);
+        }).catch(function (err) {
+          return new Error("fail to move vrImage file");    // 파일 이동 실패, transaction 중지
+        });
+      }).then(function () {
+        return vrImages;
+      });
+    }
+
+    return null;    // 파일 없음(에러는 아님)
+  });
+
+
+  /**
+   * String, Array[String]
+   */
+  let createBuildCaseDB = Promise.method(function (previewImagePath, vrImages, originalVRImages) {
+
+    const buildCase = {
+      memberIdx: req.user.idx,
+      title: req.body.title,
+      buildType: req.body.buildType == "" ? null : req.body.buildType,
+      buildPlace: req.body.buildPlace == "" ? null : req.body.buildPlace,
+      buildTotalArea: req.body.buildTotalArea == "" ? null : _.toNumber(req.body.buildTotalArea),
+      mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
+      buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
+      HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
+      VRImages: _.isNil(vrImages) ? null : JSON.stringify(vrImages)   // 현재는 변환 전임을 표시함.
+    }
+
+    return BuildCaseInfoBoard.create(buildCase).then(function (newBuildCase) {
+      res.status(201).json({
+        buildCaseInfo: newBuildCase,
+        statusCode: staticValue.statusCode.RequestActionCompleted_20x
+      });
+
+      return [originalVRImages, newBuildCase.idx];
+    }).spread(function (originalVRImages, buildCaseIdx) {
+
+      if (originalVRImages) {
+        return vrpanoPromise(originalVRImages).then(() => {   // VR 이미지가 있으면 변환하게 고쳐야함.
+          log.debug('[convert-vrpano-promise] done!');
+          return Promise.resolve(buildCaseIdx);
+        }).catch(err => {
+          log.error('[convert-vrpano-promise] ERROR: ', err);
+        });    // 비동기로 작동한다.
+
+      } else {
+        return new Error('no originalVRImages in req.files');
+      }
+    }).catch(function (err) {
+      if (err) {
+        res.status(400).json({
+          errorMsg: 'BuildCaseInfoBoard Error : No BuildCase could be create for this info.',
+          statusCode: 2
+        });
+        return next(err);
+      }
+    });
+  });
+
+  let saveVRPanoPath = Promise.method(function (newIdx) {
+    if (newIdx) {
+      return BuildCaseInfoBoard.findById(newIdx).then(buildCaseInfo => {
+        let vrImageObj = JSON.parse(buildCaseInfo.VRImages);    // Array[fileName, ...]
+
+        vrImageObj.statusCode = 1;    // 변환 완료
+        vrImageObj.vtourDir = "vtour";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.xmlName = "tour.xml";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.swfName = "tour.swf";    // vtour-normal-custom.config에서 설정함
+        vrImageObj.jsName = "tour.js";    // vtour-normal-custom.config에서 설정함
+
+        vrImageObj.tiles = [];
+
+        let prevImageName = 'thumb.jpg';   // vtour-normal-custom.config에서 설정함
+
+        _(vrImageObj.originalImage).forEach(value => {
+          let extension = path.extname(value);    // imagefile name의 확장자부분만 추출
+          let imageName = path.basename(value, extension);    // imagefile name의 파일 이름만 추출
+          // let imagePath = imageName + extension;
+          // requestpath이기 때문에
+          let tmpDir = path.join(vrImageObj.baseDir, config.krpano.panotour_path, imageName + ".tiles");
+          let tileDir = _.split(tmpDir, "\\").join('/');
+
+          vrImageObj.tiles.push({
+            dir: tileDir,
+            previewImageName: prevImageName,
+            previewImagePath: _.join([tileDir, prevImageName], "/")   // 편하게 쓰라고 만들어준거임
+          });
+        });
+
+        return buildCaseInfo.update({
+          VRImages: JSON.stringify(vrImageObj)    // convert 된 후의 정보가 들어감
+        }).then(result => {
+          return 'buildCaseInfo: changed VRImages : ' + result.VRImages;
+        }).catch(err => {
+          return new Error('update buildCaseInfo error: ' + err);
+        });
+      }).catch(function (err) {
+        return new Error('fileById buildCaseInfo/' + newIdx + ' error: ' + err);
+      });
+    }
+
+    return new Error('no buildCaseInfo newIdx');
+  });
+
+  makeNewSavePath()
+    .then(function (newSavePath) {
+      return Promise.join(movePreviewImage(newSavePath), moveVRImage(newSavePath), function (previewImage, vrImages) {
+        return {previewImage: previewImage, vrImages: vrImages};
+      });
+    }).then(function (result) {
+    return createBuildCaseDB(result.previewImage, result.vrImages, vrImagePaths);
+  }).then(function (newIdx) {
+    return saveVRPanoPath(newIdx);
+  }).done(function (result) {
+    log.debug(result);
+  }, function (err) {
+    log.err(err);
+  });
+}
+
+
+// 동일 중복 파일을 체크할 수 있도록 개발해야함
+// Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
+// 현재 상황으로는 특히 VR Panorama에 대한 수정시 다시 만들어야되는 결함이 있다.
+// 일단 중복으로 파일 수정이 되어 VR파노라마가 생성되게 하고,
 // 차후에 파일이 중복으로 첨부되었을 경우, 중복 처리를 통해서 업로드 되지 않게 한다.
+// vrpano module을 수정하여 자체적으로 module을 만드는 방벋도 고려해야한다.
 // multer({fileFilter})를 이용하기.
 /**
  * 시공 사례 수정
@@ -131,7 +383,7 @@ exports.createBuildCase = function(req, res, next) {
  * @param res
  * @param next
  */
-exports.updateBuildCase = function(req, res, next) {
+exports.updateBuildCase = function (req, res, next) {
   if ((req.user.memberType != staticValue.memberType.BusinessMember)) {
     return res.status(401).json({
       errorMsg: 'You are not authorized to create build case.',
@@ -157,8 +409,8 @@ exports.updateBuildCase = function(req, res, next) {
   if (req.files['vrImage']) {
     vrImagePath = [];
 
-    _forEach(req.files['vrImage'], function(file, key) {
-      if(file) {
+    _forEach(req.files['vrImage'], function (file, key) {
+      if (file) {
         vrImagePath.push(file.name);
       }
     });
@@ -177,12 +429,12 @@ exports.updateBuildCase = function(req, res, next) {
   }
 
   // return Array[0] = affectedRows
-  BuildCaseInfoBoard.update(buildCase, {where: { idx: buildCaseIdx }}).then(function(array) {
+  BuildCaseInfoBoard.update(buildCase, {where: {idx: buildCaseIdx}}).then(function (array) {
     return res.status(200).json({
       msg: 'changed ' + array[0] + ' rows',
       statusCode: 1
     });
-  }).catch(function(err) {
+  }).catch(function (err) {
     if (err) {
       res.status(400).json({
         errorMsg: 'BuildCaseInfoBoard Error : No user could be found for this ID.',
@@ -200,7 +452,7 @@ exports.updateBuildCase = function(req, res, next) {
  * @param res
  * @param next
  */
-exports.viewBuildCase = function(req, res, next) {
+exports.viewBuildCase = function (req, res, next) {
   if (!req.params.buildCaseIdx) {
     return res.status(401).json({
       errorMsg: 'You must enter an required field! please check :buildCaseIdx',
@@ -210,9 +462,9 @@ exports.viewBuildCase = function(req, res, next) {
 
   const buildCaseIdx = _.toNumber(req.params.buildCaseIdx);
 
-  BuildCaseInfoBoard.findById(buildCaseIdx).then(function(buildCase) {
-    return res.status(200).json({ buildCaseInfo: buildCase, statusCode: 1 });
-  }).catch(function(err) {
+  BuildCaseInfoBoard.findById(buildCaseIdx).then(function (buildCase) {
+    return res.status(200).json({buildCaseInfo: buildCase, statusCode: 1});
+  }).catch(function (err) {
     if (err) {
       res.status(400).json({
         errorMsg: 'BuildCaseInfoBoard : No user could be found for this ID.',
@@ -230,7 +482,7 @@ exports.viewBuildCase = function(req, res, next) {
  * @param res
  * @param next
  */
-exports.searchBuildCase = function(req, res, next) {
+exports.searchBuildCase = function (req, res, next) {
   BuildCaseInfoBoard.findAll().then(function (buildCases) {
     res.status(200).json({buildCaseInfo: buildCases, statusCode: 1});
     return next();
@@ -252,7 +504,7 @@ exports.searchBuildCase = function(req, res, next) {
  * @param res
  * @param next
  */
-exports.deleteBuildCase = function(req, res, next) {
+exports.deleteBuildCase = function (req, res, next) {
   if ((req.user.memberType != staticValue.memberType.BusinessMember)) {
     return res.status(401).json({
       errorMsg: 'You are not authorized to create build case.',
@@ -270,13 +522,13 @@ exports.deleteBuildCase = function(req, res, next) {
   const buildCaseIdx = _.toNumber(req.params.buildCaseIdx);
 
   // return numOfRows = The number of destroyed rows
-  BusinessMember.destroy({where: { idx: buildCaseIdx }}).then(function(numOfRows) {
+  BusinessMember.destroy({where: {idx: buildCaseIdx}}).then(function (numOfRows) {
     res.status(200).json({
       msg: 'deleted ' + numOfRows + ' rows',
       statusCode: 1
     });
     return next();
-  }).catch(function(err) {
+  }).catch(function (err) {
     if (err) {
       res.status(400).json({
         errorMsg: 'No user could be found for this ID.',

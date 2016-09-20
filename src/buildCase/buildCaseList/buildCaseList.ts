@@ -19,6 +19,7 @@ export class BuildCaseList {
   pageSize: number;
   pageStartIndex: number;
   returnedDatas = [];
+  selectedBuildCaseIdx: number;
 
   constructor(public router: Router, public http: Http) {
 
@@ -36,11 +37,11 @@ export class BuildCaseList {
           for (var buildCaseData of response.buildCaseInfo) {
             //returnDatas에 bizUser의 정보를 data의 수만큼 받아온다.
             this.returnedDatas.push({
+              selectedBuildCaseIdx: buildCaseData.idx,
               title: buildCaseData.title,
               mainPreviewImage: buildCaseData.mainPreviewImage,
               HTMLText: buildCaseData.HTMLText
             });
-            console.log(this.returnedDatas);
           }
         },
         error => {
@@ -50,5 +51,4 @@ export class BuildCaseList {
         }
       );
   }
-
 }

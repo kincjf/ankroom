@@ -4,12 +4,12 @@
 const passport = require('passport'),
   express = require('express'),
   multer = require('multer'),
-  bodyParser = require('body-parser'),
 
   multerConfig = require('./config/multer'),
   PublicController = require('./controllers/public'),
   AuthController = require('./controllers/authentication'),
   UserController = require('./controllers/user'),
+  ConsultController = require('./controllers/consult'),
   BuildCaseController = require('./controllers/build-case'),
   BizStoreController = require('./controllers/biz-store'),
 
@@ -28,20 +28,20 @@ const requireLogin = passport.authenticate('local', { session: false });
 
 const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage }).fields([
   { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
-// const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
-//   .array('editorImage', 12);
-var editorImageUpload = multer({ dest: 'uploads/images' }).any();
+const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
+  .array('editorImage', 10);
+var testFileUpload = multer({ dest: 'uploads/tests' }).any();
 
 
 module.exports = function(app) {
   // Initializing route groups
   var apiRoutes = express.Router(),
     publicRoutes = express.Router(),
-//    publicRoutes = express(),
     authRoutes = express.Router(),
-    userRoutes = express.Router();
-  buildCaseRoutes = express.Router();
-  bizStoreRoutes = express.Router();
+    userRoutes = express.Router(),
+    consultRoutes = express.Router(),
+    buildCaseRoutes = express.Router(),
+    bizStoreRoutes = express.Router();
 
   // chatRoutes = express.Router(),
   // payRoutes = express.Router(),
@@ -69,10 +69,10 @@ module.exports = function(app) {
   apiRoutes.use('/public', publicRoutes);
 
   // upload Image and return path when try to attaching device image
-  publicRoutes.post('/image', PublicController.uploadEditorImage);
+  publicRoutes.post('/image', editorImageUpload, PublicController.uploadEditorImage);
 
-  // test - upload Image and return path when try to attaching device image
-  publicRoutes.post('/image/test', editorImageUpload, PublicController.uploadTestImage);
+  // test - upload file and return path when try to attaching device file
+  publicRoutes.post('/file/test', testFileUpload, PublicController.uploadFileTest);
 
   //=========================
   // Auth Routes
@@ -122,8 +122,14 @@ module.exports = function(app) {
   // View Build Case List from authenticated user(must get query(?pageSize={}&pageStartIndex={}) param)
   buildCaseRoutes.get('/', BuildCaseController.viewBuildCaseList);
 
+  // View Build Case Info
+  buildCaseRoutes.get('/:buildCaseIdx', BuildCaseController.viewBuildCase);
+
   // create new Build Case Info from authenticated user
-  buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCase);
+  // buildCaseRoutes.post('/', requireAuth,  testImageUpload, BuildCaseController.createBuildCaseAndVRPano);
+
+  // create new Build Case Info from authenticated user
+  buildCaseRoutes.post('/', requireAuth,  buildCaseImageUpload, BuildCaseController.createBuildCaseAndVRPano);
 
   // update Build Case Info from authenticated user
   buildCaseRoutes.put('/:buildCaseIdx', requireAuth, buildCaseImageUpload, BuildCaseController.updateBuildCase);
@@ -178,6 +184,26 @@ module.exports = function(app) {
 
   // Send email from contact form
   // communicationRoutes.post('/contact', CommunicationController.sendContactForm);
+
+  //=========================
+  // Consult Routes
+  //=========================
+  apiRoutes.use('/consult', consultRoutes);
+
+  // insert consulting information
+  consultRoutes.post('/', requireAuth, ConsultController.consultingCounsel);
+
+  // consulting information list
+  consultRoutes.get('/', ConsultController.consultingList);
+
+  // consulting information list
+  consultRoutes.get('/my/', requireAuth, ConsultController.consultingMyList);
+
+  // consulting information detail
+  consultRoutes.get('/:consultDataIdx', requireAuth, ConsultController.consultingDetail);
+
+  // modify consulting information
+  consultRoutes.put('/:consultDataIdx', requireAuth, ConsultController.consultingModify);
 
   // Set url for API group routes
   app.use('/api', apiRoutes);
