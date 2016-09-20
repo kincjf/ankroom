@@ -25,7 +25,7 @@ exports.consultingCounsel = function(req, res) {
   const lived = req.body.lived;
   const expectBuildTotalArea = req.body.expectBuildTotalArea;
   const expectBuildStartDate = moment(req.body.expectBuildStartDate).format('YYYY-MM-DD');
-  const expectConsultDate = moment(new Date(parseInt(req.body.expectConsultDate) * 1000)).format();
+  const expectConsultDate = moment(req.body.expectConsultDate).format('YYYY-MM-DD');
   const reqContents = req.body.reqContents;
 
   let consult = {
@@ -37,11 +37,12 @@ exports.consultingCounsel = function(req, res) {
 //    prefBizMemberIdx: prefBizMemberIdx, //null값으로
     buildType: buildType,
 //    prefBuildCaseInfoIdx: prefBuildCaseInfoIdx, //null값으로로    userName: userName,
+    userName: userName,
     telephone: telephone,
     email: email,
     expectBuildPrice: expectBuildPrice,
     buildPlace: buildPlace,
-//    lived: lived,  radion버튼
+    lived: lived,  //radion버튼
     expectBuildTotalArea: expectBuildTotalArea,
     expectBuildStartDate: expectBuildStartDate,
     expectConsultDate: expectConsultDate,
@@ -74,10 +75,10 @@ exports.consultingModify = function(req, res) {
   const email = req.body.email;
   const expectBuildPrice = req.body.expectBuildPrice;
   const buildPlace = req.body.buildPlace;
-  //const lived = req.body.lived; //radio버튼
+  const lived = req.body.lived; //radio버튼
   const expectBuildTotalArea = req.body.expectBuildTotalArea;
   const expectBuildStartDate = moment(req.body.expectBuildStartDate).format('YYYY-MM-DD');
-  const expectConsultDate = moment(new Date(parseInt(req.body.expectConsultDate) * 1000)).format();
+  const expectConsultDate = moment(req.body.expectConsultDate).format('YYYY-MM-DD');
   const reqContents = req.body.reqContents;
 
   let consult = { };
@@ -93,7 +94,7 @@ exports.consultingModify = function(req, res) {
   if (email) consult['email'] = email;
   if (expectBuildPrice) consult['expectBuildPrice'] = expectBuildPrice;
   if (buildPlace) consult['buildPlace'] = buildPlace;
-  //if (lived) consult['lived'] = lived; //radio버튼
+  if (lived) consult['lived'] = lived; //radio버튼
   if (expectBuildTotalArea) consult['expectBuildTotalArea'] = expectBuildTotalArea;
   if (expectBuildStartDate && expectBuildStartDate != "Invalid date") consult['expectBuildStartDate'] = expectBuildStartDate;
   if (expectConsultDate && expectConsultDate != "Invalid date") consult['expectConsultDate'] = expectConsultDate;
