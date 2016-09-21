@@ -23,6 +23,7 @@ import { BuildCaseDetail } from './buildCase/detail/detail';
 import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCounsel';
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
+import { ConsultingChange} from './consulting/consultingchange/consultingchange';
 
 export const routes: RouterConfig = [
   { path: '',       component:  MainPage },  // 메인 페이지 화면
@@ -51,5 +52,6 @@ export const routes: RouterConfig = [
   { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담
   { path: 'consultingDetail',   component: ConsultingDetail },  // URL/consultingDetail : 컨설팅 정보 상세보기
   { path: 'consultingInfo',   component: ConsultingInfo },  // URL/consultingInfo : 내 컨설팅 정보조회
+  { path: 'consultingChange',  component: ConsultingChange},
   { path: '**',     component: MainPage }    // 라우터 설정에 없는 URL이 입력 되었을때  :  메인페이지로 이동
 ];
