@@ -21,7 +21,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">제목</label>
               <div class="col-sm-10">
-                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text"></p>
+                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text" value="{{currenttitle}}"></p>
               </div>
             </div>
 
@@ -45,7 +45,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">이름</label>
               <div class="col-sm-4">
-                <input type="text" #userName class="form-control" placeholder="Text">
+                <input type="text" #userName class="form-control" placeholder="Text" value="{{currentuserName}}">
               </div>
             </div>
 
@@ -55,7 +55,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">연락처</label>
               <div class="col-sm-4">
-                <input type="text" #telephone class="form-control" placeholder="010-****-****">
+                <input type="text" #telephone class="form-control" placeholder="010-****-****" value="{{currenttelephone}}">
               </div>
             </div>
 
@@ -66,7 +66,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">이메일</label>
               <div class="col-sm-4">
-                <input type="text" #email class="form-control">
+                <input type="text" #email class="form-control" value="{{currentemail}}">
               </div>
               <label class="col-sm-2 formcontrol-label">@</label>
               <div class="col-sm-4">
@@ -85,7 +85,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사예산</label>
               <div class="col-sm-4">
-                <input type="text" #expectBuildPrice class="form-control" id="inputMoney">
+                <input type="number" #expectBuildPrice class="form-control" id="inputMoney" value="{{currentexpectBuildPrice}}">
               </div>
               <label class="col-sm-2 form-control-label">만원</label>
             </div>
@@ -98,7 +98,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사지주소</label>
               <div class="col-sm-4">
-                <input type="text" #buildPlace class="form-control" id="inputAdress">
+                <input type="text" #buildPlace class="form-control" id="inputAdress" value="{{currentbuildPlace}}">
               </div>
             </div>
 
@@ -125,7 +125,7 @@
 
               <label class="col-sm-2 form-control-label">평수입력</label>
               <div class="col-sm-4">
-                <input type="number" #expectBuildTotalArea class="form-control">
+                <input type="number" #expectBuildTotalArea class="form-control" value="{{currentexpectBuildTotalArea}}">
               </div>
             </div>
 
@@ -134,11 +134,11 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사예정일</label>
               <div class="col-sm-4">
-                <input type="Date" #expectBuildStartDate class="form-control">
+                <input type="Date" #expectBuildStartDate class="form-control" value="{{currentexpectBuildStartDate}}">
               </div>
               <label class="col-sm-2 form-control-label">상담희망일</label>
               <div class="col-sm-4">
-                <input type="Date" #expectConsultDate class="form-control">
+                <input type="Date" #expectConsultDate class="form-control" value="{{currentexpectConsultDate}}">
               </div>
             </div>
           </div>
@@ -153,7 +153,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-12">
-              <textarea rows="15" #reqContents class="form-control"></textarea>
+              <textarea rows="15" #reqContents class="form-control" value="{{currentreqContents}}"></textarea>
             </div>
           </div>
         </div>
