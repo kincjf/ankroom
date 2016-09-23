@@ -29,17 +29,13 @@
                     aria-expanded="false">
               <img src="src/assets/img/avatar-2-64.png" alt="">
             </button>
+            <!-- *ngIf과 jwt값을 이용하여 로그인 여부를 판단하여 보여지는 메뉴를 다르게 하기 -->
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>내 정보</a>
-              <a class="dropdown-item" href="/buildcaselately"><span
-                class="font-icon glyphicon glyphicon-book"></span>최근
-                본 사례 조회</a>
-              <a class="dropdown-item" href="/buildcaseselected"><span
-                class="font-icon glyphicon glyphicon-check"></span>찜한 사례 조회</a>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
+              <a class="dropdown-item" *ngIf="!jwt" href="/login"><span class="font-icon glyphicon glyphicon-user"></span>로그인</a>
+              <a class="dropdown-item" *ngIf="!jwt" href="/signup"><span class="font-icon glyphicon glyphicon-user"></span>회원가입</a>
+              <a class="dropdown-item" *ngIf="jwt" href="/change"><span class="font-icon glyphicon glyphicon-user"></span>회원정보수정</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>회원정보수정</a>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+              <a class="dropdown-item" *ngIf="jwt" href="#" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
             </div>
           </div>
         </div>
@@ -58,14 +54,22 @@
   <li class="nav-item">
     <a class="nav-link" routerLink="/mainPage" routerLinkActive="active">Home</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/buildcaselist" routerLinkActive="active">시공사례보기</a>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">시공사례</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/buildcaseinput">시공사례입력</a>
+      <a class="dropdown-item" href="/buildcaselist">시공사례조회</a>
+    </div>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">컨설팅</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="/consultingCounsel">컨설팅상담</a>
+      <a class="dropdown-item" href="/consultingInfo">컨성팅조회</a>
+    </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/buildcaseinput" routerLinkActive="active">시공사례등록</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/consultingCounsel" routerLinkActive="active">컨설팅상담</a>
+    <a class="nav-link" routerLink="/businesslist" routerLinkActive="active">시공업체조회</a>
   </li>
 </ul>
 <!-- 사이드 바  -->
