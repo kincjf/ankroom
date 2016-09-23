@@ -52,8 +52,7 @@ export class ConsultingDetail {
       .subscribe(
         response => {
           this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
-          console.log(this.data);
-          console.log(this.data.consult.title);
+
           this.idx = this.data.consult.idx;
           this.title = this.data.consult.title;
           this.prefBizMemberIdx = this.data.consult.prefBizMemberIdx;

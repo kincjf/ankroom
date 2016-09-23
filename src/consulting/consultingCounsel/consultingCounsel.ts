@@ -30,10 +30,11 @@ export class ConsultingCounsel {
 
   //컨설팅 정보입력을 위한 함수이다.
   //제목, 선호업체명, 선호시공사례, 작성자성함, 연락처, 이메일, 예상 공사예산, 공사지 주소, 거주여부, 예상공사면적, 예상공사예정일, 방문상담희망일, 공사요청사항
-  consultingRegister(event, title, buildType, userName, telephone, email,domain, expectBuildPrice, buildPlace, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
+  consultingRegister(event, title, buildType, userName, telephone, email, domain, expectBuildPrice, buildPlace, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
       event.preventDefault();
       //lived에 들어갈 radio버튼에서 체크된 값 가져오기
       var lived 		= $(':radio[name="optionsRadios"]:checked').val();
+      //email과 domain 합쳐서 저장하기
       email = email + '@' + domain;
       //html받은 값들을 json형식으로 저장
       let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});

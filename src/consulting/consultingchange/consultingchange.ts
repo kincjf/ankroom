@@ -21,19 +21,19 @@ export class ConsultingChange {
   decodedJwt: string;
   public data;
   idx: number;
-  currenttitle: string;
-  currentprefBizMemberIdx: number;
-  currentuserName: string;
-  currenttelephone: string;
-  currentemail: string;
-  currentbuildType: string;
-  currentbuildPlace: string;
-  currentlived: number;
-  currentexpectBuildTotalArea: number;
-  currentexpectBuildPrice: number;
-  currentexpectConsultDate: Date;
-  currentexpectBuildStartDate: Date;
-  currentreqContents: string;
+  currentTitle: string;
+  currentPrefBizMemberIdx: number;
+  currentUserName: string;
+  currentTelephone: string;
+  currentEmail: string;
+  currentBuildType: string;
+  currentBuildPlace: string;
+  currentLived: number;
+  currentExpectBuildTotalArea: number;
+  currentExpectBuildPrice: number;
+  currentExpectConsultDate: Date;
+  currentExpectBuildStartDate: Date;
+  currentReqContents: string;
 
   consulting: number;
 
@@ -49,20 +49,23 @@ export class ConsultingChange {
       .subscribe(
         response => {
           this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
+
           this.idx = this.data.consult.idx;
-          this.currenttitle = this.data.consult.title;
-          this.currentprefBizMemberIdx = this.data.consult.prefBizMemberIdx;
-          this.currentuserName = this.data.consult.userName;
-          this.currenttelephone = this.data.consult.telephone;
-          this.currentemail = this.data.consult.email;
-          this.currentbuildType = this.data.consult.buildType;
-          this.currentbuildPlace = this.data.consult.buildPlace;
-          this.currentlived = this.data.consult.lived;
-          this.currentexpectBuildTotalArea = this.data.consult.expectBuildTotalArea;
-          this.currentexpectBuildPrice = this.data.consult.expectBuildPrice;
-          this.currentexpectConsultDate = this.data.consult.expectConsultDate;
-          this.currentexpectBuildStartDate = this.data.consult.expectBuildStartDate;
-          this.currentreqContents = this.data.consult.reqContents;
+
+          //현재 수정할 정보를 불러오기
+          this.currentTitle = this.data.consult.title;
+          this.currentPrefBizMemberIdx = this.data.consult.prefBizMemberIdx;
+          this.currentUserName = this.data.consult.userName;
+          this.currentTelephone = this.data.consult.telephone;
+          this.currentEmail = this.data.consult.email;
+          this.currentBuildType = this.data.consult.buildType;
+          this.currentBuildPlace = this.data.consult.buildPlace;
+          this.currentLived = this.data.consult.lived;
+          this.currentExpectBuildTotalArea = this.data.consult.expectBuildTotalArea;
+          this.currentExpectBuildPrice = this.data.consult.expectBuildPrice;
+          this.currentExpectConsultDate = this.data.consult.expectConsultDate;
+          this.currentExpectBuildStartDate = this.data.consult.expectBuildStartDate;
+          this.currentReqContents = this.data.consult.reqContents;
         },
         error => {
           alert(error.text());
@@ -73,10 +76,12 @@ export class ConsultingChange {
   }
 
 
-  consultingchanging(event, title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
+  consultingchanging(event, title, buildType, userName, telephone, email, domain, expectBuildPrice, buildPlace, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
     event.preventDefault();
     //lived에 들어갈 radio버튼에서 체크된 값 가져오기
     var lived 		= $(':radio[name="optionsRadios"]:checked').val();
+    //email과 domain합치기
+    email = email + '@' + domain;
     //html받은 값들을 json형식으로 저장
     let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
 
@@ -94,6 +99,7 @@ export class ConsultingChange {
       );
 
   }
+
   cancel(){
     contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
   }

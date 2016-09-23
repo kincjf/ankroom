@@ -18,12 +18,11 @@ const template = require('./listCheck.html');
 export class ListCheck {
   jwt: string;
   public data;
+
   pageSize: number;
   pageStartIndex: number;
   selectedmemberIdx: number;
-  // companyName: string = "Asdf";
-  // aboutCompanyShort: string = "asdf";
-  // memberIdx: number = 2;
+
   returnedDatas = [];
 
   constructor(public router: Router, public http: Http) {
@@ -35,16 +34,9 @@ export class ListCheck {
       .subscribe(
         response => {
           this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
-          console.log(this.data);
-
 
           //for of문으로 for–of 루프 구문은 배열의 요소들, 즉 data를 순회하기 위한 구문입니다.
           for(var bizUser of response.bizUserInfo) {
-            // this.companyName = this.data.bizUserInfo[i].companyName;
-            // this.aboutCompanyShort = this.data.bizUserInfo[i].aboutCompanyShort;
-            // this.memberIdx = this.data.bizUserInfo[i].memberIdx;
-
-
             //returnDatas에 bizUser의 정보를 data의 수만큼 받아온다.
             this.returnedDatas.push({
               memberIdx: bizUser.memberIdx,
@@ -53,7 +45,6 @@ export class ListCheck {
             });
           }
 
-          console.log(this.returnedDatas);
         },
         error => {
           alert(error.text());
@@ -67,10 +58,6 @@ export class ListCheck {
   onSelectBizList(bizUser: bizUserInfo): void {
     this.selectedmemberIdx = bizUser;//bizUser는 클릭한 업체의 정보를 가지고 있고 이 정보를 selectedmemberIdx로 옮겼다.
     localStorage.setItem('bizUserDetail',bizUser.memberIdx);
-    //console.log(this.selectedmemberIdx);
-    console.log(bizUser.memberIdx);
-    console.log(localStorage.getItem('bizUserDetail'));
-    //this.router.navigate(['/listDetailInfo']);
     //서버로부터 응답 성공시 home으로 이동
   }
 }
