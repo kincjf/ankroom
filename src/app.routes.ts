@@ -20,6 +20,9 @@ import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelect
 import { BuildCaseList } from './buildCase/buildCaseList/buildCaseList';
 import { BuildCaseDetail } from './buildCase/detail/detail';
 
+import { ListCheck } from './businessList/listCheck/listCheck';
+import { ListDetailinfo } from './businessList/listDetailinfo/listDetailinfo';
+
 import { ConsultingCounsel } from './consulting/consultingCounsel/consultingCounsel';
 import { ConsultingDetail } from './consulting/consultingDetail/consultingDetail';
 import { ConsultingInfo } from './consulting/consultingInfo/consultingInfo';
@@ -49,9 +52,12 @@ export const routes: RouterConfig = [
   { path: 'home',   component: Home, canActivate: [AuthGuard] },  //URL/home : 로그인 결과 테스트
   { path: 'mainPage',   component: MainPage },  // URL/mainPage : 메인페이지
 
+  { path: 'listCheck',   component: ListCheck },  // URL/listCheck : 업체목록조회하기
+  { path: 'listDetailinfo',   component: ListDetailinfo },  // URL/listDetailinfo : 업체목록 상세보기
+
   { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담
   { path: 'consultingDetail',   component: ConsultingDetail },  // URL/consultingDetail : 컨설팅 정보 상세보기
   { path: 'consultingInfo',   component: ConsultingInfo },  // URL/consultingInfo : 내 컨설팅 정보조회
-  { path: 'consultingChange',  component: ConsultingChange},
+  { path: 'consultingChange',  component: ConsultingChange},  // URL/consultingChange : 컨설팅 정보변경
   { path: '**',     component: MainPage }    // 라우터 설정에 없는 URL이 입력 되었을때  :  메인페이지로 이동
 ];

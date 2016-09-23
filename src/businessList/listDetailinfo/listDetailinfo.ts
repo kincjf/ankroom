@@ -20,6 +20,7 @@ export class ListDetailinfo {
   decodedJwt: string;
   jwt:string;
   public data;
+
   companyName:string;
   aboutCompany:string;
   mainWorkField:string;
@@ -41,7 +42,6 @@ export class ListDetailinfo {
       .subscribe(
         response => {
           this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
-          console.log(this.bizUser);
           this.companyName = this.data.bizUserInfo.companyName;
           this.aboutCompany = this.data.bizUserInfo.aboutCompany;
           this.mainWorkField = this.data.bizUserInfo.mainWorkField;
@@ -55,13 +55,5 @@ export class ListDetailinfo {
       )
 
   }
-
-  //업체목로 불러오기 (회사이름, 주요시공분야, 시공지역)
-  //만들어 놨는데 막상 보니 쓸데가 없음
-  callcompanylist(event, companyNames, mainworkFields, mainWorkAreas) {
-
-  }
-
-
 
 }
