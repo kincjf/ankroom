@@ -370,13 +370,16 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
 }
 
 
-// 동일 중복 파일을 체크할 수 있도록 개발해야함
-// Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
-// 현재 상황으로는 특히 VR Panorama에 대한 수정시 다시 만들어야되는 결함이 있다.
+// 1. 동일 중복 파일을 체크할 수 있도록 개발해야함
+// 2. Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
+// 3. 현재 상황으로는 특히 VR Panorama에 대한 수정시 다시 만들어야되는 결함이 있다.
 // 일단 중복으로 파일 수정이 되어 VR파노라마가 생성되게 하고,
 // 차후에 파일이 중복으로 첨부되었을 경우, 중복 처리를 통해서 업로드 되지 않게 한다.
 // vrpano module을 수정하여 자체적으로 module을 만드는 방벋도 고려해야한다.
 // multer({fileFilter})를 이용하기.
+// 5. 현재는 VR파노라마는 수정이 되지 않음.
+// VR 파노라마를 변경하고 싶을 경우, 삭제하고 다시 BuildCase를 만들것!
+//
 /**
  * 시공 사례 수정
  * @param req
@@ -405,16 +408,16 @@ exports.updateBuildCase = function (req, res, next) {
     previewImagePath = req.files['previewImage'][0].name;
   }
 
-  let vrImagePath;
-  if (req.files['vrImage']) {
-    vrImagePath = [];
-
-    _forEach(req.files['vrImage'], function (file, key) {
-      if (file) {
-        vrImagePath.push(file.name);
-      }
-    });
-  }
+  // let vrImagePath;
+  // if (req.files['vrImage']) {
+  //   vrImagePath = [];
+  //
+  //   _forEach(req.files['vrImage'], function (file, key) {
+  //     if (file) {
+  //       vrImagePath.push(file.name);
+  //     }
+  //   });
+  // }
 
   const buildCase = {
     memberIdx: req.user.idx,
@@ -425,7 +428,6 @@ exports.updateBuildCase = function (req, res, next) {
     mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
     buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
     HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)
   }
 
   // return Array[0] = affectedRows
@@ -522,7 +524,7 @@ exports.deleteBuildCase = function (req, res, next) {
   const buildCaseIdx = _.toNumber(req.params.buildCaseIdx);
 
   // return numOfRows = The number of destroyed rows
-  BusinessMember.destroy({where: {idx: buildCaseIdx}}).then(function (numOfRows) {
+  BuildCaseInfoBoard.destroy({where: {idx: buildCaseIdx}}).then(function (numOfRows) {
     res.status(200).json({
       msg: 'deleted ' + numOfRows + ' rows',
       statusCode: 1
