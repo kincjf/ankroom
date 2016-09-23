@@ -19,14 +19,14 @@
           <label class="col-sm-2 form-control-label">공사명</label>
           <div class="col-sm-10">
             <p class="form-control-static">
-              <input type="text" #inputTitle class="form-control" name="title" placeholder="공사명" value={{title}}>
+              <input type="text" #inputTitle class="form-control" name="title" placeholder="공사명" value={{title}} required>
             </p>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사구분</label>
           <div class="col-sm-10">
-            <select class="form-control" name="inputBuildType">
+            <select class="form-control" #inputBuildType>
               <option *ngFor="let buildTypeValue of inputBuildTypes" [ngValue]="buildTypeValue">{{buildTypeValue.name}}</option>
             </select>
           </div>
@@ -62,12 +62,12 @@
             <div>
               VR 이미지
               <input type="file" name="vrImage" (change)="selectVRImage($event)"  multiple /><br/>
-
+              <p *ngIf="VRImages">기존 VR 이미지 : {{VRImages.originalImage}} </p>
             </div>
             <div>
               대표 이미지
-              <input type="file"  name="previewImage" (change)="selectPreviewImage($event)" /><br/>
-
+              <input type="file"  name="previewImage" (change)="selectPreviewImage($event)"/><br/>
+              <p *ngIf="mainPreviewImage">기존 대표 이미지 : {{mainPreviewImage}} </p>
             </div>
           </div>
 

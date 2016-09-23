@@ -48,19 +48,17 @@ export class BuildCaseUpdate {
   mainWorkArea: string;
   conmpanyIntroImage: string;
 
+  private uploader:MultipartUploader;
+  multipartItem:MultipartItem;
+  private vrImage: File;
+  private previewImage: File;
+
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el:ElementRef) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     this.memberType = this.decodedJwt.memberType;
 //    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
-    this.multipartItem.formData = new FormData();
   }
-
-  private uploader:MultipartUploader = new MultipartUploader({url: URL});
-  multipartItem:MultipartItem = new MultipartItem(this.uploader);
-
-  private vrImage: File;
-  private previewImage: File;
 
   updateBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice) {
     event.preventDefault();
@@ -71,10 +69,14 @@ export class BuildCaseUpdate {
 //    var previewImage = jQuery(this.el.nativeElement).find("input[name=previewImage]")[0].files[0];
 
     //파일 업로더를 위한 설정 값들 선언
+    this.uploader = new MultipartUploader({url: 'http://localhost:3001/api/build-case/' + this.selectedId, authToken: this.jwt});
+    this.multipartItem = new MultipartItem(this.uploader);
+    this.multipartItem.formData = new FormData();
     this.multipartItem.headers = contentHeaders;
     this.multipartItem.withCredentials = false;
     this.multipartItem.method = 'PUT';
-    this.uploader.authToken = this.jwt;
+
+    console.log(this.multipartItem);
 
 
     if (this.memberType != confirmMemberType) {

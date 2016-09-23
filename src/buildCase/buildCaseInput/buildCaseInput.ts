@@ -78,7 +78,8 @@ export class BuildCaseInput {
         this.vrImage = null;
         this.previewImage = null;
         if (data){
-          console.debug("home.ts & uploadCallback() upload file success.");
+          console.debug("home.ts & uploadCallback() upload file success.")
+          this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
         }else{
           console.error("home.ts & uploadCallback() upload file false.");
         }
