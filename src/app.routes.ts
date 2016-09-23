@@ -6,8 +6,6 @@ import { Change } from './member/change';
 
 import { BusinessNormalChange } from './member/businessNormalchange';
 import { NormalSignup } from './member/normalSignup';
-import { BuildCaseInput} from './buildCase/buildCaseInput';
-import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
 import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
 import { BusinessSignupChange } from './member/businessSignupchange';
@@ -15,6 +13,9 @@ import { BusinessSignupChange } from './member/businessSignupchange';
 import { AuthGuard } from './common/auth.guard';
 import { MainPage} from './common/mainPage/mainPage';
 
+import { BuildCaseInput} from './buildCase/buildCaseInput';
+import { BuildCaseUpdate} from './buildCase/buildCaseUpdate/buildCaseUpdate';
+import { BuildCaseCase } from './buildCase/buildCaseCase/buildCaseCase';
 import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
 import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
 import { BuildCaseList } from './buildCase/buildCaseList/buildCaseList';
@@ -40,6 +41,7 @@ export const routes: RouterConfig = [
   { path: 'businesssignupchange', component: BusinessSignupChange },  // URL/businesssignupchange : 사업주 회원정보변경
 
   { path: 'buildcaseinput', component: BuildCaseInput },  // URL/buildcaseinput : 시공사례입력
+  { path: 'buildcaseupdate/:buildCaseIdx', component: BuildCaseUpdate },  // URL/buildcaseinput : 시공사례수정
   { path: 'buildcasecase', component: BuildCaseCase },  // URL/buildcasecase : 시공사례 검색 결과
   { path: 'buildcaselately', component: BuildCaseLately },  // URL/buildcaselately : 최근 본 시공사례 조회
   { path: 'buildcaseselected', component: BuildCaseSelected },  // URL/buildcaseselected : 찜 한 시공사례 조회

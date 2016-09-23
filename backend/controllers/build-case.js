@@ -522,7 +522,7 @@ exports.deleteBuildCase = function (req, res, next) {
   const buildCaseIdx = _.toNumber(req.params.buildCaseIdx);
 
   // return numOfRows = The number of destroyed rows
-  BusinessMember.destroy({where: {idx: buildCaseIdx}}).then(function (numOfRows) {
+  BuildCaseInfoBoard.destroy({where: {idx: buildCaseIdx}}).then(function (numOfRows) {
     res.status(200).json({
       msg: 'deleted ' + numOfRows + ' rows',
       statusCode: 1
