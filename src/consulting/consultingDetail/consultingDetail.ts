@@ -81,11 +81,8 @@ export class ConsultingDetail implements AfterViewInit {
           //서버로 부터 응답 실패시 경고창
         }
       )
-
-
-
-
   }
 
-
+  ngAfterViewInit() {
+  }
 }

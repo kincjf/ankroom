@@ -14,7 +14,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'Member',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL"
     },
     title: {
       type: DataTypes.STRING(200),

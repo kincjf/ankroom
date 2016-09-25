@@ -8,7 +8,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'Member',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE"
     },
     buildCaseInfoIdx: {
       type: DataTypes.INTEGER(10),
@@ -16,7 +18,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'BuildCaseInfoBoard',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE"
     }
   }, {
     // don't add the timestamp attributes (updatedAt, createdAt)

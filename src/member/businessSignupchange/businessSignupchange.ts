@@ -23,8 +23,6 @@ export class BusinessSignupChange {
   mainWorkFields:string;
   mailWorkAreas:string;
 
-
-
   constructor(public router: Router, public http: Http) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
@@ -76,6 +74,7 @@ export class BusinessSignupChange {
           }
         );
     }
+
   cancel(){
     contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
   }

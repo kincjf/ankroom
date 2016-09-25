@@ -72,11 +72,12 @@ export class BuildCaseDetail {
       .subscribe(
         response => {
           if(response.statusCode == 1){
+            alert("삭제 되었습니다.");
             this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
           }
         },
         error => {
-          alert(error.text());
+          alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
           console.log(error.text());
           //서버로 부터 응답 실패시 경고창
         }

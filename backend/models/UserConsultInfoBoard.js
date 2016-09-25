@@ -14,7 +14,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'Member',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE"
     },
     title: {
       type: DataTypes.STRING(200),
@@ -36,7 +38,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'BusinessMember',
         key: 'memberIdx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL"
     },
     buildType: {
       type: DataTypes.STRING(300),
@@ -48,7 +52,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'BuildCaseInfoBoard',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL"
     },
     userName: {
       type: DataTypes.STRING(200),

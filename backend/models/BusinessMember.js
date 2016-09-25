@@ -9,7 +9,9 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'Member',
         key: 'idx'
-      }
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE"
     },
     companyName: {
       type: DataTypes.STRING(200),
