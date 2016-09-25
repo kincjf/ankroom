@@ -67,21 +67,23 @@ export class BuildCaseDetail {
 
   // 시공사례 삭제
   onDelBuildCase() {
-    this.http.delete('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
-      .map(res => res.json())//받아온 값을 json형식으로 변경
-      .subscribe(
-        response => {
-          if(response.statusCode == 1){
-            alert("삭제 되었습니다.");
-            this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+    if (confirm("삭제 하시겠습니까?")) {
+      this.http.delete('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
+        .map(res => res.json())//받아온 값을 json형식으로 변경
+        .subscribe(
+          response => {
+            if(response.statusCode == 1){
+              alert("삭제 되었습니다.");
+              this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+            }
+          },
+          error => {
+            alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
+            console.log(error.text());
+            //서버로 부터 응답 실패시 경고창
           }
-        },
-        error => {
-          alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
-          console.log(error.text());
-          //서버로 부터 응답 실패시 경고창
-        }
-      )
+        )
+    }
   }
 
   //시공사례 수정으로 이동

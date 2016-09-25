@@ -8,14 +8,12 @@
 > Clone this repository as well as [the server](https://github.com/auth0/nodejs-jwt-authentication-sample) for this example.
 
 ## Running it
+* Client Port : `3000(development)/80(production)`
+* Server Port : `3001`
 
-* Server Port/Client Port : `3001`/`3000`
+Please check package.json
 
-
-Then, run `npm install` on this project and run `npm start` to start the app. Then just navigate to [http://localhost:3000](http://localhost:3000) :boom:
-And Use `npm run server` to run API server.
-
-#####* 결론 : Front-end 실행을 위해서 "npm start" 먼저 실행 후 Back-end 서버 실행을 위해서 "npm run server" 실행
+#####* 결론 : backend 먼저 실행 후 Front-end 실행
 
 
 ## Issue Reporting

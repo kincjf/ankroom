@@ -118,7 +118,7 @@ export class BuildCaseInput {
 
     // viewChild is set after the view has been initialized
     jQuery(this.el.nativeElement).find('.summernote').summernote({
-      height: 300,                 // set editor height
+      height: 600,                 // set editor height
       minHeight: null,             // set minimum height of editor
       maxHeight: null,             // set maximum height of editor
       focus: true,

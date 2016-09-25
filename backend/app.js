@@ -1,6 +1,6 @@
 'use strict';
 
-var logger        = require('morgan'),
+var morgan        = require('morgan'),
   cors            = require('cors'),
   http            = require('http'),
   express         = require('express'),
@@ -55,8 +55,9 @@ app.use(function(err, req, res, next) {
 });
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(express.logger('dev'));
-  app.use(errorhandler())
+  // app.use(express.logger('dev'));    // 3.X 버전에서만 실행되고 4.X 버전에서는 에러 발생.
+  app.use(morgan('dev'));   // 고로, 4.X 버전에서는 morgan을 사용해야 함. logger와 같은 역할
+  app.use(errorhandler());
 }
 
 // Import routes to be served

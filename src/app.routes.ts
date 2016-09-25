@@ -20,7 +20,6 @@ import { MainPage} from './common/mainPage/mainPage';
 import { BuildCaseInput} from './buildCase/buildCaseInput';
 import { BuildCaseUpdate} from './buildCase/buildCaseUpdate/buildCaseUpdate';
 import { BuildCaseLately } from './buildCase/buildCaseLately/buildCaseLately';
-import { BuildCaseSelected } from './buildCase/buildCaseSelected/buildCaseSelected';
 import { BuildCaseList } from './buildCase/buildCaseList/buildCaseList';
 import { BuildCaseDetail } from './buildCase/detail/detail';
 
@@ -50,7 +49,6 @@ export const routes: RouterConfig = [
   { path: 'buildcaseinput', component: BuildCaseInput },  // URL/buildcaseinput : 시공사례입력
   { path: 'buildcaseupdate/:buildCaseIdx', component: BuildCaseUpdate },  // URL/buildcaseinput : 시공사례수정
   { path: 'buildcaselately', component: BuildCaseLately },  // URL/buildcaselately : 최근 본 시공사례 조회
-  { path: 'buildcaseselected', component: BuildCaseSelected },  // URL/buildcaseselected : 찜 한 시공사례 조회
   { path: 'buildcaselist', component: BuildCaseList },  // URL/buildcaselist : 시공사례 조회
   { path: 'buildcasedetail/:buildCaseIdx', component: BuildCaseDetail },  // URL/buildcasedetail : 시공사례 상세보기
 
