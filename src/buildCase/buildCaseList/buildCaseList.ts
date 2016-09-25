@@ -26,9 +26,13 @@ export class BuildCaseList {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+  }
+
+  ngAfterViewInit() {
     this.pageSize= 10;
     this.pageStartIndex=0;
 
+    //현재 DB에 저장된 시공사례 글을 pageSize와 pageStartIndex를 이용하면 필요 갯수 만큼 가져옴
     this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex , {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(

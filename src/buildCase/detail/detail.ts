@@ -15,6 +15,8 @@ const template = require('./detail.html');
 })
 
 export class BuildCaseDetail {
+  jwt:string;
+  public decodedJwt;
   public selectedId:number;
 
   public data;
@@ -34,9 +36,6 @@ export class BuildCaseDetail {
   mainWorkField: string;
   mainWorkArea: string;
   conmpanyIntroImage: string;
-
-  jwt:string;
-  public decodedJwt;
 
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기

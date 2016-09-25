@@ -10,6 +10,9 @@ import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
 import { BusinessSignupChange } from './member/businessSignupchange';
 
+import { ListCheck } from './businessList/listCheck/listCheck';
+import { ListDetailinfo } from './businessList/listDetailinfo/listDetailinfo';
+
 import { AuthGuard } from './common/auth.guard';
 import { MainPage} from './common/mainPage/mainPage';
 
@@ -42,6 +45,9 @@ export const routes: RouterConfig = [
 
   { path: 'businesssignup', component: BusinessSignup },  // URL/businesssignup : 사업주회원가입
   { path: 'businesssignupchange', component: BusinessSignupChange },  // URL/businesssignupchange : 사업주 회원정보변경
+
+  { path: 'businesslist', component: ListCheck },  // URL/businesslist : 사업주 목록 조회
+  { path: 'businessdetail', component: ListDetailinfo },  // URL/businessdetail : 사업주 상세보기
 
   { path: 'buildcaseinput', component: BuildCaseInput },  // URL/buildcaseinput : 시공사례입력
   { path: 'buildcaseupdate/:buildCaseIdx', component: BuildCaseUpdate },  // URL/buildcaseinput : 시공사례수정
