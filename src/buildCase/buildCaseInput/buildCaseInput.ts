@@ -11,7 +11,6 @@ import { EditorImageUploader } from "../../common/editor-image-uploader";
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseInput.html');
 const URL = 'http://localhost:3001/api/build-case';
-const imageURL = 'http://localhost:3001/api/public/image/test';
 
 @Component({
   selector: 'buildCaseInput',
@@ -25,31 +24,30 @@ export class BuildCaseInput {
   public decodedJwt;
   public data;
   memberType: string;
+  inputBuildTypes = [
+    {name: '주거공간'},
+    {name: '상업공간'},
+    {name: '기타'}
+  ];
+
+  private uploader:MultipartUploader = new MultipartUploader({url: URL});
+  multipartItem:MultipartItem = new MultipartItem(this.uploader);
+  private vrImage: File;
+  private previewImage: File;
 
   constructor(public router: Router, public http: Http, private el:ElementRef) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     this.memberType = this.decodedJwt.memberType;
-//    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
-    this.multipartItem.formData = new FormData();
   }
 
-  private uploader:MultipartUploader = new MultipartUploader({url: URL});
-  multipartItem:MultipartItem = new MultipartItem(this.uploader);
-
-
-  // uploadCallback : (data) => void;
-
-  private vrImage: File;
-  private previewImage: File;
-
-  addBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice) {
-    event.preventDefault();
-
+  addBuildCase(event, title, inputBuildType, buildPlace, buildTotalArea, buildTotalPrice) {
     var confirmMemberType = "2"; // 2:사업주
     var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');// 섬머노트 이미지 업로드는 추후에 변경예정
 //    var vrImage = jQuery(this.el.nativeElement).find("input[name=vrImage]")[0].files[0];
 //    var previewImage = jQuery(this.el.nativeElement).find("input[name=previewImage]")[0].files[0];
+
+    //파일 업로더를 위한 설정 값들 선언
     this.multipartItem.headers = contentHeaders;
     this.multipartItem.withCredentials = false;
     this.uploader.authToken = this.jwt;
@@ -66,7 +64,7 @@ export class BuildCaseInput {
         this.multipartItem.formData = new FormData();
 
       this.multipartItem.formData.append("title", title );
-      this.multipartItem.formData.append("buildType", buildType );
+      this.multipartItem.formData.append("buildType", inputBuildType );
       this.multipartItem.formData.append("buildPlace", buildPlace );
       this.multipartItem.formData.append("buildTotalArea", buildTotalArea );
       this.multipartItem.formData.append("buildTotalPrice", buildTotalPrice );
@@ -116,6 +114,8 @@ export class BuildCaseInput {
   }
 
   ngAfterViewInit() {
+    this.multipartItem.formData = new FormData();
+
     // viewChild is set after the view has been initialized
     jQuery(this.el.nativeElement).find('.summernote').summernote({
       height: 300,                 // set editor height
@@ -128,7 +128,6 @@ export class BuildCaseInput {
         }
       }
     });
-
   }
 }
 

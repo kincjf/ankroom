@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {Http, Headers} from '@angular/http';
+import { contentHeaders } from './common/headers';
 
 const template = require('./app.html');
 
@@ -24,6 +25,8 @@ export class App {
   logout() {
     //html받은 값들을 json형식으로 저장
     localStorage.removeItem('id_token');
+    contentHeaders.delete('Authorization');
+
     alert("로그아웃 되었습니다.");
 
     this.router.navigate(['/']);

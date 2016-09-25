@@ -21,7 +21,16 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">제목</label>
               <div class="col-sm-10">
-                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text"></p>
+                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text" required></p>
+              </div>
+            </div>
+
+            <!--선호업체명-->
+            <!--추후에 server의 데이터를 가져와서 선택하도록 수정 예정-->
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">선호업체명</label>
+              <div class="col-sm-10">
+                <p class="form-control-static"><input type="number" class="form-control" placeholder="Text" required></p>
               </div>
             </div>
 
@@ -32,10 +41,9 @@
               <label for="exampleSelect" class="col-sm-2 form-control-label">공사구분</label>
               <div class="col-sm-5">
                 <select #buildType class="form-control" id="exampleSelect">
-                  <option value="1">예제1</option>
-                  <option value="2">예제2</option>
-                  <option value="3">예제3</option>
-                  <option value="4">예제4</option>
+                  <option>주거공간</option>
+                  <option>상업공간</option>
+                  <option>기타</option>
                 </select>
               </div>
             </div>
@@ -98,7 +106,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사지주소</label>
               <div class="col-sm-4">
-                <input type="text" #buildPlace class="form-control" id="inputAdress">
+                <input type="text" #buildPlace class="form-control" id="inputAdress" required>
               </div>
             </div>
 

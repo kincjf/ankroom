@@ -14,22 +14,20 @@
 
       <h5 class="m-t-lg with-border">시공사례 입력</h5>
 
-      <form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="addBuildCase($event, title.value, buildType.value, buildPlace.value, buildTotalArea.value, buildTotalPrice.value)">
+      <form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="addBuildCase($event, title.value, inputBuildType.value, buildPlace.value, buildTotalArea.value, buildTotalPrice.value)">
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사명</label>
           <div class="col-sm-10">
             <p class="form-control-static">
-              <input type="text" #title class="form-control" name="title" placeholder="공사명">
+              <input type="text" #title class="form-control" name="title" placeholder="공사명" required>
             </p>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사구분</label>
           <div class="col-sm-10">
-            <select #buildType name="buildType" class="form-control">
-              <option>주거공간</option>
-              <option>상업공간</option>
-              <option>기타</option>
+            <select class="form-control" #inputBuildType>
+              <option *ngFor="let buildTypeValue of inputBuildTypes" [ngValue]="buildTypeValue">{{buildTypeValue.name}}</option>
             </select>
           </div>
         </div>
@@ -83,24 +81,3 @@
   </div><!--.container-fluid-->
 </div><!--.page-content-->
 <!--<script>-->
-
-  <!--var ready = false;-->
-  <!--var editor;-->
-
-  <!--$(document).ready(function() {-->
-    <!--$('.summernote').summernote({-->
-      <!--height: 300,                 // set editor height-->
-      <!--minHeight: null,             // set minimum height of editor-->
-      <!--maxHeight: null,             // set maximum height of editor-->
-      <!--focus: true,-->
-      <!--callbacks: {-->
-        <!--onImageUpload: function (files, modules) {-->
-          <!--sendFile(files);-->
-          <!--editor = modules;-->
-        <!--}-->
-      <!--}-->
-    <!--});-->
-
-    <!--setInterval(send, 500);-->
-  <!--});-->
-<!--</script>-->

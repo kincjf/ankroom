@@ -12,7 +12,7 @@
     <div class="box-typical box-typical-padding">
       <h5 class="m-t-lg with-border">특정업체 컨설팅 상담</h5>
 
-      <form (submit)="consultingchanging($event, title.value, buildType.value, userName.value, telephone.value, email.value, expectBuildPrice.value, buildPlace.value,  expectBuildTotalArea.value, expectBuildStartDate.value, expectConsultDate.value, reqContents.value)">
+      <form (submit)="consultingchanging($event, title.value, buildType.value, userName.value, telephone.value, email.value, domain.value, expectBuildPrice.value, buildPlace.value,  expectBuildTotalArea.value, expectBuildStartDate.value, expectConsultDate.value, reqContents.value)">
 
         <div class="col-sm-6">
           <div class="form-group row">
@@ -21,7 +21,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">제목</label>
               <div class="col-sm-10">
-                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text" value="{{currenttitle}}"></p>
+                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text" value="{{currentTitle}}"></p>
               </div>
             </div>
 
@@ -32,10 +32,9 @@
               <label for="exampleSelect" class="col-sm-2 form-control-label">공사구분</label>
               <div class="col-sm-5">
                 <select #buildType class="form-control" id="exampleSelect">
-                  <option value="1">예제1</option>
-                  <option value="2">예제2</option>
-                  <option value="3">예제3</option>
-                  <option value="4">예제4</option>
+                  <option>주거공간</option>
+                  <option>상업공간</option>
+                  <option>기타</option>
                 </select>
               </div>
             </div>
@@ -45,7 +44,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">이름</label>
               <div class="col-sm-4">
-                <input type="text" #userName class="form-control" placeholder="Text" value="{{currentuserName}}">
+                <input type="text" #userName class="form-control" placeholder="Text" value="{{currentUserName}}">
               </div>
             </div>
 
@@ -55,7 +54,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">연락처</label>
               <div class="col-sm-4">
-                <input type="text" #telephone class="form-control" placeholder="010-****-****" value="{{currenttelephone}}">
+                <input type="text" #telephone class="form-control" placeholder="010-****-****" value="{{currentTelephone}}">
               </div>
             </div>
 
@@ -66,11 +65,11 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">이메일</label>
               <div class="col-sm-4">
-                <input type="text" #email class="form-control" value="{{currentemail}}">
+                <input type="text" #email class="form-control" value="{{currentEmail}}">
               </div>
               <label class="col-sm-2 formcontrol-label">@</label>
               <div class="col-sm-4">
-                <select id="emailSelect" class="form-control">
+                <select #domain id="emailSelect" class="form-control">
                   <option>naver.com</option>
                   <option>hanmail.net</option>
                   <option>gmail.com</option>
@@ -85,7 +84,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사예산</label>
               <div class="col-sm-4">
-                <input type="number" #expectBuildPrice class="form-control" id="inputMoney" value="{{currentexpectBuildPrice}}">
+                <input type="number" #expectBuildPrice class="form-control" id="inputMoney" value="{{currentExpectBuildPrice}}">
               </div>
               <label class="col-sm-2 form-control-label">만원</label>
             </div>
@@ -98,7 +97,7 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사지주소</label>
               <div class="col-sm-4">
-                <input type="text" #buildPlace class="form-control" id="inputAdress" value="{{currentbuildPlace}}">
+                <input type="text" #buildPlace class="form-control" id="inputAdress" value="{{currentBuildPlace}}">
               </div>
             </div>
 
@@ -111,21 +110,21 @@
                 <label class="col-sm-2 form-control-label">거주/비거주</label>
                 <div class="col-md-2 col-sm-2">
                   <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-1" value="0" checked>
-                    <label for="radio-1">거주 </label>
+                    <input type="radio" name="optionsRadios"  id="radio-residence" value="0" checked>
+                    <label for="radio-residence">거주 </label>
                   </div>
                 </div>
                 <div class="col-md-2 col-sm-2">
                   <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-2" value="1">
-                    <label for="radio-2"> 비거주 </label>
+                    <input type="radio" name="optionsRadios"  id="radio-nonresidence" value="1">
+                    <label for="radio-nonresidence"> 비거주 </label>
                   </div>
                 </div>
               </form>
 
               <label class="col-sm-2 form-control-label">평수입력</label>
               <div class="col-sm-4">
-                <input type="number" #expectBuildTotalArea class="form-control" value="{{currentexpectBuildTotalArea}}">
+                <input type="number" #expectBuildTotalArea class="form-control" value="{{currentExpectBuildTotalArea}}">
               </div>
             </div>
 
@@ -134,11 +133,11 @@
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">공사예정일</label>
               <div class="col-sm-4">
-                <input type="Date" #expectBuildStartDate class="form-control" value="{{currentexpectBuildStartDate}}">
+                <input type="Date" #expectBuildStartDate class="form-control" value="{{currentExpectBuildStartDate}}">
               </div>
               <label class="col-sm-2 form-control-label">상담희망일</label>
               <div class="col-sm-4">
-                <input type="Date" #expectConsultDate class="form-control" value="{{currentexpectConsultDate}}">
+                <input type="Date" #expectConsultDate class="form-control" value="{{currentExpectConsultDate}}">
               </div>
             </div>
           </div>
@@ -153,7 +152,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-12">
-              <textarea rows="15" #reqContents class="form-control" value="{{currentreqContents}}"></textarea>
+              <textarea rows="15" #reqContents class="form-control" value="{{currentReqContents}}"></textarea>
             </div>
           </div>
         </div>
@@ -165,7 +164,7 @@
 
         <div class="form-group row">
           <div class="col-sm-offset-8 col-xs-offset-6">
-            <button type="submit" class="btn btn-inline">수정확인</button>
+            <button type="submit" class="btn btn-inline" onclick="window.location.href='/consultingDetail'">수정확인</button>
           </div>
         </div>
       </form>

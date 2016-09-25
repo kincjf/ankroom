@@ -11,7 +11,6 @@ import { EditorImageUploader } from "../../common/editor-image-uploader";
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseUpdate.html');
 const URL = 'http://localhost:3001/api/build-case';
-const imageURL = 'http://localhost:3001/api/public/image/test';
 
 @Component({
   selector: 'buildCaseUpdate',
@@ -40,13 +39,7 @@ export class BuildCaseUpdate {
   buildTotalPrice:number;
   HTMLText:any;
   VRImages: any;
-
   memberIdx: number;
-  companyName: string;
-  aboutCompany: string;
-  mainWorkField: string;
-  mainWorkArea: string;
-  conmpanyIntroImage: string;
 
   private uploader:MultipartUploader;
   multipartItem:MultipartItem;
@@ -60,7 +53,7 @@ export class BuildCaseUpdate {
 //    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
 
-  updateBuildCase(event, title, buildType, buildPlace, buildTotalArea, buildTotalPrice) {
+  updateBuildCase(event, inputTitle, inputBuildType, inputBuildPlace, inputBuildTotalArea, inputBuildTotalPrice) {
     event.preventDefault();
 
     var confirmMemberType = "2"; // 2:사업주
@@ -69,17 +62,14 @@ export class BuildCaseUpdate {
 //    var previewImage = jQuery(this.el.nativeElement).find("input[name=previewImage]")[0].files[0];
 
     //파일 업로더를 위한 설정 값들 선언
-    this.uploader = new MultipartUploader({url: 'http://localhost:3001/api/build-case/' + this.selectedId, authToken: this.jwt});
-    this.uploader.authToken = this.jwt;
 
-    this.multipartItem = new MultipartItem(this.uploader);
-    this.multipartItem.formData = new FormData();
+    this.uploader.authToken = this.jwt;
     this.multipartItem.headers = contentHeaders;
     this.multipartItem.withCredentials = false;
     this.multipartItem.method = 'PUT';
 
     if (this.memberType != confirmMemberType) {
-      alert("시공사례 입력은 사업주만 가능합니다");
+      alert("시공사례 수정은 사업주만 가능합니다");
     }//사업주 인지 점검
     else {
       if (this.multipartItem == null){
@@ -88,11 +78,11 @@ export class BuildCaseUpdate {
       if (this.multipartItem.formData == null)
         this.multipartItem.formData = new FormData();
 
-      this.multipartItem.formData.append("title", title );
-      this.multipartItem.formData.append("buildType", buildType );
-      this.multipartItem.formData.append("buildPlace", buildPlace );
-      this.multipartItem.formData.append("buildTotalArea", buildTotalArea );
-      this.multipartItem.formData.append("buildTotalPrice", buildTotalPrice );
+      this.multipartItem.formData.append("title", inputTitle );
+      this.multipartItem.formData.append("buildType", inputBuildType );
+      this.multipartItem.formData.append("buildPlace", inputBuildPlace );
+      this.multipartItem.formData.append("buildTotalArea", inputBuildTotalArea );
+      this.multipartItem.formData.append("buildTotalPrice", inputBuildTotalPrice );
       this.multipartItem.formData.append("HTMLText", HTMLText );
       this.multipartItem.formData.append("previewImage", this.previewImage );
 
@@ -157,13 +147,11 @@ export class BuildCaseUpdate {
       this.selectedId = buildCaseIdx;
     });
 
-    //시공사례조회에서 클릭한 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
+    //수정할 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
     this.http.get('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
-
-
           this.data = response;
 
           this.title = this.data.buildCaseInfo.title;
@@ -178,13 +166,16 @@ export class BuildCaseUpdate {
           this.VRImages = JSON.parse(this.data.buildCaseInfo.VRImages);
           this.memberIdx = this.data.buildCaseInfo.memberIdx;
 
-          console.log(this.data);
         },
         error => {
           console.error(error.text());
           //서버로 부터 응답 실패시 경고창
         }
       );
+
+    this.uploader = new MultipartUploader({url: 'http://localhost:3001/api/build-case/' + this.selectedId});
+    this.multipartItem = new MultipartItem(this.uploader);
+    this.multipartItem.formData = new FormData();
   }
 }
 

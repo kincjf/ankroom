@@ -23,7 +23,7 @@
 
           <!--user profile부분-->
 
-          <a routerLink="/login" [hidden]="logined">LogIn</a>
+          <a routerLink="/login" [hidden]="logined">로그인/회원가입</a>
 
           <div class="dropdown user-menu" [hidden]="!logined">
             <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown"
@@ -32,15 +32,14 @@
               <img src="src/assets/img/avatar-2-64.png" alt="">
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd-user-menu">
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>내 정보</a>
-              <a class="dropdown-item" href="/buildcaselately"><span
+              <a class="dropdown-item" routerLink="/change"><span class="font-icon glyphicon glyphicon-user"></span>내 정보수정</a>
+              <a class="dropdown-item" routerLink="/buildcaselately"><span
                 class="font-icon glyphicon glyphicon-book"></span>최근
                 본 사례 조회</a>
               <a class="dropdown-item" href="/buildcaseselected"><span
                 class="font-icon glyphicon glyphicon-check"></span>찜한 사례 조회</a>
               <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>회원정보수정</a>
               <a class="dropdown-item" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
             </div>
           </div>
@@ -61,14 +60,21 @@
   <li class="nav-item">
     <a class="nav-link" routerLink="/mainPage" routerLinkActive="active">Home</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/buildcaselist" routerLinkActive="active">시공사례보기</a>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">시공사례</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" routerLink="/buildcaseinput">시공사례입력</a>
+      <a class="dropdown-item" routerLink="/buildcaselist">시공사례조회</a>
+    </div>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/buildcaseinput" routerLinkActive="active">시공사례등록</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/consultingCounsel" routerLinkActive="active">컨설팅상담</a>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">컨설팅</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" routerLink="/consultingCounsel">상담 받기</a>
+      <a class="dropdown-item" routerLink="/consultingInfo">컨설팅 정보 조회</a>
+    </div>
   </li>
 </ul>
 <!-- 사이드 바  -->
