@@ -52,12 +52,15 @@ export class ConsultingChange {
 
           this.idx = this.data.consult.idx;
 
+          //email을 id부분과 domain부분으로 나누기
+          var splitEmail = (this.data.consult.email).split('@');
+
           //현재 수정할 정보를 불러오기
           this.currentTitle = this.data.consult.title;
           this.currentPrefBizMemberIdx = this.data.consult.prefBizMemberIdx;
           this.currentUserName = this.data.consult.userName;
           this.currentTelephone = this.data.consult.telephone;
-          this.currentEmail = this.data.consult.email;
+          this.currentEmail = splitEmail[0];
           this.currentBuildType = this.data.consult.buildType;
           this.currentBuildPlace = this.data.consult.buildPlace;
           this.currentLived = this.data.consult.lived;
@@ -80,7 +83,7 @@ export class ConsultingChange {
     event.preventDefault();
     //lived에 들어갈 radio버튼에서 체크된 값 가져오기
     var lived 		= $(':radio[name="optionsRadios"]:checked').val();
-    //email과 domain합치기
+    //email을 id부분과 domain합치기
     email = email + '@' + domain;
     //html받은 값들을 json형식으로 저장
     let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
@@ -103,7 +106,12 @@ export class ConsultingChange {
   cancel(){
     contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
   }
-
-
-
+  /*
+  check() {
+    if(lived == '0')
+      document.getElementById("radio-residence").checked = true;
+    else(lived == '1')
+      document.getElementById("radio-nonresidence").checked=true;
+  }
+  */
 }

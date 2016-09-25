@@ -32,10 +32,9 @@
               <label for="exampleSelect" class="col-sm-2 form-control-label">공사구분</label>
               <div class="col-sm-5">
                 <select #buildType class="form-control" id="exampleSelect">
-                  <option value="1">예제1</option>
-                  <option value="2">예제2</option>
-                  <option value="3">예제3</option>
-                  <option value="4">예제4</option>
+                  <option>주거공간</option>
+                  <option>상업공간</option>
+                  <option>기타</option>
                 </select>
               </div>
             </div>
@@ -111,14 +110,14 @@
                 <label class="col-sm-2 form-control-label">거주/비거주</label>
                 <div class="col-md-2 col-sm-2">
                   <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-1" value="0" checked>
-                    <label for="radio-1">거주 </label>
+                    <input type="radio" name="optionsRadios"  id="radio-residence" value="0" checked>
+                    <label for="radio-residence">거주 </label>
                   </div>
                 </div>
                 <div class="col-md-2 col-sm-2">
                   <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-2" value="1">
-                    <label for="radio-2"> 비거주 </label>
+                    <input type="radio" name="optionsRadios"  id="radio-nonresidence" value="1">
+                    <label for="radio-nonresidence"> 비거주 </label>
                   </div>
                 </div>
               </form>
@@ -165,7 +164,7 @@
 
         <div class="form-group row">
           <div class="col-sm-offset-8 col-xs-offset-6">
-            <button type="submit" class="btn btn-inline">수정확인</button>
+            <button type="submit" class="btn btn-inline" onclick="window.location.href='/consultingDetail'">수정확인</button>
           </div>
         </div>
       </form>

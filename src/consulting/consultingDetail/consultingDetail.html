@@ -7,7 +7,7 @@
                 <h3>컨설팅 정보 상세보기</h3>
             </div>
         </div>
-        <section class="box-typical">
+        <section class="box-typical" >
 
 
             <table class="table table-bordered">
@@ -19,17 +19,13 @@
                 </thead>
                 <tbody>
                   <tr>
-                      <td>번호</td>
-                      <td>{{idx}}</td>
-                  </tr>
-                  <tr>
                       <td>제목</td>
                       <td>{{title}}</td>
                   </tr>
                   <tr>
                       <td>업체명</td>
                       <!--선호업체 명인지 현제 접수를 받은 업체명인지 확인-->
-                      <td>{{prefBizMemberIdx}}</td>
+                      <td>임시업체명</td>
                   </tr>
                   <tr>
                       <td>작성자</td>
@@ -45,14 +41,14 @@
                   </tr>
                   <tr>
                       <td>작성일</td>
-                      <td></td>
+                      <td>{{initWriteDate}}</td>
                   </tr>
                   <tr>
                       <td>접수현황</td>
-                      <td></td>
+                      <td>접수중</td>
                   </tr>
                   <tr>
-                      <td>시공종류</td>
+                      <td>공사구분</td>
                       <td>{{buildType}}</td>
                   </tr>
                   <tr>
@@ -61,7 +57,7 @@
                   </tr>
                   <tr>
                       <td>거주유무</td>
-                      <td>{{lived}}</td>
+                      <td>{{convertedLived}}</td>
                   </tr>
                   <tr>
                       <td>공사면적</td>

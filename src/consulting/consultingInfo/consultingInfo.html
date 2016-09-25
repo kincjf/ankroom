@@ -24,7 +24,7 @@
           <tr *ngFor="let consultInfo of returnedDatas" (click)="onSelectConsultingInfo(consultInfo)">
             <td class="col-xs-4"><a href="/consultingDetail" >{{consultInfo.title}}</a></td>
             <td class="col-xs-4">접수중</td>
-            <td class="col-xs-4">16-09-15</td>
+            <td class="col-xs-4">{{consultInfo.initWriteDate}}</td>
 
           </tr>
         </tbody>

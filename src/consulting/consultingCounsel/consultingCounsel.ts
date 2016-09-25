@@ -38,6 +38,7 @@ export class ConsultingCounsel {
       email = email + '@' + domain;
       //html받은 값들을 json형식으로 저장
       let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
+
       this.http.post('http://localhost:3001/api/consult', body, {headers: contentHeaders})
         .subscribe(
           response=>{

@@ -34,17 +34,15 @@ export class ConsultingInfo {
       .subscribe(
         response => {
           this.data=response;
-          console.log(this.data);
 
           //for of문으로 for–of 루프 구문은 배열의 요소들, 즉 data를 순회하기 위한 구문입니다.
           for(var consulting of response.Consult) {
-            //localStorage.setItem('consultingDetail',consulting.idx);
             //returnDatas에 bizUser의 정보를 data의 수만큼 받아온다.
             this.returnedDatas.push({
               idx: consulting.idx,
-              title: consulting.title
+              title: consulting.title,
               //접수현황 추가할 자리
-              //작성일 추가할 자리
+              initWriteDate: consulting.initWriteDate
             });
           }
 
