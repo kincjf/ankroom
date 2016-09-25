@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     memberIdx: {
       type: DataTypes.INTEGER(10),
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Member',
         key: 'idx'

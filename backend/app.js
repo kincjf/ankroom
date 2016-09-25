@@ -1,6 +1,6 @@
 'use strict';
 
-var logger          = require('morgan'),
+var logger        = require('morgan'),
   cors            = require('cors'),
   http            = require('http'),
   express         = require('express'),
@@ -11,7 +11,7 @@ var logger          = require('morgan'),
 
 var app = express();
 
-dotenv.load();
+dotenv.load();    // loading .env and write to process.env
 
 // Parsers
 // old version of line

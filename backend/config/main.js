@@ -44,8 +44,8 @@ module.exports = {
   "production": {
     "username": "root",
     "password": "hitit113112",
-    "database": "ankroom_production",
-    "host": "ankroom.moblab.kr",
+    "database": "cozyhouzz",
+    "host": "104.214.150.196",    // cozyhouzz.co.kr
     "dialect": "mysql",
     "pool": {
       "max": 50,

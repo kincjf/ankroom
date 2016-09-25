@@ -5,11 +5,13 @@
   "main": "",
   "scripts": {
     "server": "cd backend && npm i && node ./bin/www.js",
-    "server:debug": "cd backend && npm i && node --debug ./bin/www.js",
-    "server:production": "cd backend && npm i && node ./bin/www.js",
-    "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
+    "server:development:debug": "cd backend && npm i && node --debug-brk ./bin/www.js",
+    "server:production": "cd backend && npm i && NODE_ENV=production&& node ./bin/www.js",
+    "server:production-windows": "cd backend && npm i && set NODE_ENV=production&& node ./bin/www.js",
+    "server:production-windows:debug": "cd backend && npm i && set NODE_ENV=production&& node --debug-brk ./bin/www.js",
+    "front:development": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
     "start": "npm i && npm run front",
-    "front:production": "cd backend && npm i && node ./bin/www.js",
+    "front:production": "webpack-dev-server --inline -d --colors --port 80",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
