@@ -6,8 +6,10 @@
   "scripts": {
     "server": "cd backend && npm i && node ./bin/www.js",
     "server:debug": "cd backend && npm i && node --debug ./bin/www.js",
+    "server:production": "cd backend && npm i && node ./bin/www.js",
     "front": "webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
     "start": "npm i && npm run front",
+    "front:production": "cd backend && npm i && node ./bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

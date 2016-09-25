@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header" [hidden]="router.url==='/login'">
   <div class="container-fluid">
     <a class="site-logo" href="#">
       <img alt="" class="hidden-md-down" src="src/assets/img/logo-ankroom.png">
@@ -20,10 +20,12 @@
               <div class="overlay"></div>
             </form>
           </div>
+
           <!--user profile부분-->
 
+          <a routerLink="/login" [hidden]="logined">LogIn</a>
 
-          <div class="dropdown user-menu">
+          <div class="dropdown user-menu" [hidden]="!logined">
             <button class="dropdown-toggle" id="dd-user-menu" type="button" data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
@@ -39,10 +41,11 @@
               <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-user"></span>회원정보수정</a>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
+              <a class="dropdown-item" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
             </div>
           </div>
         </div>
+
         <div class="mobile-menu-right-overlay"></div>
         <div class="site-header-collapsed">
         </div>
@@ -53,8 +56,8 @@
 <!-- 해더 수정본 -->
 
 
-<div class="mobile-menu-left-overlay" ></div>
-<ul class="main-nav nav nav-inline">
+<div class="mobile-menu-left-overlay" [hidden]="router.url==='/login'"></div>
+<ul class="main-nav nav nav-inline" [hidden]="router.url==='/login'">
   <li class="nav-item">
     <a class="nav-link" routerLink="/mainPage" routerLinkActive="active">Home</a>
   </li>

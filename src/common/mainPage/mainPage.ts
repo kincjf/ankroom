@@ -40,8 +40,6 @@ export class MainPage {
             //   aboutCompanyShort: buildCaseInfo.aboutCompanyShort
             // });
           }
-
-          console.log(this.returnedDatas);
         },
         error => {
           alert(error.text());

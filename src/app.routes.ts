@@ -1,6 +1,8 @@
 import { RouterConfig } from '@angular/router';
 import { Home } from './home';
 import { Login } from './login';
+import { Logout } from './logout';
+
 import { Signup } from './member/signup';
 import { Change } from './member/change';
 
@@ -30,6 +32,8 @@ export const routes: RouterConfig = [
   { path: '',       component:  MainPage },  // 메인 페이지 화면
 
   { path: 'login',  component: Login }, // URL/login : 로그인
+  { path: 'logout',  component: Logout }, // URL/logout : 로그아웃
+
   { path: 'signup', component: Signup },  // URL/signup : 회원가입시 일반과 사업주 선택화면
   { path: 'change', component: Change },  // URL/change : 사업주 회원정보변경시 일반과 사업주정보선택화면
 

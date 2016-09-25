@@ -1,30 +1,39 @@
-import { Component } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
-import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
-import { Http, Headers } from '@angular/http';
-import { contentHeaders } from '../common/headers';
+import {Component} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
+import {Http, Headers} from '@angular/http';
+import {contentHeaders} from '../common/headers';
+import { App } from '../app';
+
 
 const template = require('./login.html');
 
 @Component({
   selector: 'login',
-  directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
   template: template
-  })
-  export class Login {
-  constructor(public router: Router, public http: Http) {
+})
+
+/**
+ * App.ts의 Child로 넣어야 한다. 그래야 로그인/비로그인 상태시에 대한 UI 조작이 유기적으로 가능함.
+ */
+export class Login {
+  constructor(public router: Router, public http: Http, public app: App) {
   }
 
   login(event, email, password) {
     //html에서의 value값
     event.preventDefault();
-    let body = JSON.stringify({ email, password });
+    let body = JSON.stringify({email, password});
     //html받은 값들을 json형식으로 저장
-    this.http.post('http://localhost:3001/api/auth/login', body, { headers: contentHeaders })
+    this.http.post('http://localhost:3001/api/auth/login', body, {headers: contentHeaders})
       .subscribe(
         response => {
           localStorage.setItem('id_token', response.json().id_token);
-          this.router.navigate(['/home']);
+
+          this.app.setHeaderUserMenu();
+
+          this.router.navigate(['/']);
           //서버로부터 응답 성공시 home으로 이동
         },
         error => {

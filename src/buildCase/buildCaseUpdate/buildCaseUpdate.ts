@@ -70,14 +70,13 @@ export class BuildCaseUpdate {
 
     //파일 업로더를 위한 설정 값들 선언
     this.uploader = new MultipartUploader({url: 'http://localhost:3001/api/build-case/' + this.selectedId, authToken: this.jwt});
+    this.uploader.authToken = this.jwt;
+
     this.multipartItem = new MultipartItem(this.uploader);
     this.multipartItem.formData = new FormData();
     this.multipartItem.headers = contentHeaders;
     this.multipartItem.withCredentials = false;
     this.multipartItem.method = 'PUT';
-
-    console.log(this.multipartItem);
-
 
     if (this.memberType != confirmMemberType) {
       alert("시공사례 입력은 사업주만 가능합니다");
