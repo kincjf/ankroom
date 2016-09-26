@@ -6,6 +6,8 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import toNumber = require("lodash/toNumber");
+import { config } from '../../common/config';
 
 const template = require('./consultingDetail.html');
 
@@ -45,10 +47,10 @@ export class ConsultingDetail implements AfterViewInit {
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
 
-    this.consulting = localStorage.getItem('consultingDetail');
+    this.consulting = toNumber(localStorage.getItem('consultingDetail'));
+    let URL = [config.serverHost, config.path.consulting, this.consulting].join('/');
 
-
-    this.http.get('http://localhost:3001/api/consult/' + this.consulting, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get(URL, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {

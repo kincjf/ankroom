@@ -6,6 +6,7 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http'
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./listCheck.html');
 
@@ -29,7 +30,9 @@ export class ListCheck {
     this.pageSize = 4;
     this.pageStartIndex=0;
 
-    this.http.get('http://localhost:3001/api/biz-store?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    let URL = [config.serverHost, config.path.bizStore + "?pageSize=" + this.pageSize + '&pageStartIndex=' + this.pageStartIndex].join('/');
+
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {

@@ -12,7 +12,7 @@ const template = require('./app.html');
 })
 
 export class App {
-  jwt: string;
+  jwt: any;
   logined: boolean = false;
 
   constructor(public router: Router, public http: Http) {

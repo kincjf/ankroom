@@ -4,6 +4,7 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Subscription }       from 'rxjs/Subscription';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 declare var jQuery: JQueryStatic;
 const template = require('./detail.html');
@@ -38,14 +39,13 @@ export class BuildCaseDetail {
   conmpanyIntroImage: string;
 
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
 
   // 시공업체 정보 보기
   onBizUserInfo() {
-    this.http.get('http://localhost:3001/api/biz-store/'+this.memberIdx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    let URL = [config.serverHost, config.path.bizStore, this.memberIdx].join('/');
+
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
@@ -68,7 +68,9 @@ export class BuildCaseDetail {
   // 시공사례 삭제
   onDelBuildCase() {
     if (confirm("삭제 하시겠습니까?")) {
-      this.http.delete('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
+      let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
+
+      this.http.delete(URL, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
         .map(res => res.json())//받아온 값을 json형식으로 변경
         .subscribe(
           response => {
@@ -98,8 +100,10 @@ export class BuildCaseDetail {
       this.selectedId = buildCaseIdx;
     });
 
+    let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
+
     //시공사례조회에서 클릭한 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
-    this.http.get('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
@@ -125,5 +129,9 @@ export class BuildCaseDetail {
           //서버로 부터 응답 실패시 경고창
         }
       );
+
+    // 삭제, 수정을 위한 Auth 값 할당
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
 }

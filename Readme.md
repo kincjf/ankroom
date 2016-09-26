@@ -13,7 +13,7 @@
 
 Please check package.json
 
-#####* 결론 : backend 먼저 실행 후 Front-end 실행
+#####* 결론 : npm run "script-name"(backend 먼저 실행 후 Front-end 실행)
 
 
 ## Issue Reporting

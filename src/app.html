@@ -36,9 +36,9 @@
               <a class="dropdown-item" routerLink="/buildcaselately"><span
                 class="font-icon glyphicon glyphicon-book"></span>최근
                 본 사례 조회</a>
-              <a class="dropdown-item" href="/buildcaseselected"><span
+              <a class="dropdown-item" routerLink="/buildcaseselected"><span
                 class="font-icon glyphicon glyphicon-check"></span>찜한 사례 조회</a>
-              <a class="dropdown-item" href="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
+              <a class="dropdown-item" routerLink="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
             </div>
@@ -58,7 +58,7 @@
 <div class="mobile-menu-left-overlay" [hidden]="router.url==='/login'"></div>
 <ul class="main-nav nav nav-inline" [hidden]="router.url==='/login'">
   <li class="nav-item">
-    <a class="nav-link" routerLink="/mainPage" routerLinkActive="active">Home</a>
+    <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
   </li>
 
   <li class="nav-item dropdown">

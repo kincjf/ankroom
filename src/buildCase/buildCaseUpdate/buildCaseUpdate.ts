@@ -5,12 +5,12 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import {MultipartItem} from "../../common/multipart-upload/multipart-item";
 import {MultipartUploader} from "../../common/multipart-upload/multipart-uploader";
+import { config } from '../../common/config';
 
 import { EditorImageUploader } from "../../common/editor-image-uploader";
 
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseUpdate.html');
-const URL = 'http://localhost:3001/api/build-case';
 
 @Component({
   selector: 'buildCaseUpdate',
@@ -128,6 +128,12 @@ export class BuildCaseUpdate {
   }
 
   ngAfterViewInit() {
+    let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
+
+    this.uploader = new MultipartUploader({url: URL});
+    this.multipartItem = new MultipartItem(this.uploader);
+    this.multipartItem.formData = new FormData();
+
     // viewChild is set after the view has been initialized
     jQuery(this.el.nativeElement).find('.summernote').summernote({
       height: 300,                 // set editor height
@@ -141,6 +147,7 @@ export class BuildCaseUpdate {
       }
     });
 
+
     // URL 주소 뒤에 오는 param 값을 저장
     this.route.params.forEach((params: Params) => {
       let buildCaseIdx = +params['buildCaseIdx'];
@@ -148,7 +155,7 @@ export class BuildCaseUpdate {
     });
 
     //수정할 시공사례글에 대한 정보를 가져와서 각 항목별 변수에 저장함
-    this.http.get('http://localhost:3001/api/build-case/'+this.selectedId, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
@@ -161,7 +168,7 @@ export class BuildCaseUpdate {
           this.mainPreviewImage = this.data.buildCaseInfo.mainPreviewImage;
           this.buildTotalPrice = this.data.buildCaseInfo.buildTotalPrice;
           this.HTMLText = this.data.buildCaseInfo.HTMLText;
-          //DB에 저장된 summernote 내용 중에 tag로 된 값들을 보여지게함
+          //DB에 저장된 summernote 내용 중에 tag로 된 값들을 보여지게함 - 수정할 것, 글이 지워지는데?
           jQuery(this.el.nativeElement).find('.summernote').summernote('editor.pasteHTML', this.HTMLText);
           this.VRImages = JSON.parse(this.data.buildCaseInfo.VRImages);
           this.memberIdx = this.data.buildCaseInfo.memberIdx;
@@ -173,9 +180,6 @@ export class BuildCaseUpdate {
         }
       );
 
-    this.uploader = new MultipartUploader({url: 'http://localhost:3001/api/build-case/' + this.selectedId});
-    this.multipartItem = new MultipartItem(this.uploader);
-    this.multipartItem.formData = new FormData();
   }
 }
 

@@ -53,7 +53,6 @@ export const routes: RouterConfig = [
   { path: 'buildcasedetail/:buildCaseIdx', component: BuildCaseDetail },  // URL/buildcasedetail : 시공사례 상세보기
 
   { path: 'home',   component: Home, canActivate: [AuthGuard] },  //URL/home : 로그인 결과 테스트
-  { path: 'mainPage',   component: MainPage },  // URL/mainPage : 메인페이지
 
   { path: 'listCheck',   component: ListCheck },  // URL/listCheck : 업체목록조회하기
   { path: 'listDetailinfo',   component: ListDetailinfo },  // URL/listDetailinfo : 업체목록 상세보기

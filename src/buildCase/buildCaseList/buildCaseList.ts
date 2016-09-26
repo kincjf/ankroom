@@ -3,6 +3,7 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http,Headers } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./buildCaseList.html');
 
@@ -20,23 +21,24 @@ export class BuildCaseList {
   pageStartIndex: number;
   returnedDatas = [];
   selectedBuildCaseIdx: number;
+  serverHost: string;
 
   constructor(public router: Router, public http: Http) {
-
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
   }
 
   ngAfterViewInit() {
     this.pageSize= 10;
     this.pageStartIndex=0;
 
+    let URL = [config.serverHost, config.path.buildCase + '?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex].join('/');
+
     //현재 DB에 저장된 시공사례 글을 pageSize와 pageStartIndex를 이용하면 필요 갯수 만큼 가져옴
-    this.http.get('http://localhost:3001/api/build-case?pageSize=' + this.pageSize +'&pageStartIndex=' + this.pageStartIndex , {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {//for of문으로 for–of 루프 구문은 배열의 요소들, 즉 data를 순회하기 위한 구문입니다.
+          this.serverHost = config.serverHost;
+
           //for of문으로 for–of 루프 구문은 배열의 요소들, 즉 data를 순회하기 위한 구문입니다.
           for (var buildCaseData of response.buildCaseInfo) {
             //returnDatas에 bizUser의 정보를 data의 수만큼 받아온다.

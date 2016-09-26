@@ -3,6 +3,7 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./normalSignup.html');
 
@@ -30,8 +31,11 @@ export class NormalSignup {
     else {
       event.preventDefault();
       let body = JSON.stringify({email, password,  memberType });
+
+      let URL = [config.serverHost, config.path.signup].join('/');
+
       //html받은 값들을 json형식으로 저장
-      this.http.post('http://localhost:3001/api/auth/register', body, {headers: contentHeaders})
+      this.http.post(URL, body, {headers: contentHeaders})
         .subscribe(
           response => {
             this.router.navigate(['/login']);

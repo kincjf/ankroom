@@ -5,7 +5,8 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "sourceRoot": "/"
   },
   "files": [
     "typings/tsd.d.ts",
@@ -24,9 +25,8 @@
     "src/common/headers.ts",
     "src/common/auth.guard.ts"
   ],
-    "filesGlob": [
-    "./src/**/*.ts",
-    "!./node_modules/**/*.ts"
+  "exclude": [
+    "node_modules"
   ],
   "compileOnSave": false,
   "buildOnSave": false,

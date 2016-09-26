@@ -3,6 +3,7 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http,Headers } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./businessNormalchange.html');
 
@@ -15,7 +16,7 @@ const template = require('./businessNormalchange.html');
 
 export class BusinessNormalChange {
   jwt:string;
-  decodedJwt: string;
+  decodedJwt: any;
   public data;
   email: string;
   telephones :string;
@@ -27,7 +28,9 @@ export class BusinessNormalChange {
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
 
-    this.http.get('http://localhost:3001/api/user/'+this.decodedJwt.idx, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    let URL = [config.serverHost, config.path.changeSignup, this.decodedJwt.idx].join('/');
+
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
@@ -59,7 +62,9 @@ export class BusinessNormalChange {
       let body = JSON.stringify({email, password, telephone, memberType});
       //html받은 값들을 json형식으로 저장
 
-      this.http.put('http://localhost:3001/api/user/'+this.decodedJwt.idx, body, {headers: contentHeaders})
+      let URL = [config.serverHost, config.path.changeSignup, this.decodedJwt.idx].join('/');
+
+      this.http.put(URL, body, {headers: contentHeaders})
         .subscribe(
           response => {
             localStorage.setItem('id_token', response.json().id_token);

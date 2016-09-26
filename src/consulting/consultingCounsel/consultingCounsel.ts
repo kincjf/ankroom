@@ -5,7 +5,9 @@ import { Component } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
-import {contentHeaders} from 'src/common/headers';
+import {contentHeaders} from '../../common/headers';
+import { config } from '../../common/config';
+
 
 const template = require('./consultingCounsel.html');
 
@@ -39,7 +41,9 @@ export class ConsultingCounsel {
       //html받은 값들을 json형식으로 저장
       let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
 
-      this.http.post('http://localhost:3001/api/consult', body, {headers: contentHeaders})
+      let URL = [config.serverHost, config.path.consulting].join('/');
+
+      this.http.post(URL, body, {headers: contentHeaders})
         .subscribe(
           response=>{
             //서버로부터 응답을 받은 후 내 컨설팅정보 조회로 이동

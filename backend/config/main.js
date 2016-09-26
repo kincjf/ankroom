@@ -45,7 +45,7 @@ module.exports = {
     "username": "root",
     "password": "hitit113112",
     "database": "cozyhouzz",
-    "host": "104.214.150.196",    // cozyhouzz.co.kr
+    "host": "cozyhouzz.co.kr",    // cozyhouzz.co.kr
     "dialect": "mysql",
     "pool": {
       "max": 50,

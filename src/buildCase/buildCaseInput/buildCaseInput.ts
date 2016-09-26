@@ -5,12 +5,12 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import {MultipartItem} from "../../common/multipart-upload/multipart-item";
 import {MultipartUploader} from "../../common/multipart-upload/multipart-uploader";
+import { config } from '../../common/config';
 
 import { EditorImageUploader } from "../../common/editor-image-uploader";
 
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseInput.html');
-const URL = 'http://localhost:3001/api/build-case';
 
 @Component({
   selector: 'buildCaseInput',
@@ -30,15 +30,27 @@ export class BuildCaseInput {
     {name: '기타'}
   ];
 
-  private uploader:MultipartUploader = new MultipartUploader({url: URL});
-  multipartItem:MultipartItem = new MultipartItem(this.uploader);
+  private uploader:MultipartUploader;
+  multipartItem:MultipartItem;
   private vrImage: File;
   private previewImage: File;
 
   constructor(public router: Router, public http: Http, private el:ElementRef) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-    this.memberType = this.decodedJwt.memberType;
+
+    if (!this.jwt) {
+      alert("로그인이 필요합니다.");
+      this.router.navigate(['/login']);
+      return;
+    } else {
+      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+      let URL = [config.serverHost, config.path.buildCase].join('/');
+
+      this.uploader = new MultipartUploader({url: URL});
+      this.multipartItem = new MultipartItem(this.uploader);
+
+      this.memberType = this.decodedJwt.memberType;
+    }
   }
 
   addBuildCase(event, title, inputBuildType, buildPlace, buildTotalArea, buildTotalPrice) {

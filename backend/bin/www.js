@@ -13,7 +13,7 @@ var server;
 app.set('port', normalizePort(process.env.PORT || config.serverPort));
 
 // If force: true it will first drop tables before recreating them.
-models.sequelize.sync({ logging: console.log, force: true }).then(function () {
+models.sequelize.sync({ logging: console.log /**force: true **/ }).then(function () {
   /**
    * Listen on provided port, on all network interfaces.
    */

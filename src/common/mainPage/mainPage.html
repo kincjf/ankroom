@@ -49,10 +49,10 @@
                 <article class="card-typical">
                   <div class="card-typical-section card-typical-content">
                     <div class="photo">
-                      <img src="http://localhost:3001/{{buildCaseInfo.mainPreviewImage}}" alt>
+                      <img src="{{serverHost}}/{{buildCaseInfo.mainPreviewImage}}" alt>
                     </div>
                     <header class="title">
-                      <a href="buildcasedetail/{{buildCaseInfo.idx}}">{{buildCaseInfo.title}}</a>
+                      <a routerLink="/buildcasedetail/{{buildCaseInfo.idx}}">{{buildCaseInfo.title}}</a>
                     </header>
                   </div>
                 </article>

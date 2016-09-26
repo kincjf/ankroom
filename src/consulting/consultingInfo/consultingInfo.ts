@@ -6,6 +6,7 @@ import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./consultingInfo.html');
 
@@ -29,7 +30,9 @@ export class ConsultingInfo {
     this.pageSize =10;
     this.pageStartIndex=0;
 
-    this.http.get('http://localhost:3001/api/consult?pageSize='+this.pageSize+'&pageStartIndex='+this.pageStartIndex, {headers:contentHeaders})
+    let URL = [config.serverHost, config.path.consulting + "?pageSize=" + this.pageSize + '&pageStartIndex=' + this.pageStartIndex].join('/');
+
+    this.http.get(URL, {headers:contentHeaders})
       .map(res => res.json())//받아온값을 json형식으로 변경
       .subscribe(
         response => {

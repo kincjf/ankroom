@@ -5,9 +5,9 @@
         <article class="card-typical">
           <div class="card-typical-section card-typical-content">
             <div class="photo">
-              <img src="http://localhost:3001/{{buildCase.mainPreviewImage}}" alt="">
+              <img src="{{serverHost}}/{{buildCase.mainPreviewImage}}" alt="">
             </div>
-            <div class="title"><a href="buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a></div>
+            <div class="title"><a routerLink="/buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a></div>
           </div>
         </article><!--.card-typical-->
       </div><!--.card-grid-col-->

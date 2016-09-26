@@ -4,6 +4,7 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {Http, Headers} from '@angular/http';
 import {contentHeaders} from '../common/headers';
 import { App } from '../app';
+import { config } from '../common/config';
 
 
 const template = require('./login.html');
@@ -26,7 +27,10 @@ export class Login {
     event.preventDefault();
     let body = JSON.stringify({email, password});
     //html받은 값들을 json형식으로 저장
-    this.http.post('http://localhost:3001/api/auth/login', body, {headers: contentHeaders})
+
+    let URL = [config.serverHost, config.path.login].join('/');
+
+    this.http.post(URL, body, {headers: contentHeaders})
       .subscribe(
         response => {
           localStorage.setItem('id_token', response.json().id_token);

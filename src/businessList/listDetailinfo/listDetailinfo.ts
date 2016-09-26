@@ -7,6 +7,7 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 
 import { contentHeaders } from '../../common/headers';
+import { config } from '../../common/config';
 
 const template = require('./listDetailinfo.html');
 
@@ -34,10 +35,11 @@ export class ListDetailinfo {
 
   constructor(public router: Router, public http: Http) {
 
-    this.bizUser=localStorage.getItem('bizUserDetail')
-    console.log(this.bizUser);
+    this.bizUser = localStorage.getItem('bizUserDetail');
 
-    this.http.get('http://localhost:3001/api/biz-store/'+this.bizUser, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
+    let URL = [config.serverHost, config.path.bizStore, this.bizUser].join('/');
+
+    this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
         response => {
