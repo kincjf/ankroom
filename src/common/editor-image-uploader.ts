@@ -20,7 +20,7 @@ export class EditorImageUploader {
 
   constructor() {
     if(EditorImageUploader._instance){
-      throw new Error("Error: Instantiation failed: Use EditorImageUploader.getInstance() instead of new.");
+       throw new Error("Error: Instantiation failed: Use EditorImageUploader.getInstance() instead of new.");
     }
     EditorImageUploader._instance = this;
 
@@ -36,7 +36,7 @@ export class EditorImageUploader {
         console.error("EditorImageUploader.ts & upload() form invalid.");
         return;
       }
-      if (this.multipartItem == null){
+      if (this.multipartItem == null) {
         this.multipartItem = new MultipartItem(this.uploader);
       }
       if (this.multipartItem.formData == null)

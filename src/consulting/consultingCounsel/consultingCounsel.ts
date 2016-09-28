@@ -47,7 +47,7 @@ export class ConsultingCounsel {
         .subscribe(
           response=>{
             //서버로부터 응답을 받은 후 내 컨설팅정보 조회로 이동
-            this.router.navigate(['/consultingInfo']);
+            this.router.navigate(['/consultingListInfo']);
         },
         error => {
           //서버로부터 응답 실패시 경고창

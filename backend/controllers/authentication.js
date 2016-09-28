@@ -67,7 +67,7 @@ exports.register = function(req, res, next) {
     }
   }).then(function(existingUser) {
     // If user is not unique, return error
-    if (existingUser) {
+    if (existingUser) {   // 현 확인방법이 맞는지 확인해야함.
       return res.status(400).send({
         errorMsg: 'That email address is already in use.',
         statusCode: 2
@@ -127,7 +127,10 @@ exports.register = function(req, res, next) {
         });
 
       }).catch(function(err) {    // end Member.create
-        if (err) { return next(err); }
+        if (err) {
+          res.status(422).json({ errorMsg: 'Internal Error', statusCode: 9 });
+          return next(err);
+        }
       });
     }
   }).catch(function(err) {    // end Member.findOne

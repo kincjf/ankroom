@@ -16,6 +16,9 @@ const template = require('./listCheck.html');
   template: template
 })
 
+/**
+ *
+ */
 export class ListCheck {
   jwt: string;
   public data;

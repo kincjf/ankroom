@@ -26,7 +26,7 @@ export class BusinessSignup {
       alert("비밀번호가 일치하지 않습니다");
     }//password 일치하는지 점검
     else {
-      event.preventDefault();
+      // event.preventDefault();
       let body = JSON.stringify({ email, password,  memberType });
 
       let URL = [config.serverHost, config.path.signup].join('/');

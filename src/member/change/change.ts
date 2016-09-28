@@ -10,6 +10,10 @@ const template = require('./change.html');
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
+
+/**
+ * 회원가입 수정 가이드 페이지(삭제 필요)
+ */
 export class Change {
   constructor(public router: Router, public http: Http) {
   }

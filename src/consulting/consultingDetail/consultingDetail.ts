@@ -43,6 +43,10 @@ export class ConsultingDetail implements AfterViewInit {
 
 
   constructor(public router:Router, public http:Http) {
+
+  }
+
+  ngAfterViewInit() {
     this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
@@ -83,8 +87,5 @@ export class ConsultingDetail implements AfterViewInit {
           //서버로 부터 응답 실패시 경고창
         }
       )
-  }
-
-  ngAfterViewInit() {
   }
 }

@@ -8,14 +8,14 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
-const template = require('./consultingInfo.html');
+const template = require('./consultingListInfo.html');
 
 @Component({
   selector: 'consultingInfo',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
-export class ConsultingInfo {
+export class ConsultingListInfo {
   jwt:string;
   public data;
   pageSize: number;

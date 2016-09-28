@@ -1,4 +1,4 @@
-<header class="site-header" [hidden]="router.url==='/login'">
+<header class="site-header" ><!-- [hidden]="router.url==='/login'" -->
   <div class="container-fluid">
     <a class="site-logo" routerLink="/">
       <img alt="" class="hidden-md-down" src="src/assets/img/logo-ankroom.png">
@@ -38,7 +38,9 @@
                 본 사례 조회</a>
               <a class="dropdown-item" routerLink="/buildcaseselected"><span
                 class="font-icon glyphicon glyphicon-check"></span>찜한 사례 조회</a>
-              <a class="dropdown-item" routerLink="#"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
+              <a class="dropdown-item" routerLink="/myConsultingListInfo"><span
+                class="font-icon glyphicon glyphicon-check"></span>내 컨설팅 정보</a>
+              <a class="dropdown-item" routerLink="/"><span class="font-icon glyphicon glyphicon-question-sign"></span>고객상담(Q&A)</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click)="logout()"><span class="font-icon glyphicon glyphicon-log-out"></span>Logout</a>
             </div>
@@ -55,8 +57,8 @@
 <!-- 해더 수정본 -->
 
 
-<div class="mobile-menu-left-overlay" [hidden]="router.url==='/login'"></div>
-<ul class="main-nav nav nav-inline" [hidden]="router.url==='/login'">
+<div class="mobile-menu-left-overlay" ></div> <!-- [hidden]="router.url==='/login'" -->
+<ul class="main-nav nav nav-inline"> <!--  [hidden]="router.url==='/login'" -->
   <li class="nav-item">
     <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
   </li>
@@ -73,7 +75,14 @@
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">컨설팅</a>
     <div class="dropdown-menu">
       <a class="dropdown-item" routerLink="/consultingCounsel">상담 받기</a>
-      <a class="dropdown-item" routerLink="/consultingInfo">컨설팅 정보 조회</a>
+      <a class="dropdown-item" routerLink="/consultingListInfo">컨설팅 정보 조회</a>
+    </div>
+  </li>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">등록업체정보</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" routerLink="/listCheck">업체 목록</a>
     </div>
   </li>
 </ul>

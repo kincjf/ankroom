@@ -4,7 +4,9 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 
 
 const template = require('./buildCaseLately.html');
-
+/**
+ * 구현 필요
+ */
 @Component({
   selector: 'buildCaseLately',
   directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],

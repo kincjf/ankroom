@@ -21,7 +21,7 @@ const template = require('./consultingchange.html');
 export class ConsultingChange {
   jwt:string;
   decodedJwt: string;
-  public data;
+  public data: any;
   idx: number;
   currentTitle: string;
   currentPrefBizMemberIdx: number;
