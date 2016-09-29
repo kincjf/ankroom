@@ -21,8 +21,8 @@ const template = require('./buildCaseUpdate.html');
 export class BuildCaseUpdate {
 
   jwt:string;
-  public decodedJwt;
-  public data;
+  public decodedJwt: any;
+  public data: any;
   memberType: string;
   public selectedId:number;
   inputBuildTypes = [

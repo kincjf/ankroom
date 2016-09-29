@@ -15,12 +15,20 @@ const template = require('./detail.html');
     template: template
 })
 
+/*
+    Component 역할 : 선택한 시공사례 글 상세보기
+    작업상황 :
+      - 글에 대한 권한이 있는 사람에게만 수정,삭제 버튼이 보이고 나머지는 목록 버튼이 보이게 하기(완료)
+    차후 개선방안 :
+      -
+ */
 export class BuildCaseDetail {
   jwt:string;
-  public decodedJwt;
+  private decodedJwt:any;
+  private loginMemberIdx: number;
   public selectedId:number;
 
-  public data;
+  public data: any;
   title:string;
   buildType:string;
   buildPlace:string;
@@ -29,7 +37,6 @@ export class BuildCaseDetail {
   buildTotalPrice:number;
   HTMLText:any;
   VRImages: any;
-  buildCaseDetailIdx:string;
 
   memberIdx: number;
   companyName: string;
@@ -39,9 +46,22 @@ export class BuildCaseDetail {
   conmpanyIntroImage: string;
 
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
+    // 삭제, 수정을 위한 Auth 값 할당
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
+      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+      this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
+    }else{
+      this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
+    }
+    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
 
-  // 시공업체 정보 보기
+  /*
+   Method 역할 : 선택한 시공사례 글을 작성한 시공업체 정보를 가져오기
+   작업상황 : 없음
+   차후 개선방안 : 없음
+   */
   onBizUserInfo() {
     let URL = [config.serverHost, config.path.bizStore, this.memberIdx].join('/');
 
@@ -50,6 +70,7 @@ export class BuildCaseDetail {
       .subscribe(
         response => {
           this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
+
 
           this.companyName = this.data.bizUserInfo.companyName;
           this.aboutCompany = this.data.bizUserInfo.aboutCompany;
@@ -65,7 +86,11 @@ export class BuildCaseDetail {
       )
   }
 
-  // 시공사례 삭제
+  /*
+   Method 역할 : 선택한 시공사례 글을 삭제
+   작업상황 : 없음
+   차후 개선방안 : 없음
+   */
   onDelBuildCase() {
     if (confirm("삭제 하시겠습니까?")) {
       let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
@@ -88,9 +113,22 @@ export class BuildCaseDetail {
     }
   }
 
-  //시공사례 수정으로 이동
+  /*
+   Method 역할 : 선택한 시공사례 글을 수정 컴포넌트로 이동
+   작업상황 : 없음
+   차후 개선방안 : 없음
+   */
   onUpdateBuildCase() {
     this.router.navigate(['/buildcaseupdate/'+this.selectedId]); //수정 버튼을 누르면 수정 컴포턴트로 이동
+  }
+
+  /*
+   Method 역할 : 시공사례 목록 조회로 이동
+   작업상황 : 없음
+   차후 개선방안 : 없음
+   */
+  onListBuildCase() {
+    this.router.navigate(['/buildcaselist']); // 목록버튼을 누르면 시공사례 목록 조회로 이동
   }
 
   ngAfterViewInit() {
@@ -130,8 +168,6 @@ export class BuildCaseDetail {
         }
       );
 
-    // 삭제, 수정을 위한 Auth 값 할당
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
+    this.onBizUserInfo();
   }
 }
