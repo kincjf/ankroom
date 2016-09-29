@@ -16,7 +16,7 @@ const template = require('./buildCaseList.html');
 
 export class BuildCaseList {
   jwt:string;
-  decodedJwt: string;
+  decodedJwt: any;
   pageSize: number;
   pageStartIndex: number;
   returnedDatas = [];

@@ -122,8 +122,9 @@
             </div><!--.tab-content-->
         </section><!--.tabs-section-->
       <div style="text-align: center">
-        <button class="btn btn-rounded btn-inline" (click)="onUpdateBuildCase()">수정</button>
-        <button class="btn btn-rounded btn-inline" (click)="onDelBuildCase()">삭제</button>
+        <button class="btn btn-rounded btn-inline" (click)="onListBuildCase()">목록</button>
+        <button class="btn btn-rounded btn-inline" *ngIf="loginMemberIdx != null && loginMemberIdx == memberIdx" (click)="onUpdateBuildCase()">수정</button>
+        <button class="btn btn-rounded btn-inline" *ngIf="loginMemberIdx != null && loginMemberIdx == memberIdx" (click)="onDelBuildCase()">삭제</button>
       </div>
     </div><!--.container-fluid-->
 </div><!--.page-content-->

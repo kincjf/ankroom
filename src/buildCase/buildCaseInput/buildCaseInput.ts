@@ -21,8 +21,8 @@ const template = require('./buildCaseInput.html');
 export class BuildCaseInput {
 
   jwt:string;
-  public decodedJwt;
-  public data;
+  public decodedJwt: any;
+  public data: any;
   memberType: string;
   inputBuildTypes = [
     {name: '주거공간'},
