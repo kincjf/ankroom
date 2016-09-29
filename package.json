@@ -8,7 +8,7 @@
     "server:dev:debug": "cd backend && npm i && node --debug-brk ./bin/www.js",
     "server:prod": "cd backend && npm i && cd .. && NODE_ENV=production forever start backend",
     "server:prod-windows": "cd backend && npm i && cd .. && set NODE_ENV=production forever start backend",
-    "front:dev": "npm install i && webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
+    "front:dev": "npm i && webpack-dev-server --inline -d --colors --display-error-details --display-cached --port 3000 --watch",
     "front:prod": "webpack -p --config webpack.production.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
