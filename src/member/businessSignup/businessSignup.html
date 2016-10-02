@@ -4,13 +4,13 @@
             <form class="sign-box" style="max-width: 720px" role="form" (submit)="businesssignup($event, username.value, password.value,password_ok.value,memberType.value)">
                 <header class="sign-title">회원가입</header>
                 <div class="form-group">
-                    <input type="text" #username class="form-control" placeholder="E-Mail"/>
+                    <input type="text" #username class="form-control" placeholder="E-Mail" required/>
                 </div>
                 <div class="form-group">
-                    <input type="password" #password class="form-control" placeholder="비밀번호"/>
+                    <input type="password" #password class="form-control" placeholder="비밀번호" required/>
                 </div>
                 <div class="form-group">
-                    <input type="password" #password_ok class="form-control" placeholder="비밀번호 확인"/>
+                    <input type="password" #password_ok class="form-control" placeholder="비밀번호 확인" required/>
                 </div>
                 <input type="hidden" #memberType value="2"/>
                 <div class="form-group">
