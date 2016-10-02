@@ -241,7 +241,7 @@ $(document).ready(function(){
 	Select
 	========================================================================== */
 
-	if ($('.bootstrap-select').size()) {
+	if ($('.bootstrap-select').length > 0 && $('.bootstrap-select').size()) {
 		// Bootstrap-select
 		$('.bootstrap-select').selectpicker({
 			style: '',
@@ -250,7 +250,7 @@ $(document).ready(function(){
 		});
 	}
 
-	if ($('.select2').size()) {
+	if ($('.bootstrap-select').length > 0 && $('.select2').size()) {
 		// Select2
 		$.fn.select2.defaults.set("minimumResultsForSearch", "Infinity");
 
@@ -387,7 +387,7 @@ $(document).ready(function(){
 		var sectionHeader = $('.section-header');
 		var sectionHeaderHeight = 0;
 
-		if (sectionHeader.size()) {
+		if (sectionHeader.length > 0 && sectionHeader.size()) {
 			sectionHeaderHeight = parseInt(sectionHeader.height()) + parseInt(sectionHeader.css('padding-bottom'));
 		}
 
@@ -826,7 +826,7 @@ $(document).ready(function(){
 
 	$('.control-panel-toggle').on('click', function() {
 		var self = $(this);
-		
+
 		if (self.hasClass('open')) {
 			self.removeClass('open');
 			$('.control-panel').removeClass('open');

@@ -54,7 +54,7 @@ export class EditorImageUploader {
           let res = JSON.parse(data);
 
           for (var imageURL of res.imagePaths) {
-            this.editor.insertImage([config.serverHost, imageURL].join('/'));   // editor를 변수로 받으면 undefined로 나온다.
+            this.editor.insertImage([res.protocol + "://" + res.host, imageURL].join('/'));   // editor를 변수로 받으면 undefined로 나온다.
             // 나중에 bind나 apply로 넘기자.
           }
 

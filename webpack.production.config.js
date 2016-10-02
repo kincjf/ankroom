@@ -5,6 +5,7 @@ var toString = Function.prototype.call.bind(Object.prototype.toString);
 var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // Webpack Plugins
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
@@ -95,12 +96,19 @@ var config = {
     new webpack.ProvidePlugin({
       'angular': 'angular'
     }),
+    new CleanWebpackPlugin(['dist', 'build'], {
+      // root: "./",
+      verbose: true,
+      dry: false
+      // exclude: ['src']
+    }),
     new CommonsChunkPlugin({name: 'vendor', filename: 'build/vendor.js', minChunks: Infinity}),
     new CommonsChunkPlugin({name: 'common', filename: 'build/common.js', minChunks: 2, chunks: ['app', 'vendor']}),
     new CopyWebpackPlugin([
       {from: 'src', to: 'src'},
       {from: 'index.html'}
-    ])],
+    ])
+  ],
 
   // Other module loader config
   tslint: {

@@ -5,7 +5,7 @@ const appRoot = require('app-root-path');
 // 현재는 이 방법을 사용한다.
 const serverPath = 'backend';
 const KRPANO_WIN_PATH = path.join(appRoot.toString(), "\\tools\\krpano-1.19-pr6-win");
-const KRPANO_LINUX_PATH = path.join(appRoot.toString(), "/tools/krpano-1.19-pr6-linux64");
+const KRPANO_LINUX_PATH = path.join(appRoot.toString(), "/tools/krpano-1.19-pr6-linux");
 const VTOUR_CONFIG_PATH = "templates/vtour-normal-custom.config";
 const PANOTOUR_PATH = path.join("vtour", "panos");
 
@@ -14,6 +14,7 @@ module.exports = {
   "secret": "ankroom by moblab",
 
   "development": {
+    "hostName": "localhost",    // actual hostname for resource hosting
     "dialect": "sqlite",
     "storage": "./db.development.sqlite",
     "serverPort": 3001,
@@ -23,7 +24,8 @@ module.exports = {
       vtour_config: VTOUR_CONFIG_PATH,
       panotour_path: PANOTOUR_PATH
     },
-    logLevel: "debug"
+    logLevel: "debug",
+    resourcePath: "resources"   // 현재는 상대경로로만 작성해야함.(DB내 정보 삽입때문에)
   },
 
   // 동시 작업시 하나의 DB를 쓰기 때문에 치명적인 문제가 있다.
@@ -45,7 +47,8 @@ module.exports = {
     "username": "root",
     "password": "hitit113112",
     "database": "cozyhouzz",
-    "host": "cozyhouzz.co.kr",    // cozyhouzz.co.kr
+    "host": "api.cozyhouzz.co.kr",    // for init sequellize
+    "hostName": "api.cozyhouzz.co.kr",    // actual hostname for resource hosting
     "dialect": "mysql",
     "pool": {
       "max": 50,
@@ -59,8 +62,9 @@ module.exports = {
       panotour_path: PANOTOUR_PATH
     },
     logLevel: "info",
-        // Setting port for server
+    // Setting port for server
     "serverPort": 3001,
+    resourcePath: "resources",
     // Configuring Mailgun API for sending transactional email
     "mailgun_priv_key": "mailgun private key here",
     // Configuring Mailgun domain for sending transactional email

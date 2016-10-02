@@ -8,6 +8,9 @@ const md5 = require('node-md5');
 const path = require('path');
 const _ = require('lodash');
 
+var env = process.env.NODE_ENV || "development";
+var config = require("../config/main")[env];
+
 // 기존의 mkdir은 비동기여서 error가 나는 경우가 있음. 그래서 promise를 하던지 settimeout을 약간 걸어줘야됨
 const mkdirp = require('mkdir-promise');
 const log = require('console-log-level')({
@@ -17,7 +20,7 @@ const log = require('console-log-level')({
   level: 'debug'
 });
 
-const ROOT_IMAGE_DIR = "./uploads/images";
+const ROOT_IMAGE_DIR = "./" + config.resourcePath + "/images";
 const EDITOR_IMAGE_DIR = "editor";
 
 let editorImagePath = path.join(ROOT_IMAGE_DIR, 'buildCaseInfo', EDITOR_IMAGE_DIR);

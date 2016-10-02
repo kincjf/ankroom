@@ -22,7 +22,6 @@ var log = require('console-log-level')({
 const genToken = require('../utils/genToken');
 const staticValue = require('../utils/staticValue');
 const models = require('../models');
-const vrpano = require('../modules/convert-vrpano');
 const vrpanoPromise = require('../modules/convert-vrpano-promise');
 
 
@@ -73,75 +72,6 @@ exports.viewBuildCaseList = function (req, res, next) {
   });
 }
 
-
-/**
- * 시공 사례 입력, 나중에 잘 되면 삭제하자(deprecated)
- * @param req
- * @param res
- * @param next
- * @returns {*}
- */
-exports.createBuildCase = function (req, res, next) {
-  if (req.user.memberType != staticValue.memberType.BusinessMember) {
-    return res.status(401).json({
-      errorMsg: 'You are not authorized to create build case.',
-      statusCode: 2
-    });
-  }
-
-  if (!req.body.title) {
-    return res.status(401).json({
-      errorMsg: 'You must enter an required field! please check title',
-      statusCode: -1
-    });
-  }
-
-  let previewImagePath;
-  if (req.files['previewImage']) {
-    // const previewImagePath = req.files['prewviewImage'][0].originalname;
-    previewImagePath = req.files['previewImage'][0].name;
-  }
-
-  let vrImagePath;
-  if (req.files['vrImage']) {
-    vrImagePath = [];
-
-    _forEach(req.files['vrImage'], function (file, key) {
-      if (file) {
-        vrImagePath.push(file.name);
-      }
-    });
-  }
-
-  const buildCase = {
-    memberIdx: req.user.idx,
-    title: req.body.title,
-    buildType: req.body.buildType == "" ? null : req.body.buildType,
-    buildPlace: req.body.buildPlace == "" ? null : req.body.buildPlace,
-    buildTotalArea: req.body.buildTotalArea == "" ? null : _.toNumber(req.body.buildTotalArea),
-    mainPreviewImage: _.isNil(previewImagePath) ? null : previewImagePath,
-    buildTotalPrice: req.body.buildTotalPrice == "" ? null : _.toNumber(req.body.buildTotalPrice),
-    HTMLText: req.body.HTMLText == "" ? null : req.body.HTMLText,
-    VRImages: _.isNil(vrImagePath) ? null : JSON.stringify(vrImagePath)   // 현재는 변환 전임을 표시함.
-  }
-
-  BuildCaseInfoBoard.create(buildCase).then(function (newBuildCase) {
-    vrpano(newBuildCase.idx, vrImagePath);    // 비동기로 작동한다.
-
-    return res.status(201).json({
-      buildCaseInfo: newBuildCase,
-      statusCode: staticValue.statusCode.RequestActionCompleted_20x
-    });
-  }).catch(function (err) {
-    if (err) {
-      res.status(400).json({
-        errorMsg: 'BuildCaseInfoBoard Error : No BuildCase could be create for this info.',
-        statusCode: 2
-      });
-      return next(err);
-    }
-  });
-}
 
 // 동일 중복 파일을 체크할 수 있도록 개발해야함
 // Media Management System을 만들거나, 간단한 checksum으로 필터링을 해야함.
@@ -206,8 +136,8 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
         previewImgFile.destination = path.join(previewImgFile.destination, newSavePath);
         previewImgFile.path = path.join(previewImgFile.destination, previewImgFile.filename);
 
-        // path의 "uploads" 포함 앞부분 문자열은 삭제한다.
-        let tmpPath = _.replace(previewImgFile.path, "uploads" + path.sep, "");
+        // path의 "config.resourcePath" 포함 앞부분 문자열은 삭제한다.
+        let tmpPath = _.replace(previewImgFile.path, config.resourcePath + path.sep, "");
 
         // previewImage = _.replace(tmpPath, "/\\/g", "/");    // 될거 같은데 안됨...
         previewImage = _.split(tmpPath, "\\").join('/');    // 아 ㅅㅂ path문제... 정규표현식으로 해결이 안됨
@@ -243,7 +173,9 @@ exports.createBuildCaseAndVRPano = function (req, res, next) {
           file.destination = path.join(file.destination, newSavePath);
           file.path = path.join(file.destination, file.filename);
 
-          let tmpPath = _.replace(file.destination, "uploads" + path.sep, "");
+          // let tmpPath = _.replace(file.destination, "uploads" + path.sep, "");
+          let tmpPath = _.replace(file.destination, config.resourcePath + path.sep, "");
+
           vrImages.baseDir = _.split(tmpPath, "\\").join('/');   // request path이기 때문에
 
           vrImages.originalImage.push(file.filename);

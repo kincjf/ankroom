@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var debug = require('debug')('ankroom:server');
+var debug = require('debug')('app');
 var app = require('../app');
 var models = require("../models");
 var http = require('http');
@@ -27,6 +27,8 @@ models.sequelize.sync({ logging: console.log /**force: true **/ }).then(function
 
   server.on('error', onError);
   server.on('listening', onListening);
+
+  debug('process.env.NODE_ENV :  ' + process.env.NODE_ENV);
 
   if (env === 'development') {
     return setTestDatabase(testDB);    // test DB

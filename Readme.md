@@ -1,4 +1,4 @@
-# VR Interior Web Application "ANKRoom" - Angular 2/Express Project.
+# VR Interior Web Application "CozyHouzz" - Angular 2/Express Project.
 
 * Performs **multiple authentication with JWTs, Passport**
 * **Calls APIs** authenticated and not.
@@ -18,14 +18,15 @@ Please check package.json
 
 ## Issue Reporting
 
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker.
+* 메인 페이지가 한 번만 클릭되고 이후에 클릭되지 않는 문제(WARNING: sanitizing HTML stripped some content.)
+ : Angular 2 최신 버전 업그레이드시 해결 가능. [참고자료 링크](https://github.com/angular/angular/issues/9392)
 * 회원정보 변경시, 로그아웃시에 대해서 jwt token을 다시 발급해줘야 된다. [참고자료 링크](http://stackoverflow.com/questions/28759590/best-practices-to-invalidate-jwt-while-changing-passwords-and-logout-in-node-js)
 
 
 ## Author
 
-[Auth0](auth0.com)
+[MobLab, Korea](http://www.moblab.kr)
 
 ## License
 

@@ -9,6 +9,9 @@ var morgan        = require('morgan'),
   bodyParser      = require('body-parser'),
   router = require('./frontRouter');
 
+var env = process.env.NODE_ENV || "development";
+var config = require("./config/main")[env];
+
 var app = express();
 
 dotenv.load();    // loading .env and write to process.env
@@ -22,7 +25,7 @@ dotenv.load();    // loading .env and write to process.env
 app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
-app.use(express.static(__dirname + '/uploads'));
+app.use(express.static(__dirname + "/" + config.resourcePath));
 app.use('/config', express.static(__dirname + '/config/publish'));
 app.use('/tests/images', express.static(__dirname + '/tests/images'));
 

@@ -12,6 +12,9 @@
 const _ = require('lodash');
 const path = require('path');
 
+var env       = process.env.NODE_ENV || "development";
+var config    = require("../config/main")[env];
+
 // req.files["fieldname"[i] - structure example
 // { fieldname: 'myfile',
 //   originalname: '20160224_104138.jpg',
@@ -29,13 +32,17 @@ exports.uploadEditorImage = function(req, res, next) {
     images = [];
 
     _(req.files).forEach(file => {
-      let tmpPath = _.replace(file.path, "uploads" + path.sep, "");
+      // let tmpPath = _.replace(file.path, "uploads" + path.sep, "");
+
+      let tmpPath = _.replace(file.path, config.resourcePath + path.sep, "");
       let imagePath = _.split(tmpPath, "\\").join('/');   // request path이기 때문에
 
       images.push(imagePath);
     });
 
     return res.status(201).json({
+      protocol: req.protocol,
+      host: env == "development" ? [config.hostName, config.serverPort].join(":") : config.hostName,
       imagePaths: images,
       statusCode: 1
     });

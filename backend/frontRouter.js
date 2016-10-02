@@ -20,6 +20,8 @@ const passport = require('passport'),
 
   quoter  = require('./tests/quoter');    // test route
 
+var env = process.env.NODE_ENV || "development";
+var config = require('./config/main')[env];
 
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
@@ -30,7 +32,7 @@ const buildCaseImageUpload = multer({ storage: multerConfig.buildCaseInfoStorage
   { name: 'previewImage', maxCount: 1 }, { name: 'vrImage', maxCount: 15 }]);
 const editorImageUpload = multer({ storage: multerConfig.editorImageStorage })
   .array('editorImage', 10);
-var testFileUpload = multer({ dest: 'uploads/tests' }).any();
+var testFileUpload = multer({ dest: config.resourcePath + '/tests' }).any();
 
 
 module.exports = function(app) {
