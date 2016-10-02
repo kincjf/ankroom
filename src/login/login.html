@@ -2,6 +2,9 @@
   <div class="page-center-in">
     <div class="container-fluid">
       <form class="sign-box"  role="form" (submit)="login($event, username.value, password.value)">
+        <div class="back">
+          <a onclick="window.history.back();">X</a>
+        </div>
         <div class="form-group">
           <input type="text" #username class="form-control" id="username" placeholder="E-Mail"/>
         </div>

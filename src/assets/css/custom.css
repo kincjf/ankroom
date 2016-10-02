@@ -42,3 +42,14 @@
 .page-center {
     margin-top:150px;
 }
+
+.sign-box .back a {
+    float:right;
+    color:#000;
+    text-decoration:none;
+    margin-bottom:5px;
+}
+
+.sign-box .back a:hover {
+  border-bottom:1px solid transparent;
+}
