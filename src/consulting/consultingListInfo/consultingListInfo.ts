@@ -44,8 +44,11 @@ export class ConsultingListInfo {
             this.returnedDatas.push({
               idx: consulting.idx,
               title: consulting.title,
-              //접수현황 추가할 자리
-              initWriteDate: consulting.initWriteDate
+              initWriteDate: consulting.initWriteDate,
+              userName: consulting.userName,
+              buildPlace: consulting.buildPlace,
+              buildType: consulting.buildType
+              //접수현황
             });
           }
 
@@ -57,11 +60,5 @@ export class ConsultingListInfo {
         }
       )
   }
-
-  //table이 클릭되었을때 그 부분의 consulting.idx를 localStorage에 저장한느 함수이다.
-  onSelectConsultingInfo(consulting: Consult): void {
-    localStorage.setItem('consultingDetail',consulting.idx);
-  }
-
 }
 

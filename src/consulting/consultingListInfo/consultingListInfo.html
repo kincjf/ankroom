@@ -12,20 +12,25 @@
         <!--table분류-->
         <thead>
         <tr>
-          <th class="col-md-4 col-xs-4">제목</th>
-          <th class="col-md-4 col-xs-4">접수현황</th>
-          <th class="col-md-4 col-xs-4">작성일</th>
+          <th class="col-md-2 col-xs-2">제목</th>
+          <th class="col-md-2 col-xs-2">작성일</th>
+          <th class="col-md-2 col-xs-2">작성자</th>
+          <th class="col-md-2 col-xs-2">주소</th>
+          <th class="col-md-2 col-xs-2">시공종류</th>
+          <th class="col-md-2 col-xs-2">접수현황</th>
         </tr>
         </thead>
 
 
         <!--table내용-->
         <tbody>
-          <tr *ngFor="let consultInfo of returnedDatas" (click)="onSelectConsultingInfo(consultInfo)">
-            <td class="col-xs-4"><a routerLink="/consultingDetail" >{{consultInfo.title}}</a></td>
-            <td class="col-xs-4">접수중</td>
-            <td class="col-xs-4">{{consultInfo.initWriteDate}}</td>
-
+          <tr *ngFor="let consultInfo of returnedDatas">
+            <td class="col-xs-2"><a routerLink="/consultingDetail/{{consultInfo.idx}}" >{{consultInfo.title}}</a></td>
+            <td class="col-xs-2">{{consultInfo.initWriteDate}}</td>
+            <td class="col-xs-2">{{consultInfo.userName}}</td>
+            <td class="col-xs-2">{{consultInfo.buildPlace}}</td>
+            <td class="col-xs-2">{{consultInfo.buildType}}</td>
+            <td class="col-xs-2">접수중</td>
           </tr>
         </tbody>
       </table>

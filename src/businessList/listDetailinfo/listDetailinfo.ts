@@ -2,7 +2,7 @@
  * Created by insu on 2016-09-02.
  */
 import { Component } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES, ActivatedRoute, Params } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 
@@ -21,6 +21,7 @@ export class ListDetailinfo {
   decodedJwt: string;
   jwt:string;
   public data;
+  public selectedId:number;
 
   companyName:string;
   aboutCompany:string;
@@ -28,17 +29,24 @@ export class ListDetailinfo {
   mainWorkArea:string;
   email:string;
   member:string;
-  bizUser:string;
 
 
 
 
-  constructor(public router: Router, public http: Http) {
 
-    this.bizUser = localStorage.getItem('bizUserDetail');
+  constructor(public router: Router, public http: Http, private route:ActivatedRoute) {
 
-    let URL = [config.serverHost, config.path.bizStore, this.bizUser].join('/');
 
+  }
+
+  ngAfterViewInit() {
+    this.route.params.forEach((params: Params) => {
+      let bizUserIdx = +params['bizUserIdx'];
+      this.selectedId = bizUserIdx;
+    });
+
+    let URL = [config.serverHost, config.path.bizStore, this.selectedId].join('/');
+    alert(this.selectedId);
     this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(
@@ -57,5 +65,6 @@ export class ListDetailinfo {
       )
 
   }
+
 
 }
