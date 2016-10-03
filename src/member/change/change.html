@@ -4,8 +4,11 @@
       <form class="sign-box">
         <header class="sign-title">회원가입</header>
         <div class="form-group">
-          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/businessnormalchange']">일반회원변경</a></button>
-          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/businesssignupchange']">사업주회원변경</a></button>
+          <!-- routerLink를 쓰면 jwt값이 남아있지 않음 -->
+          <!--<button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/normalsignupchange']">일반회원변경</a></button>-->
+          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" href="/normalsignupchange">일반회원변경</a></button>
+          <!--<button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/businesssignupchange']">사업주회원변경</a></button>-->
+          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" href="/businesssignupchange">사업주회원변경</a></button>
         </div>
         <!--<button type="button" class="close">
             <span aria-hidden="true">&times;</span>

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
-import { Http,Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
 const template = require('./normalSignupchange.html');
+const jwt_decode = require('jwt-decode');
 
 @Component({
   selector: 'normalSignupchange',
@@ -13,20 +14,21 @@ const template = require('./normalSignupchange.html');
   template: template
 })
 
-
 export class NormalSignupChange {
   jwt:string;
   decodedJwt: any;
   public data;
   email: string;
-  telephones :string;
-
+  telephones: string;
+  type: number;
 
   constructor(public router: Router, public http: Http) {
+  }
 
+  ngOnInit() {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+    this.decodedJwt = this.jwt && jwt_decode(this.jwt); //jwt값 decoding
+    contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeSignup, this.decodedJwt.idx].join('/');
 
@@ -37,6 +39,7 @@ export class NormalSignupChange {
           this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.email = this.data.user.email;
           this.telephones = this.data.user.telephone;
+          this.type = this.data.user.memberType;
         },
         error => {
           alert(error.text());
@@ -79,7 +82,8 @@ export class NormalSignupChange {
         );
     }
   }
-  cancel(){
+  
+  cancel() {
     contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
   }
 

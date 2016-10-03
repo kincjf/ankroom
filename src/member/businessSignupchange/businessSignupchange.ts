@@ -6,12 +6,14 @@ import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
 const template = require('./businessSignupchange.html');
+const jwt_decode = require('jwt-decode');
 
 @Component({
   selector: 'businessSignupchange',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
+
 export class BusinessSignupChange {
   jwt:string;
   decodedJwt: any;
@@ -24,20 +26,23 @@ export class BusinessSignupChange {
   mainWorkFields:string;
   mailWorkAreas:string;
 
+  // class member init
   constructor(public router: Router, public http: Http) {
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+  }
 
-    contentHeaders.append('Authorization',this.jwt);//Header에 jwt값 추가하기
+  // member data init
+  ngOnInit() {
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    this.decodedJwt = this.jwt && jwt_decode(this.jwt); //jwt값 decoding
+    contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeBizSignup, this.decodedJwt.idx].join('/');
 
     this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
-      .map(res => res.json())//받아온 값을 json형식으로 변경
+      .map(res => res.json()) //받아온 값을 json형식으로 변경
       .subscribe(
         response => {
-          this.data=response //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
-          console.log(this.data);
+          this.data = response; //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
           this.contacts = this.data.bizUserInfo.contact;
           this.companyNames = this.data.bizUserInfo.companyName;
           this.ownerNames = this.data.bizUserInfo.ownerName;
