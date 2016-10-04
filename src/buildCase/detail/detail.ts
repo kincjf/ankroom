@@ -88,29 +88,34 @@ export class BuildCaseDetail {
 
   /*
    Method 역할 : 선택한 시공사례 글을 삭제
-   작업상황 : 없음
+   작업상황 : 삭제 권한이 있는지 확인 및 삭제 결과 알림창 띄우기 작업(완료)
    차후 개선방안 : 없음
    */
   onDelBuildCase() {
-    if (confirm("삭제 하시겠습니까?")) {
-      let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
+    if(this.loginMemberIdx == this.memberIdx) {
+      if (confirm("삭제 하시겠습니까?")) {
+        let URL = [config.serverHost, config.path.buildCase, this.selectedId].join('/');
 
-      this.http.delete(URL, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
-        .map(res => res.json())//받아온 값을 json형식으로 변경
-        .subscribe(
-          response => {
-            if(response.statusCode == 1){
-              alert("삭제 되었습니다.");
-              this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+        this.http.delete(URL, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
+          .map(res => res.json())//받아온 값을 json형식으로 변경
+          .subscribe(
+            response => {
+              if(response.statusCode == 1){
+                alert("삭제 되었습니다.");
+                this.router.navigate(['/buildcaselist']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+              }
+            },
+            error => {
+              alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
+              console.log(error.text());
+              //서버로 부터 응답 실패시 경고창
             }
-          },
-          error => {
-            alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
-            console.log(error.text());
-            //서버로 부터 응답 실패시 경고창
-          }
-        )
+          )
+      }
+    } else {
+      alert("삭제권한이 없습니다.");
     }
+
   }
 
   /*

@@ -13,10 +13,14 @@ const template = require('./buildCaseList.html');
   template: template
 })
 
-
+/*
+ Component 역할 : 시공사례 글 목록 조회 하기
+ 작업상황 :
+ - 보기 좋게 Grid 배치 및 글자 배치 하기
+ 차후 개선방안 :
+ - 글 10개 단위로 무한 스크롤 적용하기
+ */
 export class BuildCaseList {
-  jwt:string;
-  decodedJwt: any;
   pageSize: number;
   pageStartIndex: number;
   returnedDatas = [];
