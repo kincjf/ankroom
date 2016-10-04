@@ -28,7 +28,7 @@ export class NormalSignupChange {
   ngOnInit() {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && jwt_decode(this.jwt); //jwt값 decoding
-    contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
+    if (!contentHeaders.get('Authorization')) contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeSignup, this.decodedJwt.idx].join('/');
 
@@ -69,8 +69,10 @@ export class NormalSignupChange {
           response => {
             localStorage.setItem('id_token', response.json().id_token);
             this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-            contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
-            contentHeaders.append('Authorization',this.jwt);
+            if (contentHeaders.get('Authorization')) {
+              contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
+              contentHeaders.append('Authorization',this.jwt);
+            }
             this.router.navigate(['/mainPage']);
             //서버로부터 응답 성공시 mainPage으로 이동
           },

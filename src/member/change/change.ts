@@ -27,7 +27,8 @@ export class Change {
   ngOnInit() {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && jwt_decode(this.jwt); //jwt값 decoding
-    contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
+    console.log(contentHeaders.get('Authorization'));
+    if (!contentHeaders.get('Authorization')) contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeSignup, this.decodedJwt.idx].join('/');
 
