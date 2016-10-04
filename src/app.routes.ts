@@ -5,7 +5,6 @@ import { Login } from './login';
 import { Signup } from './member/signup';
 import { Change } from './member/change';
 
-import { BusinessNormalChange } from './member/businessNormalchange';
 import { NormalSignup } from './member/normalSignup';
 import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
@@ -36,7 +35,6 @@ export const routes: RouterConfig = [
   { path: 'signup', component: Signup },  // URL/signup : 회원가입시 일반과 사업주 선택화면
   { path: 'change', component: Change },  // URL/change : 사업주 회원정보변경시 일반과 사업주정보선택화면
 
-  { path: 'businessnormalchange', component: BusinessNormalChange },  // URL/businessnormalchange :  사업주가입자에서의 일반정보변경
   { path: 'normalsignup', component: NormalSignup },  // URL/normalsignup : 일반회원가입
   { path: 'normalsignupchange', component: NormalSignupChange },  // URL/normalsignupchange : 일반회원정보변경
 
