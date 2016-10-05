@@ -9,15 +9,15 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
-const template = require('./listDetailinfo.html');
+const template = require('./bizListDetail.html');
 
 @Component({
-  selector: 'listDetailinfo',
+  selector: 'bizListDetail',
   directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],
   template: template
 })
 
-export class ListDetailinfo {
+export class BizListDetail {
   decodedJwt: string;
   jwt:string;
   public data;
@@ -46,7 +46,7 @@ export class ListDetailinfo {
     });
 
     let URL = [config.serverHost, config.path.bizStore, this.selectedId].join('/');
-    alert(this.selectedId);
+
     this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json())//받아온 값을 json형식으로 변경
       .subscribe(

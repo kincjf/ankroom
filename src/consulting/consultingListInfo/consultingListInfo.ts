@@ -25,6 +25,9 @@ export class ConsultingListInfo {
 
   //생성자에서 페이지가 만들어질때 컨설팅 정보목록을 불러온다.
   constructor(public router: Router, public http: Http) {
+    this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
+    //this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+    contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
 
     //컨설팅 정보의 개수와, 시작 index
     this.pageSize =10;

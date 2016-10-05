@@ -10,8 +10,8 @@ import { NormalSignupChange } from './member/normalSignupchange';
 import { BusinessSignup } from './member/businessSignup';
 import { BusinessSignupChange } from './member/businessSignupchange';
 
-import { ListCheck } from './businessList/listCheck/listCheck';
-import { ListDetailinfo } from './businessList/listDetailinfo/listDetailinfo';
+import { BizList } from './businessList/bizList/bizList';
+import { BizListDetail } from './businessList/bizListDetail/bizListDetail';
 
 import { AuthGuard } from './common/auth.guard';
 import { MainPage} from './common/mainPage/mainPage';
@@ -41,8 +41,8 @@ export const routes: RouterConfig = [
   { path: 'businesssignup', component: BusinessSignup },  // URL/businesssignup : 사업주회원가입
   { path: 'businesssignupchange', component: BusinessSignupChange },  // URL/businesssignupchange : 사업주 회원정보변경
 
-  { path: 'businesslist', component: ListCheck },  // URL/businesslist : 사업주 목록 조회
-  { path: 'businessdetail', component: ListDetailinfo },  // URL/businessdetail : 사업주 상세보기
+  { path: 'businesslist', component: BizList },  // URL/businesslist : 사업주 목록 조회
+  { path: 'businessdetail', component: BizListDetail },  // URL/businessdetail : 사업주 상세보기
 
   { path: 'buildcaseinput', component: BuildCaseInput },  // URL/buildcaseinput : 시공사례입력
   { path: 'buildcaseupdate/:buildCaseIdx', component: BuildCaseUpdate },  // URL/buildcaseinput : 시공사례수정
@@ -52,8 +52,8 @@ export const routes: RouterConfig = [
 
   { path: 'home',   component: Home, canActivate: [AuthGuard] },  //URL/home : 로그인 결과 테스트
 
-  { path: 'listCheck',   component: ListCheck },  // URL/listCheck : 업체목록조회하기
-  { path: 'listDetailinfo/:bizUserIdx',   component: ListDetailinfo },  // URL/listDetailinfo : 업체목록 상세보기
+  { path: 'bizList',   component: BizList },  // URL/bizList : 업체목록조회하기
+  { path: 'bizListDetail/:bizUserIdx',   component: BizListDetail },  // URL/bizListDetail : 업체목록 상세보기
 
   { path: 'consultingCounsel',   component: ConsultingCounsel },  // URL/consultingCounsel : 특정업체 컨설팅 상담
   { path: 'consultingDetail/:consultingIdx',   component: ConsultingDetail },  // URL/consultingDetail : 컨설팅 정보 상세보기

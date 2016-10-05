@@ -42,6 +42,7 @@ export class ConsultingChange implements AfterViewInit {
 
   constructor(public router: Router, public http: Http,  private route: ActivatedRoute ) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    //this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.set('Authorization',this.jwt);//Header에 jwt값 추가하기
   }
 
@@ -93,12 +94,13 @@ export class ConsultingChange implements AfterViewInit {
     //html받은 값들을 json형식으로 저장
     let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
 
-    let URL = [config.serverHost, config.path.consulting, this.consulting].join('/');
+    let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
 
     this.http.put(URL, body, {headers: contentHeaders})
       .subscribe(
         response => {
-          this.router.navigate(['/mainPage']);
+          this.router.navigate(['/consultingListInfo']);
+          alert("수정 완료");
           //서버로부터 응답 성공시 home으로 이동
         },
         error => {
@@ -109,18 +111,5 @@ export class ConsultingChange implements AfterViewInit {
       );
 
   }
-
-  cancel(){
-    contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
-  }
-
-  /*
-  check() {
-    if(lived == '0')
-      document.getElementById("radio-residence").checked = true;
-    else(lived == '1')
-      document.getElementById("radio-nonresidence").checked=true;
-  }
-  */
 
 }

@@ -8,10 +8,10 @@ import { Http } from '@angular/http'
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
-const template = require('./listCheck.html');
+const template = require('./bizList.html');
 
 @Component({
-  selector: 'listCheck',
+  selector: 'bizList',
   directives: [ ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES ],
   template: template
 })
@@ -19,7 +19,7 @@ const template = require('./listCheck.html');
 /**
  *
  */
-export class ListCheck {
+export class BizList {
   jwt: string;
   public data;
 

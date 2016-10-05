@@ -21,8 +21,10 @@ const template = require('./consultingDetail.html');
 export class ConsultingDetail implements AfterViewInit {
   decodedJwt:string;
   jwt:string;
+  private loginMemberIdx: number;
   public data;
   public selectedId:number;
+  havePrefBizMember: boolean;
 
   idx:number;
   title:string;
@@ -45,17 +47,26 @@ export class ConsultingDetail implements AfterViewInit {
 
 
   constructor(public router:Router, public http:Http, private route: ActivatedRoute) {
-
+    this.havePrefBizMember = false;
   }
 
-  ngAfterViewInit() {
-    this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
-    contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
+    ngAfterViewInit() {
 
-    this.route.params.forEach((params:Params) => {
-      let consultingIdx = +params['consultingIdx'];
-      this.selectedId = consultingIdx;
-    })
+      // 삭제, 수정을 위한 Auth 값 할당
+      this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+      /*if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
+        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+        this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
+      }else{
+        this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
+      }*/
+      contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
+
+
+      this.route.params.forEach((params:Params) => {
+        let consultingIdx = +params['consultingIdx'];
+        this.selectedId = consultingIdx;
+      })
 
 
     let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
@@ -94,5 +105,39 @@ export class ConsultingDetail implements AfterViewInit {
           //서버로 부터 응답 실패시 경고창
         }
       )
+
+
+  }
+
+  modifyConsulting() {
+    this.router.navigate(['/consultingChange',this.idx]);
+  }
+
+
+  onDelConsulting() {
+    if(this.loginMemberIdx == this.selectedId) {
+      if (confirm("삭제 하시겠습니까?")) {
+        let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
+
+        this.http.delete(URL, {headers:contentHeaders}) //서버에 삭제할 builcase idx 값 전달
+          .map(res => res.json())//받아온 값을 json형식으로 변경
+          .subscribe(
+            response => {
+              if(response.statusCode == 1){
+                alert("삭제 되었습니다.");
+                this.router.navigate(['/consultingListInfo']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+              }
+            },
+            error => {
+              alert("삭제를 실패하였습니다. 관리자에게 문의하세요. - errorCode : " + error.text());
+              console.log(error.text());
+              //서버로 부터 응답 실패시 경고창
+            }
+          )
+      }
+    } else {
+      alert("삭제권한이 없습니다.");
+    }
+
   }
 }
