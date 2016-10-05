@@ -7,6 +7,7 @@ import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
 declare var jQuery: JQueryStatic;
+const jwt_decode = require('jwt-decode');
 const template = require('./detail.html');
 
 @Component({
@@ -46,15 +47,10 @@ export class BuildCaseDetail {
   conmpanyIntroImage: string;
 
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
-    // 삭제, 수정을 위한 Auth 값 할당
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
-      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-      this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
-    }else{
-      this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
-    }
-    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
+  }
+
+  ngOnInit() {
+
   }
 
   /*
@@ -172,6 +168,16 @@ export class BuildCaseDetail {
           //서버로 부터 응답 실패시 경고창
         }
       );
+
+    // 삭제, 수정을 위한 Auth 값 할당
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
+      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+      this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
+    }else{
+      this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
+    }
+    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
 
     this.onBizUserInfo();
   }

@@ -34,19 +34,19 @@
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">총 공사면적</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #buildTotalArea class="form-control" name="buildTotalArea" placeholder="총 공사면적"></p>
+            <p class="form-control-static"><input type="text" #buildTotalArea class="form-control" name="buildTotalArea" placeholder="총 공사면적" required></p>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사지역</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #buildPlace class="form-control" name="buildPlace" placeholder="공사지역"></p>
+            <p class="form-control-static"><input type="text" #buildPlace class="form-control" name="buildPlace" placeholder="공사지역" required></p>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">총 시공비용</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #buildTotalPrice class="form-control" name="buildTotalPrice" placeholder="총 시공비용"></p>
+            <p class="form-control-static"><input type="text" #buildTotalPrice class="form-control" name="buildTotalPrice" placeholder="총 시공비용" required></p>
           </div>
         </div>
         <div class="form-group row">
@@ -61,12 +61,12 @@
           <div class="col-sm-10">
             <div>
               VR 이미지
-              <input type="file" name="vrImage" (change)="selectVRImage($event)"  multiple /><br/>
+              <input type="file" name="vrImage" (change)="selectVRImage($event)"  multiple required/><br/>
 
             </div>
             <div>
               대표 이미지
-            <input type="file"  name="previewImage" (change)="selectPreviewImage($event)" /><br/>
+            <input type="file"  name="previewImage" (change)="selectPreviewImage($event)" required/><br/>
 
           </div>
           </div>

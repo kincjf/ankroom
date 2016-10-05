@@ -11,6 +11,7 @@ import { EditorImageUploader } from "../../common/editor-image-uploader";
 
 declare var jQuery: JQueryStatic;
 const template = require('./buildCaseInput.html');
+const jwt_decode = require('jwt-decode');
 
 @Component({
   selector: 'buildCaseInput',
@@ -24,6 +25,7 @@ export class BuildCaseInput {
   public decodedJwt: any;
   public data: any;
   memberType: string;
+  confirmMemberType: string;
   inputBuildTypes = [
     {name: '주거공간'},
     {name: '상업공간'},
@@ -36,25 +38,9 @@ export class BuildCaseInput {
   private previewImage: File;
 
   constructor(public router: Router, public http: Http, private el:ElementRef) {
-    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-
-    if (!this.jwt) {
-      alert("로그인이 필요합니다.");
-      this.router.navigate(['/login']);
-      return;
-    } else {
-      this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-      let URL = [config.serverHost, config.path.buildCase].join('/');
-
-      this.uploader = new MultipartUploader({url: URL});
-      this.multipartItem = new MultipartItem(this.uploader);
-
-      this.memberType = this.decodedJwt.memberType;
-    }
   }
 
   addBuildCase(event, title, inputBuildType, buildPlace, buildTotalArea, buildTotalPrice) {
-    var confirmMemberType = "2"; // 2:사업주
     var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');// 섬머노트 이미지 업로드는 추후에 변경예정
 //    var vrImage = jQuery(this.el.nativeElement).find("input[name=vrImage]")[0].files[0];
 //    var previewImage = jQuery(this.el.nativeElement).find("input[name=previewImage]")[0].files[0];
@@ -65,7 +51,7 @@ export class BuildCaseInput {
     this.uploader.authToken = this.jwt;
 
 
-    if (this.memberType != confirmMemberType) {
+    if (this.memberType != this.confirmMemberType) {
       alert("시공사례 입력은 사업주만 가능합니다");
     }//사업주 인지 점검
     else {
@@ -126,20 +112,39 @@ export class BuildCaseInput {
   }
 
   ngAfterViewInit() {
-    this.multipartItem.formData = new FormData();
+    this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+    this.confirmMemberType = "2"; //사업주가 접속 했는지 확인 하기위한 값, 2:사업주
 
-    // viewChild is set after the view has been initialized
-    jQuery(this.el.nativeElement).find('.summernote').summernote({
-      height: 600,                 // set editor height
-      minHeight: null,             // set minimum height of editor
-      maxHeight: null,             // set maximum height of editor
-      focus: true,
-      callbacks: {
-        onImageUpload: function (files, editor) {
-          EditorImageUploader.getInstance().upload(files, editor);
-        }
+    if (!this.jwt) { //로그인을 했는지 점검
+      alert("로그인이 필요합니다.");
+      this.router.navigate(['/login']);
+      return;
+    } else {
+      if (this.memberType != this.confirmMemberType) { //사업주 인지 점검
+        alert("시공사례 입력은 사업주만 가능합니다");
+      } else {
+        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+        let URL = [config.serverHost, config.path.buildCase].join('/');
+
+        this.uploader = new MultipartUploader({url: URL});
+        this.multipartItem = new MultipartItem(this.uploader);
+        this.multipartItem.formData = new FormData();
+
+        this.memberType = this.decodedJwt.memberType;
+        // viewChild is set after the view has been initialized
+        jQuery(this.el.nativeElement).find('.summernote').summernote({
+          height: 600,                 // set editor height
+          minHeight: null,             // set minimum height of editor
+          maxHeight: null,             // set maximum height of editor
+          focus: true,
+          callbacks: {
+            onImageUpload: function (files, editor) {
+              EditorImageUploader.getInstance().upload(files, editor);
+            }
+          }
+        });
       }
-    });
+    }
   }
 }
 

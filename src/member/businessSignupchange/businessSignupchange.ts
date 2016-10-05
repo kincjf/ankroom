@@ -37,12 +37,14 @@ export class BusinessSignupChange {
     if (!contentHeaders.get('Authorization')) contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeBizSignup, this.decodedJwt.idx].join('/');
+    console.log(URL);
 
     this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json()) //받아온 값을 json형식으로 변경
       .subscribe(
         response => {
           this.data = response; //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
+          console.log(this.data);
           this.contacts = this.data.bizUserInfo.contact;
           this.companyNames = this.data.bizUserInfo.companyName;
           this.ownerNames = this.data.bizUserInfo.ownerName;
@@ -50,6 +52,8 @@ export class BusinessSignupChange {
           this.workPlaces = this.data.bizUserInfo.workPlace;
           this.mainWorkFields = this.data.bizUserInfo.mainWorkField;
           this.mailWorkAreas = this.data.bizUserInfo.mailWorkArea;
+
+
         },
         error => {
           alert(error.text());

@@ -7,7 +7,10 @@
             <div class="photo">
               <img src="{{serverHost}}/{{buildCase.mainPreviewImage}}" alt="">
             </div>
-            <div class="title"><a style="color: #9d270b" routerLink="/buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a></div>
+            <div class="title">
+              <a style="color: #9d270b" routerLink="/buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a>
+              <p>{{buildCase.buildPlace}}</p>
+            </div>
             <div>
               <span></span>
             </div>
