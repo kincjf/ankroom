@@ -24,7 +24,7 @@ export class ConsultingCounsel{
 
   constructor(public router: Router, public http: Http) {
     this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
-    //this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
 
     this.havePrefBizMember = false;
@@ -45,7 +45,7 @@ export class ConsultingCounsel{
       .subscribe(
         response=>{
           //서버로부터 응답을 받은 후 내 컨설팅정보 조회로 이동
-          this.router.navigate(['/consultingListInfo']);
+          this.router.navigate(['/consultingMyListInfo']);
           alert("상담 등록 완료");
         },
         error => {

@@ -1,7 +1,4 @@
 /**
- * Created by InSuJeong on 2016-10-07.
- */
-/**
  * Created by insu on 2016-08-29.
  */
 import { Component } from '@angular/core';
@@ -11,14 +8,14 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
 
-const template = require('./consultingListInfo.html');
+const template = require('./consultingMyListInfo.html');
 
 @Component({
-  selector: 'consultingInfo',
+  selector: 'consultingMyListInfo',
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
-export class ConsultingListInfo {
+export class ConsultingMyListInfo {
   jwt:string;
   decodedJwt: string;
   public data;
@@ -53,6 +50,7 @@ export class ConsultingListInfo {
               title: consulting.title,
               initWriteDate: consulting.initWriteDate,
               userName: consulting.userName,
+              buildPlace: consulting.buildPlace,
               buildType: consulting.buildType
               //접수현황
             });

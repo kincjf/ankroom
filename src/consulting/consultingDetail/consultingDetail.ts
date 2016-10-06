@@ -51,17 +51,8 @@ export class ConsultingDetail implements AfterViewInit {
   }
 
     ngAfterViewInit() {
-
-      // 삭제, 수정을 위한 Auth 값 할당
       this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-      /*if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
-        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-        this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
-      }else{
-        this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
-      }*/
       contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
-
 
       this.route.params.forEach((params:Params) => {
         let consultingIdx = +params['consultingIdx'];
@@ -69,45 +60,55 @@ export class ConsultingDetail implements AfterViewInit {
       })
 
 
-    let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
+      let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
 
-    this.http.get(URL, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
-      .map(res => res.json())//받아온 값을 json형식으로 변경
-      .subscribe(
-        response => {
-          this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
+      this.http.get(URL, {headers: contentHeaders}) //서버로부터 필요한 값 받아오기
+        .map(res => res.json())//받아온 값을 json형식으로 변경
+        .subscribe(
+          response => {
+            this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
 
-          this.idx = this.data.consult.idx;
-          this.title = this.data.consult.title;
-          this.prefBizMemberIdx = this.data.consult.prefBizMemberIdx;
-          this.userName = this.data.consult.userName;
-          this.telephone = this.data.consult.telephone;
-          this.email = this.data.consult.email;
-          this.buildType = this.data.consult.buildType;
-          this.buildPlace = this.data.consult.buildPlace;
-          this.lived = this.data.consult.lived;
-          this.expectBuildTotalArea = this.data.consult.expectBuildTotalArea;
-          this.expectBuildPrice = this.data.consult.expectBuildPrice;
-          this.expectConsultDate = this.data.consult.expectConsultDate;
-          this.expectBuildStartDate = this.data.consult.expectBuildStartDate;
-          this.reqContents = this.data.consult.reqContents;
-          this.initWriteDate = this.data.consult.initWriteDate;
-          if (this.lived == 0)
-            this.convertedLived = "거주";
-          else if (this.lived == 1)
-            this.convertedLived = "비거주";
-          else
-            alert("empty lived");
-        },
-        error => {
-          alert(error.text());
-          console.log(error.text());
-          //서버로 부터 응답 실패시 경고창
-        }
-      )
+            this.idx = this.data.consult.idx;
+            this.title = this.data.consult.title;
+            this.prefBizMemberIdx = this.data.consult.prefBizMemberIdx;
+            this.userName = this.data.consult.userName;
+            this.telephone = this.data.consult.telephone;
+            this.email = this.data.consult.email;
+            this.buildType = this.data.consult.buildType;
+            this.buildPlace = this.data.consult.buildPlace;
+            this.lived = this.data.consult.lived;
+            this.expectBuildTotalArea = this.data.consult.expectBuildTotalArea;
+            this.expectBuildPrice = this.data.consult.expectBuildPrice;
+            this.expectConsultDate = this.data.consult.expectConsultDate;
+            this.expectBuildStartDate = this.data.consult.expectBuildStartDate;
+            this.reqContents = this.data.consult.reqContents;
+            this.initWriteDate = this.data.consult.initWriteDate;
+            if (this.lived == 0)
+              this.convertedLived = "거주";
+            else if (this.lived == 1)
+              this.convertedLived = "비거주";
+            else
+              alert("empty lived");
+          },
+          error => {
+            alert(error.text());
+            console.log(error.text());
+            //서버로 부터 응답 실패시 경고창
+          }
+        )
+
+      // 삭제, 수정을 위한 Auth 값 할당
+      this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+      if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
+        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+        this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
+      }else{
+        this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
+      }
 
 
-  }
+
+    }
 
   modifyConsulting() {
     this.router.navigate(['/consultingChange',this.idx]);
@@ -125,7 +126,7 @@ export class ConsultingDetail implements AfterViewInit {
             response => {
               if(response.statusCode == 1){
                 alert("삭제 되었습니다.");
-                this.router.navigate(['/consultingListInfo']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
+                this.router.navigate(['/consultingMyListInfo']); //서버에서 삭제가 성공적으로 완료 되면 시공사례 조회로 이동
               }
             },
             error => {

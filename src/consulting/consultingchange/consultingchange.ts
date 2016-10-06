@@ -42,7 +42,7 @@ export class ConsultingChange implements AfterViewInit {
 
   constructor(public router: Router, public http: Http,  private route: ActivatedRoute ) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-    //this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
     contentHeaders.set('Authorization',this.jwt);//Header에 jwt값 추가하기
   }
 
@@ -99,7 +99,7 @@ export class ConsultingChange implements AfterViewInit {
     this.http.put(URL, body, {headers: contentHeaders})
       .subscribe(
         response => {
-          this.router.navigate(['/consultingListInfo']);
+          this.router.navigate(['/consultingMyListInfo']);
           alert("수정 완료");
           //서버로부터 응답 성공시 home으로 이동
         },
