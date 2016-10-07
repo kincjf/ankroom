@@ -9,6 +9,7 @@ import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import toNumber = require("lodash/toNumber");
 import { config } from '../../common/config';
+import * as moment from 'moment';
 
 const template = require('./consultingDetail.html');
 
@@ -19,28 +20,28 @@ const template = require('./consultingDetail.html');
 })
 
 export class ConsultingDetail implements AfterViewInit {
-  decodedJwt:string;
-  jwt:string;
+  decodedJwt: string;
+  jwt: string;
   private loginMemberIdx: number;
   public data;
-  public selectedId:number;
+  public selectedId: number;
   havePrefBizMember: boolean;
 
-  idx:number;
-  title:string;
-  prefBizMemberIdx:number;
-  userName:string;
-  telephone:string;
-  email:string;
-  buildType:string;
-  buildPlace:string;
-  lived:number;
-  expectBuildTotalArea:number;
-  expectBuildPrice:number;
-  expectConsultDate:Date;
-  expectBuildStartDate:Date;
-  reqContents:string;
-  initWriteDate:string;
+  idx: number;
+  title: string;
+  prefBizMemberIdx: number;
+  userName: string;
+  telephone: string;
+  email: string;
+  buildType: string;
+  buildPlace: string;
+  lived: number;
+  expectBuildTotalArea: number;
+  expectBuildPrice: number;
+  expectConsultDate: string;
+  expectBuildStartDate: string;
+  reqContents: string;
+  initWriteDate: string;
 
   //lived의 number값을 string인 거주/비거주로 보여주기 위하여만든 변수
   convertedLived:string;
@@ -51,13 +52,23 @@ export class ConsultingDetail implements AfterViewInit {
   }
 
     ngAfterViewInit() {
+      // 삭제, 수정을 위한 Auth 값 할당
       this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
+      if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
+        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
+        this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
+      }else{
+        this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
+      }
       contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
+
 
       this.route.params.forEach((params:Params) => {
         let consultingIdx = +params['consultingIdx'];
         this.selectedId = consultingIdx;
       })
+
+
 
 
       let URL = [config.serverHost, config.path.consulting, this.selectedId].join('/');
@@ -79,10 +90,12 @@ export class ConsultingDetail implements AfterViewInit {
             this.lived = this.data.consult.lived;
             this.expectBuildTotalArea = this.data.consult.expectBuildTotalArea;
             this.expectBuildPrice = this.data.consult.expectBuildPrice;
-            this.expectConsultDate = this.data.consult.expectConsultDate;
-            this.expectBuildStartDate = this.data.consult.expectBuildStartDate;
+            this.expectConsultDate = moment(this.data.consult.expectConsultDate).format('YYYY/MM/DD');
+            this.expectBuildStartDate = moment(this.data.consult.expectBuildStartDate).format('YYYY/MM/DD');
             this.reqContents = this.data.consult.reqContents;
-            this.initWriteDate = this.data.consult.initWriteDate;
+            this.initWriteDate = moment(this.data.consult.initWriteDate).format('YYYY/MM/DD');
+
+
             if (this.lived == 0)
               this.convertedLived = "거주";
             else if (this.lived == 1)
@@ -91,27 +104,28 @@ export class ConsultingDetail implements AfterViewInit {
               alert("empty lived");
           },
           error => {
-            alert(error.text());
-            console.log(error.text());
-            //서버로 부터 응답 실패시 경고창
+            //다른회원이면 consultingListInfo로 이동
+            if (this.data == null) {
+              alert("다른회원의 정보입니다");
+              this.router.navigate(['/consultingListInfo']);
+            }
+            else {
+              alert(error.text());
+              console.log(error.text());
+              //서버로 부터 응답 실패시 경고창
+
+            }
           }
         )
-
-      // 삭제, 수정을 위한 Auth 값 할당
-      this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기
-      if(this.jwt){ //jwt 값이 null 인지 즉, 로그인을 하지 않는 상태인지 확인
-        this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
-        this.loginMemberIdx = this.decodedJwt.idx; //현재 로그인한 memberIdx 저장
-      }else{
-        this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
-      }
-
-
 
     }
 
   modifyConsulting() {
     this.router.navigate(['/consultingChange',this.idx]);
+  }
+
+  goConsultingList() {
+    this.router.navigate(['/consultingListInfo']);
   }
 
 

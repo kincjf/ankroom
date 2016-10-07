@@ -25,12 +25,12 @@
         <!--table내용-->
         <tbody>
           <tr *ngFor="let consultInfo of returnedDatas">
-            <td class="col-xs-2"><a routerLink="/consultingDetail/{{consultInfo.idx}}" >{{consultInfo.title}}</a></td>
-            <td class="col-xs-2">{{consultInfo.initWriteDate}}</td>
-            <td class="col-xs-2">{{consultInfo.userName}}</td>
-            <td class="col-xs-2">{{consultInfo.buildPlace}}</td>
-            <td class="col-xs-2">{{consultInfo.buildType}}</td>
-            <td class="col-xs-2">접수중</td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx"><a routerLink="/consultingDetail/{{consultInfo.idx}}" >{{consultInfo.title}}</a></td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx">{{consultInfo.initWriteDate}}</td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx">{{consultInfo.userName}}</td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx">{{consultInfo.buildPlace}}</td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx">{{consultInfo.buildType}}</td>
+            <td class="col-xs-2" *ngIf="consultInfo.memberIdx == loginMemberIdx">접수중</td>
           </tr>
         </tbody>
       </table>

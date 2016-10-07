@@ -45,8 +45,8 @@ export class ConsultingCounsel{
       .subscribe(
         response=>{
           //서버로부터 응답을 받은 후 내 컨설팅정보 조회로 이동
-          this.router.navigate(['/consultingMyListInfo']);
           alert("상담 등록 완료");
+          this.router.navigate(['/consultingMyListInfo']);
         },
         error => {
           //서버로부터 응답 실패시 경고창

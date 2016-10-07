@@ -10,6 +10,7 @@ import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
 import { contentHeaders } from '../../common/headers';
 import { config } from '../../common/config';
+import * as moment from 'moment';
 
 const template = require('./consultingListInfo.html');
 
@@ -51,7 +52,7 @@ export class ConsultingListInfo {
             this.returnedDatas.push({
               idx: consulting.idx,
               title: consulting.title,
-              initWriteDate: consulting.initWriteDate,
+              initWriteDate: moment(consulting.initWriteDate).format('YYYY/MM/DD'),
               userName: consulting.userName,
               buildType: consulting.buildType
               //접수현황
