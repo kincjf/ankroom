@@ -1,7 +1,7 @@
 /**
  * Created by insu on 2016-08-29.
  */
-import {Component, Date} from '@angular/core';
+import {Component} from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
 import { Http } from '@angular/http';
@@ -18,7 +18,7 @@ const template = require('./consultingMyListInfo.html');
 })
 export class ConsultingMyListInfo {
   jwt:string;
-  decodedJwt: string;
+  decodedJwt: any;
   public data;
   pageSize: number;
   pageStartIndex: number;
@@ -55,7 +55,7 @@ export class ConsultingMyListInfo {
               title: consulting.title,
               initWriteDate: moment(consulting.initWriteDate).format('YYYY/MM/DD'),
               userName: consulting.userName,
-              buildPlace: consulting.buildPlace,
+              buildPlace: JSON.parse(consulting.buildPlace),
               buildType: consulting.buildType
               //접수현황
             });

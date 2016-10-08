@@ -50,7 +50,8 @@ export class BuildCaseList {
               selectedBuildCaseIdx: buildCaseData.idx,
               title: buildCaseData.title,
               mainPreviewImage: buildCaseData.mainPreviewImage,
-              HTMLText: buildCaseData.HTMLText
+              HTMLText: buildCaseData.HTMLText,
+              buildPlace: JSON.parse(buildCaseData.buildPlace)
             });
           }
         },

@@ -53,7 +53,6 @@ export class BusinessSignupChange {
           this.mainWorkFields = this.data.bizUserInfo.mainWorkField;
           this.mailWorkAreas = this.data.bizUserInfo.mailWorkArea;
 
-
         },
         error => {
           alert(error.text());

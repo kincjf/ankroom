@@ -18,6 +18,13 @@ const template = require('./buildCaseUpdate.html');
   template: template
 })
 
+/*
+ Component 역할 : 시공사례 글 수정
+ 작업상황 :
+ -
+ 차후 개선방안 :
+ -
+ */
 export class BuildCaseUpdate {
 
   jwt:string;
@@ -53,13 +60,13 @@ export class BuildCaseUpdate {
 //    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
   }
 
-  updateBuildCase(event, inputTitle, inputBuildType, inputBuildPlace, inputBuildTotalArea, inputBuildTotalPrice) {
+  updateBuildCase(event, inputTitle, inputBuildType, inputBuildPlace, inputBuildPostCode, inputBuildPlaceDetail, inputBuildTotalArea, inputBuildTotalPrice) {
     event.preventDefault();
 
     var confirmMemberType = "2"; // 2:사업주
     var HTMLText = jQuery(this.el.nativeElement).find('.summernote').summernote('code');// 섬머노트 이미지 업로드는 추후에 변경예정
-//    var vrImage = jQuery(this.el.nativeElement).find("input[name=vrImage]")[0].files[0];
-//    var previewImage = jQuery(this.el.nativeElement).find("input[name=previewImage]")[0].files[0];
+
+    var arrBuildPlace = [inputBuildPostCode, inputBuildPlace, inputBuildPlaceDetail];
 
     //파일 업로더를 위한 설정 값들 선언
 
@@ -80,7 +87,7 @@ export class BuildCaseUpdate {
 
       this.multipartItem.formData.append("title", inputTitle );
       this.multipartItem.formData.append("buildType", inputBuildType );
-      this.multipartItem.formData.append("buildPlace", inputBuildPlace );
+      this.multipartItem.formData.append("buildPlace", JSON.stringify(arrBuildPlace));
       this.multipartItem.formData.append("buildTotalArea", inputBuildTotalArea );
       this.multipartItem.formData.append("buildTotalPrice", inputBuildTotalPrice );
       this.multipartItem.formData.append("HTMLText", HTMLText );

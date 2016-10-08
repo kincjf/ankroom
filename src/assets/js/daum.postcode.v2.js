@@ -1,7 +1,7 @@
 /**
  * Created by KIMSEONHO on 2016-09-14.
  */
-// 우편번호 찾기 찾기 화면을 넣을 element
+  // 우편번호 찾기 찾기 화면을 넣을 element
 var element_wrap = document.getElementById('wrap');
 
 function foldDaumPostcode() {

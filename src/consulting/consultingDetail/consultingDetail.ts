@@ -20,7 +20,7 @@ const template = require('./consultingDetail.html');
 })
 
 export class ConsultingDetail implements AfterViewInit {
-  decodedJwt: string;
+  decodedJwt: any;
   jwt: string;
   private loginMemberIdx: number;
   public data;
@@ -86,7 +86,7 @@ export class ConsultingDetail implements AfterViewInit {
             this.telephone = this.data.consult.telephone;
             this.email = this.data.consult.email;
             this.buildType = this.data.consult.buildType;
-            this.buildPlace = this.data.consult.buildPlace;
+            this.buildPlace = JSON.parse(this.data.consult.buildPlace);
             this.lived = this.data.consult.lived;
             this.expectBuildTotalArea = this.data.consult.expectBuildTotalArea;
             this.expectBuildPrice = this.data.consult.expectBuildPrice;

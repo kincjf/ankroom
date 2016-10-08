@@ -32,7 +32,7 @@ export class BuildCaseDetail {
   public data: any;
   title:string;
   buildType:string;
-  buildPlace:string;
+  buildPlace: any;
   buildTotalArea:number;
   mainPreviewImage:string;
   buildTotalPrice:number;
@@ -47,10 +47,6 @@ export class BuildCaseDetail {
   conmpanyIntroImage: string;
 
   constructor(public router: Router, public http: Http, private route: ActivatedRoute, private el: ElementRef) {
-  }
-
-  ngOnInit() {
-
   }
 
   /*
@@ -148,7 +144,7 @@ export class BuildCaseDetail {
         response => {
           this.title = response.buildCaseInfo.title;
           this.buildType = response.buildCaseInfo.buildType;
-          this.buildPlace = response.buildCaseInfo.buildPlace;
+          this.buildPlace = JSON.parse(response.buildCaseInfo.buildPlace);
           this.buildTotalArea = response.buildCaseInfo.buildTotalArea;
           this.mainPreviewImage = response.buildCaseInfo.mainPreviewImage;
           this.buildTotalPrice = response.buildCaseInfo.buildTotalPrice;
@@ -177,7 +173,7 @@ export class BuildCaseDetail {
     }else{
       this.loginMemberIdx = null; //로그인 하지 않는 상태일때는 null값
     }
-    contentHeaders.append('Authorization', this.jwt);//Header에 jwt값 추가하기
+    contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
 
     this.onBizUserInfo();
   }

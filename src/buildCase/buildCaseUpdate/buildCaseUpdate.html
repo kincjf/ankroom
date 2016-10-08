@@ -14,7 +14,7 @@
 
       <h5 class="m-t-lg with-border">시공사례 수정</h5>
 
-      <form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="updateBuildCase($event, inputTitle.value, inputBuildType.value, inputBuildPlace.value, inputBuildTotalArea.value, inputBuildTotalPrice.value)">
+      <form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="updateBuildCase($event, inputTitle.value, inputBuildType.value, inputBuildPlace.value, inputBuildPostCode.value, inputBuildPlaceDetail.value, inputBuildTotalArea.value, inputBuildTotalPrice.value)">
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사명</label>
           <div class="col-sm-10">
@@ -40,7 +40,14 @@
         <div class="form-group row">
           <label class="col-sm-2 form-control-label">공사지역</label>
           <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #inputBuildPlace class="form-control" name="buildPlace" value={{buildPlace}}></p>
+            <input type="text" #inputBuildPostCode class="form-control" id="sample3_postcode" placeholder="우편번호" readonly> -
+            <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
+
+            <div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+              <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+            </div>
+            <input class="form-control" type="text" #inputBuildPlace id="sample3_address" placeholder="주소" readonly>
+            <input class="form-control" type="text" #inputBuildPlaceDetail id="sample4_address" placeholder="상세주소" value={{buildPlace}}>
           </div>
         </div>
         <div class="form-group row">

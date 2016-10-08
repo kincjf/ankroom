@@ -5,7 +5,7 @@
       <div class="box-typical box-typical-padding">
         <h5 class="m-t-lg with-border">특정업체 컨설팅 상담</h5>
 
-        <form (submit)="consultingchanging($event, title.value, buildType.value, userName.value, telephone.value, email.value, expectBuildPrice.value, buildPlace.value, expectBuildTotalArea.value, expectBuildStartDate.value, expectConsultDate.value, reqContents.value)">
+        <form (submit)="consultingchanging($event, title.value, buildType.value, userName.value, telephone.value, email.value, expectBuildPrice.value, buildPlace.value, buildPostCode.value, buildPlaceDetail, expectBuildTotalArea.value, expectBuildStartDate.value, expectConsultDate.value, reqContents.value)">
 
 
 
@@ -85,17 +85,20 @@
 
 
 
-          <!--공사지 주소 주소api적용 예정-->
-          <!--공사지 주소 api적용 아직 안되있음 어떻게 하지?-->
+          <!--공사지 주소-->
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">공사지주소</label>
-            <div class="col-sm-4">
-              <input type="text" #buildPlace class="form-control" id="inputAdress" value="{{currentBuildPlace}}" required>
+            <div class="col-sm-10">
+              <input type="text" #buildPostCode class="form-control" id="sample3_postcode" placeholder="우편번호" readonly> -
+              <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
+
+              <div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+                <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+              </div>
+              <input class="form-control" type="text" #buildPlace id="sample3_address" placeholder="주소" readonly>
+              <input class="form-control" type="text" #buildPlaceDetail id="sample4_address" placeholder="상세주소"  value="{{currentBuildPlace}}">
+              </div>
             </div>
-          </div>
-
-
-
 
           <!--거주/비거주, 평수입력-->
           <!--radio버튼일때 입력을 어떻게 받는지 알아보기-->

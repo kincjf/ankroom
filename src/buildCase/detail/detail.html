@@ -43,7 +43,7 @@
             </div><!--.tabs-section-nav-->
 
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1" [innerHTML]="HTMLText">
+                <div role="tabpanel" class="tab-pane fade in active" id="tabs-4-tab-1" style="word-break: break-all" [innerHTML]="HTMLText">
                   <!-- summernote에 저장된 내용을 보여줌 [innerHTML]을 사용하면 String값에 있는 HTML tag들이 브라우저에 적용되게 하는기능 -->
                 </div><!--.tab-pane-->
                 <div role="tabpanel" class="tab-pane fade" id="tabs-4-tab-2">
@@ -71,7 +71,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">공사면적</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{buildTotalArea}}평</p>
+                                    <p class="form-control-static">{{buildTotalArea}} 평</p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -83,7 +83,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-2 form-control-label">시공비용</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{buildTotalPrice}}원</p>
+                                    <p class="form-control-static">{{buildTotalPrice}} 만원</p>
                                 </div>
                             </div>
                         </form>
@@ -123,7 +123,7 @@
         </section><!--.tabs-section-->
       <div style="text-align: center">
         <button class="btn btn-rounded btn-inline" (click)="onListBuildCase()">목록</button>
-        <button class="btn btn-rounded btn-inline" *ngIf="loginMemberIdx != null && loginMemberIdx == memberIdx" (click)="onUpdateBuildCase()">수정</button>
+        <button hidden class="btn btn-rounded btn-inline" *ngIf="loginMemberIdx != null && loginMemberIdx == memberIdx" (click)="onUpdateBuildCase()">수정</button>
         <button class="btn btn-rounded btn-inline" *ngIf="loginMemberIdx != null && loginMemberIdx == memberIdx" (click)="onDelBuildCase()">삭제</button>
       </div>
     </div><!--.container-fluid-->

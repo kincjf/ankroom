@@ -20,6 +20,7 @@ const template = require('./consultingchange.html');
 
 export class ConsultingChange implements AfterViewInit {
   jwt:string;
+  decodedJwt: any;
   public data;
   idx: number;
   public selectedId:number;
@@ -87,10 +88,12 @@ export class ConsultingChange implements AfterViewInit {
   }
 
 
-  consultingchanging(event, title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
+  consultingchanging(event, title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, buildPostCode, buildPlaceDetail, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents){
     event.preventDefault();
     //lived에 들어갈 radio버튼에서 체크된 값 가져오기
     var lived 		= $(':radio[name="optionsRadios"]:checked').val();
+    //우편번호, 주소, 상세주소를 JSON string로 묶음
+    buildPlace = JSON.stringify([buildPostCode, buildPlace, buildPlaceDetail]);
     //html받은 값들을 json형식으로 저장
     let body= JSON.stringify({title, buildType, userName, telephone, email, expectBuildPrice, buildPlace, lived, expectBuildTotalArea, expectBuildStartDate, expectConsultDate, reqContents});
 
