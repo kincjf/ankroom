@@ -14,6 +14,9 @@ const jwt_decode = require('jwt-decode');
   template: template
 })
 
+/**
+ * 사업주 회원 정보 변경
+ */
 export class BusinessSignupChange {
   jwt:string;
   decodedJwt: any;
@@ -37,14 +40,13 @@ export class BusinessSignupChange {
     if (!contentHeaders.get('Authorization')) contentHeaders.append('Authorization',this.jwt); //Header에 jwt값 추가하기
 
     let URL = [config.serverHost, config.path.changeBizSignup, this.decodedJwt.idx].join('/');
-    console.log(URL);
 
     this.http.get(URL, {headers:contentHeaders}) //서버로부터 필요한 값 받아오기
       .map(res => res.json()) //받아온 값을 json형식으로 변경
       .subscribe(
         response => {
           this.data = response; //해당값이 제대로 넘어오는지 확인후 프론트단에 내용 추가
-          console.log(this.data);
+          //console.log(this.data);
           this.contacts = this.data.bizUserInfo.contact;
           this.companyNames = this.data.bizUserInfo.companyName;
           this.ownerNames = this.data.bizUserInfo.ownerName;
@@ -58,6 +60,9 @@ export class BusinessSignupChange {
           alert(error.text());
           console.log(error.text());
           //서버로부터 응답 실패시 경고창
+          
+          // 권한이 없으므로 홈으로 이동
+          this.router.navigate(['/']);
         }
       );
   }

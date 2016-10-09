@@ -14,6 +14,10 @@ const jwt_decode = require('jwt-decode');
   template: template
 })
 
+/**
+ * 일반 회원 정보 변경
+ * 문제 -> 취소 버튼 클릭시 submit이 실행됨
+ */
 export class NormalSignupChange {
   jwt:string;
   decodedJwt: any;
@@ -80,6 +84,9 @@ export class NormalSignupChange {
             alert(error.text());
             console.log(error.text());
             //서버로부터 응답 실패시 경고창
+
+            // 권한이 없으므로 홈으로 이동
+            this.router.navigate(['/']);
           }
         );
     }
@@ -88,6 +95,4 @@ export class NormalSignupChange {
   cancel() {
     contentHeaders.delete('Authorization');//기존에 jwt값을 지우기 위해 실행
   }
-
-
 }
