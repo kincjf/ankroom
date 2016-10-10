@@ -46,6 +46,14 @@ export class ConsultingDetail implements AfterViewInit {
   //lived의 number값을 string인 거주/비거주로 보여주기 위하여만든 변수
   convertedLived:string;
 
+  /*
+   Component 역할 : 컨설팅 정보 상세보기
+   작업상황 :
+   - 다음 우편 API 사용하여 주소 입력 받기(완료)
+   차후 개선방안 :
+   - 컨설팅 정보 삭제 추가
+   - UI개선
+   */
 
   constructor(public router:Router, public http:Http, private route: ActivatedRoute) {
     this.havePrefBizMember = false;
@@ -63,6 +71,7 @@ export class ConsultingDetail implements AfterViewInit {
       contentHeaders.set('Authorization', this.jwt);//Header에 jwt값 추가하기
 
 
+      //param값으로 페이지 이동을 한다.
       this.route.params.forEach((params:Params) => {
         let consultingIdx = +params['consultingIdx'];
         this.selectedId = consultingIdx;
@@ -78,7 +87,7 @@ export class ConsultingDetail implements AfterViewInit {
         .subscribe(
           response => {
             this.data = response; // 해당값이 제대로 넘어오는지 확인후 프론트단에 내용추가
-
+            //자세한 정보를 보여주기위해 data에서 consulting정보를 가져옴
             this.idx = this.data.consult.idx;
             this.title = this.data.consult.title;
             this.prefBizMemberIdx = this.data.consult.prefBizMemberIdx;
@@ -95,7 +104,7 @@ export class ConsultingDetail implements AfterViewInit {
             this.reqContents = this.data.consult.reqContents;
             this.initWriteDate = moment(this.data.consult.initWriteDate).format('YYYY/MM/DD');
 
-
+            //거주 비거주를 판별하여 저장함
             if (this.lived == 0)
               this.convertedLived = "거주";
             else if (this.lived == 1)
@@ -120,15 +129,20 @@ export class ConsultingDetail implements AfterViewInit {
 
     }
 
-  modifyConsulting() {
-    this.router.navigate(['/consultingChange',this.idx]);
-  }
 
+  //목록버튼을 누르면 완료 페이지로 이동
   goConsultingList() {
     this.router.navigate(['/consultingListInfo']);
   }
 
+  //수정버튼을 누르면 수정페이지로 이동
+  modifyConsulting() {
+    this.router.navigate(['/consultingChange',this.idx]);
+  }
 
+
+  // 삭제버튼을 누르면 삭제페이지로 이동
+  // 서버에서 삭제 기능을 구현해야 함
   onDelConsulting() {
     if(this.loginMemberIdx == this.selectedId) {
       if (confirm("삭제 하시겠습니까?")) {

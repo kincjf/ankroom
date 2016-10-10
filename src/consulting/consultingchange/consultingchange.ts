@@ -39,7 +39,14 @@ export class ConsultingChange implements AfterViewInit {
   currentExpectBuildStartDate: Date;
   currentReqContents: string;
 
-
+  /*
+   Component 역할 : 시공사례 글 입력
+   작업상황 :
+   - 다음 우편 API 사용하여 주소 입력 받기(완료)
+   차후 개선방안 :
+   - 공사구분, 거주/비거주 값 설정을 서버에 저장된 값으로 되도록 해야함
+   - UI개선
+   */
 
   constructor(public router: Router, public http: Http,  private route: ActivatedRoute ) {
     this.jwt = localStorage.getItem('id_token'); //login시 저장된 jwt값 가져오기

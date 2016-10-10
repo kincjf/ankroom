@@ -31,11 +31,16 @@ export class BizListDetail {
   member:string;
 
 
-
+  /*
+   Component 역할 : 업체 정보 상세보기 페이지
+   작업상황 :
+   -
+   차후 개선방안 :
+   - UI개선
+   */
 
 
   constructor(public router: Router, public http: Http, private route:ActivatedRoute) {
-
 
   }
 

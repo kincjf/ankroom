@@ -29,6 +29,14 @@ export class BizList {
 
   returnedDatas = [];
 
+  /*
+   Component 역할 : 업체 목록 페이지
+   작업상황 :
+   -
+   차후 개선방안 :
+   - UI개선
+   */
+
   constructor(public router: Router, public http: Http) {
     this.pageSize = 4;
     this.pageStartIndex=0;
@@ -61,9 +69,4 @@ export class BizList {
 
   }
 
-  onSelectBizList(bizUser: bizUserInfo): void {
-    this.selectedmemberIdx = bizUser;//bizUser는 클릭한 업체의 정보를 가지고 있고 이 정보를 selectedmemberIdx로 옮겼다.
-    localStorage.setItem('bizUserDetail',bizUser.memberIdx);
-    //서버로부터 응답 성공시 home으로 이동
-  }
 }

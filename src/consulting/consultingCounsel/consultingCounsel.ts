@@ -16,11 +16,22 @@ const template = require('./consultingCounsel.html');
   directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES ],
   template: template
 })
+
+/*
+ Component 역할 :  컨설팅 정보를 입력
+ 작업상황 :
+ - 다음 우편 API 사용하여 주소 입력 받기(완료)
+ 차후 개선방안 :
+ - 선호 업체 자동입력 구현
+ - UI개선
+ */
+
 export class ConsultingCounsel{
   jwt:string;
-  decodedJwt: any;
+  public decodedJwt: any;
   lived: string;
   havePrefBizMember: boolean;
+
 
   constructor(public router: Router, public http: Http) {
     this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
@@ -29,6 +40,7 @@ export class ConsultingCounsel{
 
     this.havePrefBizMember = false;
   }
+
 
   //컨설팅 정보입력을 위한 함수이다.
   //제목, 선호업체명, 선호시공사례, 작성자성함, 연락처, 이메일, 예상 공사예산, 공사지 주소, 거주여부, 예상공사면적, 예상공사예정일, 방문상담희망일, 공사요청사항

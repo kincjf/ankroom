@@ -28,7 +28,15 @@ export class ConsultingListInfo {
 
   returnedDatas = [];
 
-  //생성자에서 페이지가 만들어질때 컨설팅 정보목록을 불러온다.
+  /*
+   Component 역할 : 모든 컨설팅 리스트 보기
+   작업상황 :
+   - 다음 우편 API 사용하여 주소 입력 받기(완료)
+   차후 개선방안 :
+   - UI개선
+   */
+
+
   constructor(public router: Router, public http: Http) {
     this.jwt = localStorage.getItem('id_token');//login시 저장된 jwt값 가져오기
     this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);//jwt값 decoding
