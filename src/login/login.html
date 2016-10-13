@@ -1,31 +1,33 @@
-<div class="page-center">
-  <div class="page-center-in">
-    <div class="container-fluid">
-      <form class="sign-box"  role="form" (submit)="login($event, username.value, password.value)">
-        <div class="back">
-          <a onclick="window.history.back();">X</a>
-        </div>
-        <div class="form-group">
-          <input type="text" #username class="form-control" id="username" placeholder="E-Mail"/>
-        </div>
-        <div class="form-group">
-          <input type="password" #password  class="form-control" id="password" placeholder="비밀번호"/>
-        </div>
-        <div class="form-group">
-          <div class="checkbox float-left">
-            <input type="checkbox" id="signed-in"/>
-            <label for="signed-in">비밀번호 저장</label>
+<div class="content-wrap">
+  <div class="container clearfix">
+    <div class="tabs divcenter nobottommargin clearfix" id="tab-login-register" style="max-width: 500px;">
+      <ul class="tab-nav tab-nav2 center clearfix">
+        <li class="inline-block ui-state-active"><a href="#tab-login" onclick="return false;">Login</a></li>
+        <li class="inline-block"><a routerLink="/signup">Register</a></li>
+      </ul>
+      <div class="tab-container">
+        <div class="tab-content clearfix" id="tab-login">
+          <div class="panel panel-default nobottommargin">
+            <div class="panel-body" style="padding: 40px;">
+              <form id="login-form" name="login-form" class="nobottommargin" role="form" (submit)="login($event, username.value, password.value)">
+                <h3>Login to your Account</h3>
+                <div class="col_full">
+                  <label for="login-form-username">Username:</label>
+                  <input type="text" #username id="login-form-username" name="login-form-username" value="" class="form-control" />
+                </div>
+                <div class="col_full">
+                  <label for="login-form-password">Password:</label>
+                  <input type="password" #password id="login-form-password" name="login-form-password" value="" class="form-control" />
+                </div>
+                <div class="col_full nobottommargin">
+                  <button class="button button-3d button-black nomargin" id="login-form-submit" name="login-form-submit" value="login">Login</button>
+                  <a href="#" class="fright">Forgot Password?</a>
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="float-right reset">
-            <a href="#">비밀번호 초기화</a>
-          </div>
         </div>
-        <button type="submit" class="btn btn-rounded">로그인</button>
-        <p class="sign-note">New to our website? <a [routerLink]="['/signup']">회원가입</a></p>
-        <!--<button type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-        </button>-->
-      </form>
+      </div>
     </div>
   </div>
-</div><!--.page-center-->
+</div>
