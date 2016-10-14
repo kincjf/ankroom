@@ -1,34 +1,66 @@
- <!--업체목록 조회하기-->
-    <div class="page-content" style="padding-left: 0px">
-        <div class="container-fluid" style="max-width: 900px">
-            <header class="section-header">
-                <div class="tbl">
-                    <div class="tbl-row">
-                        <div class="tbl-cell">
-                            <h3>업체목록조회</h3>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <section class="box-typical box-typical-full-height-with-header" style="max-width: 1073px">
 
-                <!--card의 내용 for문으로 데이터를 받아온만큼 만들어야함-->
-                <div class="cards-grid">
-                    <div class="col-md-4 col-sm-4 col-xs-6" *ngFor="let bizUserInfo of returnedDatas" (click)="onSelectBizList(bizUserInfo)">
-                        <article class="card-typical">
-                            <div class="card-typical-section card-typical-content">
-                                <div class="photo">
-                                    <img src="./src/assets/img/test.jpg" alt>
-                                </div>
-                                <header>
-                                    <a routerLink="/bizListDetail/{{bizUserInfo.memberIdx}}">{{bizUserInfo.companyName}}</a><!--db의 회사이름-->
-                                </header>
-                                <p>{{bizUserInfo.aboutCompanyShort}}</p><!--db의 짧은 회사 소개-->
-                            </div>
-                        </article>
-                    </div>
-                </div><!--.box-typical-body-->
-            </section><!--.box-typical-->
-        </div><!--.container-fluid-->
-    </div><!--.page-content-->
+<!-- Document Wrapper
+============================================= -->
+<div class="clearfix">
 
+  <!-- Page Title
+  ============================================= -->
+  <section id="page-title">
+
+    <div class="container clearfix">
+      <h1>업체목록 조회</h1>
+      <span>여러 업체들의 소개를 한눈에 살펴볼수있습니다.</span>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">업체목록</li>
+      </ol>
+    </div>
+
+  </section><!-- #page-title end -->
+
+  <!-- Content
+  ============================================= -->
+  <section id="content">
+
+    <div class="content-wrap">
+
+      <div class="container clearfix">
+
+        <!-- Posts
+        ============================================= -->
+        <div id="posts" class="post-grid grid-container clearfix" data-layout="fitRows">
+
+          <div class="entry clearfix" *ngFor="let bizUserInfo of returnedDatas" (click)="onSelectBizList(bizUserInfo)">
+            <div class="entry-image">
+              <a href="#" data-lightbox="image"><img class="image_fade" src="./src/assets/images/blog/grid/12.jpg" alt="Standard Post with Image"></a>
+            </div>
+            <div class="entry-title">
+              <h2><a routerLink="/bizListDetail/{{bizUserInfo.memberIdx}}">{{bizUserInfo.companyName}}</a></h2>
+            </div>
+            <div class="entry-content">
+              <p>{{bizUserInfo.aboutCompanyShort}}</p>
+              <a routerLink="/bizListDetail/{{bizUserInfo.memberIdx}}" class="more-link">Read More</a>
+            </div>
+          </div>
+
+        </div><!-- #posts end -->
+
+        <!-- Pagination
+        ============================================= -->
+        <ul class="pagination nobottommargin">
+          <li class="disabled"><a href="#">&laquo;</a></li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#">&raquo;</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </section><!-- #content end -->
+
+</div><!-- #wrapper end -->
