@@ -1,176 +1,200 @@
-<!--컨설팅 상탐 페이지 컨텐트-->
-<div class="page-content">
-  <div class="page-center-in">
-    <div class="container-fluid">
-      <div class="box-typical box-typical-padding">
-        <h5 class="m-t-lg with-border">특정업체 컨설팅 상담</h5>
+<!-- Page Title
+		============================================= -->
+<section id="page-title">
 
+  <div class="container clearfix">
+    <h1>컨설팅 상담</h1>
+    <span>컨설팅 상담을 통해 여러업체들과 상담을 받을수 있습니다.</span>
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="/consultingMyListInfo">내 컨설팅 목록</a></li>
+      <li class="active">컨설팅 상담</li>
+    </ol>
+  </div>
+
+</section><!-- #page-title end -->
+
+<!-- Contact Form & Map Overlay Section
+    ============================================= -->
+<section id="map-overlay">
+
+  <div class="container clearfix">
+
+    <!-- Contact Form Overlay
+            ============================================= -->
+    <div id="contact-form-overlay" class="clearfix">
+
+      <div class="fancy-title title-dotted-border">
+        <h3>컨설팅 상담</h3>
+      </div>
+
+      <div class="contact-widget">
+
+        <div class="contact-form-result"></div>
+
+        <!-- Contact Form
+                    ============================================= -->
         <form (submit)="consultingRegister($event, title.value, buildType.value, userName.value, telephone.value, email.value, expectBuildPrice.value, buildPlace.value, buildPostCode.value, buildPlaceDetail.value, expectBuildTotalArea.value, expectBuildStartDate.value, expectConsultDate.value, reqContents.value)">
 
-
-
-            <!--제목-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">제목</label>
-              <div class="col-sm-10">
-                <p class="form-control-static"><input type="text" #title class="form-control" placeholder="Text" required></p>
-              </div>
-            </div>
-
-            <!--선호업체명-->
-            <!--추후에 server의 데이터를 가져와서 선택하도록 수정 예정-->
-            <!--havePrefBizMember를 통해서 업체목록의 경로를 통해서 온것인지 확인할수있다.-->
-            <div class="form-group row" *ngIf="havePrefBizMember == true">
-              <label class="col-sm-2 form-control-label">선호업체명</label>
-              <div class="col-sm-10">
-                <p class="form-control-static"><input type="number" class="form-control" placeholder="Text" required></p>
-              </div>
-            </div>
-
-
-
-            <!--공사구분-->
-            <div class="form-group row">
-              <label for="exampleSelect" class="col-sm-2 form-control-label">공사구분</label>
-              <div class="col-sm-5">
-                <select #buildType class="form-control" id="exampleSelect">
-                  <option>주거공간</option>
-                  <option>상업공간</option>
-                  <option>기타</option>
-                </select>
-              </div>
-            </div>
-
-
-            <!--이름, 비밀번호 입력창-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">이름</label>
-              <div class="col-sm-4">
-                <input type="text" #userName class="form-control" placeholder="Text">
-              </div>
-            </div>
-
-
-
-            <!--연락처 입력란-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">연락처</label>
-              <div class="col-sm-4">
-                <input type="text" #telephone class="form-control" placeholder="010-****-****">
-              </div>
-            </div>
-
-
-
-            <!--이메일 입력란-->
-            <!--email입력을 받는 란 입력 받을때 값을 조합해서 넣어줘야 한다.-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">이메일</label>
-              <div class="col-md-4 col-sm-6">
-                <input type="text" #email class="form-control" placeholder="qwer1234@gmail.com">
-              </div>
-            </div>
-
-
-
-            <!--공사예산-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">공사예산</label>
-              <div class="col-sm-4">
-                <input type="number" #expectBuildPrice class="form-control" id="inputMoney">
-              </div>
-              <label class="col-sm-2 form-control-label">만원</label>
-            </div>
-
-
-
-
-            <!--공사지 주소-->
-            <div class="form-group row">
-          <label class="col-sm-2 form-control-label">공사지주소</label>
-          <div class="col-sm-10">
-            <input type="text" #buildPostCode class="form-control" id="sample3_postcode" placeholder="우편번호" readonly> -
-            <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-
-            <div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
-              <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-            </div>
-            <input class="form-control" type="text" #buildPlace id="sample3_address" placeholder="주소" readonly>
-            <input class="form-control" type="text" #buildPlaceDetail id="sample4_address" placeholder="상세주소">
+          <!--제목-->
+          <div class="col_full">
+            <label for="template-contactform-subject">제목 <small>*</small></label>
+            <input type="text" #title id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control" />
           </div>
-        </div>
+
+          <!--선호업체(ngIf)-->
+          <div *ngIf="havePrefBizMember == true">
+            <div class="col_half col_last" >
+              <label for="template-contactform-prefBizMember">선호업체<small>*</small></label>
+              <input type="text" id="template-contactform-prefBizMember" name="template-contactform-prefBizMember" value="" class="required email sm-form-control" />
+            </div>
+            <div class="col_half col_last" >
+            </div>
+          </div>
+
+
+          <div class="clear"></div>
+
+          <!--이름-->
+          <div class="col_half">
+            <label for="template-contactform-name">이름 <small>*</small></label>
+            <input type="text" #userName id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control required" />
+          </div>
+
+          <!--이메일-->
+          <div class="col_half col_last">
+            <label for="template-contactform-email">Email <small>*</small></label>
+            <input type="email" #email id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control" />
+          </div>
+
+          <div class="clear"></div>
+
+          <!--연락처-->
+          <div class="col_half">
+            <label for="template-contactform-phone">연락처</label>
+            <input type="text" #telephone id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control" />
+          </div>
+
+          <!--공사구분-->
+          <div class="col_half col_last">
+            <label for="template-contactform-service">공사구분</label>
+            <select #buildType id="template-contactform-service" name="template-contactform-service" class="sm-form-control">
+              <option value="주거공간">주거공간</option>
+              <option value="상업공간">상업공간</option>
+              <option value="기타">기타</option>
+            </select>
+          </div>
+
+          <div class="clear"></div>
+
+          <!--공사예산-->
+          <div class="col_half">
+            <label for="template-contactform-budget">공사예산</label>
+            <input type="number" #expectBuildPrice id="template-contactform-budget" name="template-contactform-budget" value="" class="sm-form-control" />
+          </div>
+
+          <div class="col_half col_last">
+            <p></p>
+            <p>만원</p>
+          </div>
+
+          <div class="clear"></div>
+
+          <!--공자지 주소-->
+
+          <div>
+            <label for="sample3_postcode">공사지주소</label>
+            <div>
+              <div class="col_one_fourth">
+                <input type="text" #buildPostCode class="sm-form-control" id="sample3_postcode" placeholder="우편번호" readonly>
+              </div>
+              <div class="col_one_fourth">
+                <a class="button button-border button-rounded button-amber" onclick="sample3_execDaumPostcode()">우편번호 찾기</a>
+              </div>
+
+              <div class="clear"></div>
+
+              <div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+                <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+              </div>
 
 
 
-            <!--거주/비거주, 평수입력-->
-            <!--radio버튼일때 입력을 어떻게 받는지 알아보기-->
-            <div class="form-group row">
-              <form>
-                <label class="col-sm-2 form-control-label">거주/비거주</label>
-                <div class="col-md-2 col-sm-2">
-                  <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-1" value="0" checked>
-                    <label for="radio-1">거주 </label>
-                  </div>
-                </div>
-                <div class="col-md-2 col-sm-2">
-                  <div class="radio">
-                    <input type="radio" name="optionsRadios"  id="radio-2" value="1">
-                    <label for="radio-2"> 비거주 </label>
-                  </div>
-                </div>
-              </form>
-
-              <label class="col-sm-2 form-control-label">평수입력</label>
-              <div class="col-sm-4">
-                <input type="number" #expectBuildTotalArea class="form-control">
+              <div class="col_half">
+                <input class="sm-form-control" type="text" #buildPlace id="sample3_address" placeholder="주소" readonly>
+              </div>
+              <div class="col_half col_last">
+                <input class="sm-form-control" type="text" #buildPlaceDetail id="sample4_address" placeholder="상세주소">
               </div>
             </div>
+          </div>
 
+          <div class="clear"></div>
 
-            <!--곧사예정일, 상담희망일-->
-            <div class="form-group row">
-              <label class="col-sm-2 form-control-label">공사예정일</label>
-              <div class="col-sm-4">
-                <input type="Date" #expectBuildStartDate class="form-control">
+          <!--거주/비거주-->
+          <div class="col_half">
+            <label>거주여부</label>
+            <form>
+              <div class="col_one_fourth">
+                <div class="radio">
+                  <input type="radio" name="optionsRadios"  id="radio-1" value="0" checked>
+                  <label for="radio-1">거주 </label>
+                </div>
               </div>
-              <label class="col-sm-2 form-control-label">상담희망일</label>
-              <div class="col-sm-4">
-                <input type="Date" #expectConsultDate class="form-control">
+              <div class="col_one_fourth">
+                <div class="radio">
+                  <input type="radio" name="optionsRadios"  id="radio-2" value="1">
+                  <label for="radio-2"> 비거주 </label>
+                </div>
               </div>
-            </div>
+            </form>
 
+          </div>
 
+          <!--평수입력-->
+          <div class="col_half col_last">
+            <label for="template-contactform-phone">평수입력</label>
+            <input type="number" #expectBuildTotalArea id="template-contactform-totalArea" name="template-contactform-budget" value="" class="sm-form-control" />
+          </div>
 
+          <div class="clear"></div>
 
+          <!--공사예정일-->
+          <div class="col_half">
+            <label for="template-contactform-phone">공사예정일</label>
+            <input type="date" #expectBuildStartDate id="template-contactform-startDate" name="template-contactform-budget" value="" class="sm-form-control" />
+          </div>
 
+          <!--상담희망일-->
+          <div class="col_half col_last">
+            <label for="template-contactform-consultDate">상담희망일</label>
+            <input type="date" #expectConsultDate id="template-contactform-consultDate" name="template-contactform-budget" value="" class="sm-form-control" />
+          </div>
 
           <!--공사요청사항-->
-          <div class="form-group row">
-            <label for="exampleSelect" class="col-sm-12 form-control-label">공사요청사항</label>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-12">
-              <textarea rows="15" #reqContents class="form-control"></textarea>
-            </div>
+          <div class="col_full">
+            <label for="template-contactform-reqContents">공사요청사항 <small>*</small></label>
+            <textarea class="required sm-form-control" #reqContents id="template-contactform-reqContents" name="template-contactform-message" rows="6" cols="30"></textarea>
           </div>
 
-
-
-
+          <div class="col_full hidden">
+            <input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" class="sm-form-control" />
+          </div>
 
           <!--확인버튼-->
-
-          <div class="form-group row">
-            <div class="col-sm-offset-10 col-xs-offset-8">
-              <button type="submit" class="btn btn-inline btn-primary btn-lg ladda-button" data-style="expand-right" data-size="1">
-                <span class="ladda-label">확인</span>
-              </button>
-            </div>
+          <div class="col_full">
+            <button class="button button-3d nomargin" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit" data-style="expand-right" data-size="1">확인</button>
           </div>
-        </form>
-      </div><!--.box-typical-->
-    </div><!--.container-fluid-->
-  </div>
-</div><!--.page-content-->
 
+        </form>
+      </div>
+
+    </div><!-- Contact Form Overlay End -->
+
+  </div>
+
+  <section id="google-map" class="gmap" style="overflow: hidden;">
+    <div style="height: 100%; width: 100%; position: absolute; background-color: rgb(229, 227, 223);"></div>
+  </section>
+
+</section><!-- Contact Form & Map Overlay Section End -->
