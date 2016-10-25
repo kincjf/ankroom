@@ -1,90 +1,197 @@
-<div class="page-content">
-  <div class="container-fluid">
-    <header class="section-header">
-      <div class="tbl">
-        <div class="tbl-row">
-          <div class="tbl-cell">
-            <h3>시공사례</h3>
-          </div>
-        </div>
+<!-- 시공사례입력 -->
+<section id="map-overlay">
+
+  <div class="container clearfix">
+
+    <!-- Contact Form Overlay
+            ============================================= -->
+    <div id="contact-form-overlay-mini" class="clearfix">
+
+      <div class="fancy-title title-dotted-border">
+        <h3>시공사례입력</h3>
       </div>
-    </header>
 
-    <div class="box-typical box-typical-padding">
+      <div class="contact-widget">
 
-      <h5 class="m-t-lg with-border">시공사례 수정</h5>
+        <div class="contact-form-result"></div>
 
-      <form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="updateBuildCase($event, inputTitle.value, inputBuildType.value, inputBuildPlace.value, inputBuildPostCode.value, inputBuildPlaceDetail.value, inputBuildTotalArea.value, inputBuildTotalPrice.value)">
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">공사명</label>
-          <div class="col-sm-10">
-            <p class="form-control-static">
-              <input type="text" #inputTitle class="form-control" name="title" placeholder="공사명" value={{title}} required>
-            </p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">공사구분</label>
-          <div class="col-sm-10">
-            <select class="form-control" #inputBuildType>
-              <option *ngFor="let buildTypeValue of inputBuildTypes" [ngValue]="buildTypeValue">{{buildTypeValue.name}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">총 공사면적</label>
-          <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #inputBuildTotalArea class="form-control" name="buildTotalArea" value={{buildTotalArea}}></p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">공사지역</label>
-          <div class="col-sm-10">
-            <input type="text" #inputBuildPostCode class="form-control" id="sample3_postcode" placeholder="우편번호" readonly> -
-            <input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
+        <!-- Contact Form
+                    ============================================= -->
+        <form class="nobottommargin" id="template-contactform" name="template-contactform" action="include/sendemail.php" method="post" enctype="multipart/form-data">
 
-            <div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
-              <img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-            </div>
-            <input class="form-control" type="text" #inputBuildPlace id="sample3_address" placeholder="주소" readonly>
-            <input class="form-control" type="text" #inputBuildPlaceDetail id="sample4_address" placeholder="상세주소" value={{buildPlace}}>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">총 시공비용</label>
-          <div class="col-sm-10">
-            <p class="form-control-static"><input type="text" #inputBuildTotalPrice class="form-control" name="buildTotalPrice" value={{buildTotalPrice}}></p>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">시공내용</label>
-          <div class="col-sm-10 summernote-theme-1">
-            <div class="summernote"></div>
+          <div class="col_full">
+            <label for="template-contactform-name">공사명 <small>*</small></label>
+            <input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control required" />
           </div>
 
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">사진</label>
-          <div class="col-sm-10">
-            <div>
-              VR 이미지
-              <input type="file" name="vrImage" (change)="selectVRImage($event)"  multiple /><br/>
-              <p *ngIf="VRImages">기존 VR 이미지 : {{VRImages.originalImage}} </p>
-            </div>
-            <div>
-              대표 이미지
-              <input type="file"  name="previewImage" (change)="selectPreviewImage($event)"/><br/>
-              <p *ngIf="mainPreviewImage">기존 대표 이미지 : {{mainPreviewImage}} </p>
-            </div>
+          <div class="col_full">
+            <label for="template-contactform-email">공사구분 <small>*</small></label>
+            <input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control" />
           </div>
 
-        </div>
-        <div class="form-group row" style="text-align: center">
-          <button type="submit" #buildCaseSubmit id="buildCaseSubmit" class="btn btn-rounded btn-inline">확인</button>
-          <button type="reset" class="btn btn-rounded btn-inline">취소</button>
-        </div>
-      </form>
-    </div><!--.box-typical-->
-  </div><!--.container-fluid-->
-</div><!--.page-content-->
-<!--<script>-->
+          <div class="clear"></div>
+
+          <div class="col_full">
+            <label for="template-contactform-phone">총 공사면적</label>
+            <input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control" />
+          </div>
+
+          <!--<div class="col_full">-->
+          <!--<label for="template-contactform-service">Services</label>-->
+          <!--<select id="template-contactform-service" name="template-contactform-service" class="sm-form-control">-->
+          <!--<option value="">&#45;&#45; Select One &#45;&#45;</option>-->
+          <!--<option value="Wordpress">Wordpress</option>-->
+          <!--<option value="PHP / MySQL">PHP / MySQL</option>-->
+          <!--<option value="HTML5 / CSS3">HTML5 / CSS3</option>-->
+          <!--<option value="Graphic Design">Graphic Design</option>-->
+          <!--</select>-->
+          <!--</div>-->
+
+          <div class="clear"></div>
+
+          <div class="col_full">
+            <label for="template-contactform-subject">공사지역 <small>*</small></label>
+            <input type="text" id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control" />
+          </div>
+
+          <div class="col_full">
+            <label for="template-contactform-subject">총 시공비용 <small>*</small></label>
+            <input type="text" id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control" />
+          </div>
+
+
+          <div class="col_full">
+            <label for="template-contactform-message">시공내용 <small>*</small></label>
+            <textarea class="required sm-form-control" id="template-contactform-message" name="template-contactform-message" rows="6" cols="30"></textarea>
+          </div>
+
+          <div class="col_full">
+            <label for="template-contactform-message">사진 <small>*</small></label>
+            <div>VR 이미지 </div>
+            <input type="file" id="template-contactform-file" name="template-contactform-file" value="" class="required sm-form-control" />
+            <div>대표 이미지 </div>
+            <input type="file" id="template-contactform-file" name="template-contactform-file" value="" class="required sm-form-control" />
+          </div>
+
+          <div class="col_full hidden">
+            <input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" class="sm-form-control" />
+          </div>
+
+          <div class="col_full">
+            <button class="button button-3d nomargin" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Submit</button>
+          </div>
+
+        </form>
+
+      </div>
+
+
+    </div><!-- Contact Form Overlay End -->
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!--<div class="page-content">-->
+  <!--<div class="container-fluid">-->
+    <!--<header class="section-header">-->
+      <!--<div class="tbl">-->
+        <!--<div class="tbl-row">-->
+          <!--<div class="tbl-cell">-->
+            <!--<h3>시공사례</h3>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</header>-->
+
+    <!--<div class="box-typical box-typical-padding">-->
+
+      <!--<h5 class="m-t-lg with-border">시공사례 수정</h5>-->
+
+      <!--<form id="buildCaseForm" method="post" enctype="multipart/form-data" (submit)="updateBuildCase($event, inputTitle.value, inputBuildType.value, inputBuildPlace.value, inputBuildPostCode.value, inputBuildPlaceDetail.value, inputBuildTotalArea.value, inputBuildTotalPrice.value)">-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">공사명</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<p class="form-control-static">-->
+              <!--<input type="text" #inputTitle class="form-control" name="title" placeholder="공사명" value={{title}} required>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">공사구분</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<select class="form-control" #inputBuildType>-->
+              <!--<option *ngFor="let buildTypeValue of inputBuildTypes" [ngValue]="buildTypeValue">{{buildTypeValue.name}}</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">총 공사면적</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<p class="form-control-static"><input type="text" #inputBuildTotalArea class="form-control" name="buildTotalArea" value={{buildTotalArea}}></p>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">공사지역</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<input type="text" #inputBuildPostCode class="form-control" id="sample3_postcode" placeholder="우편번호" readonly> - -->
+            <!--<input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>-->
+
+            <!--<div id="wrap" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">-->
+              <!--<img src="//i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">-->
+            <!--</div>-->
+            <!--<input class="form-control" type="text" #inputBuildPlace id="sample3_address" placeholder="주소" readonly>-->
+            <!--<input class="form-control" type="text" #inputBuildPlaceDetail id="sample4_address" placeholder="상세주소" value={{buildPlace}}>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">총 시공비용</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<p class="form-control-static"><input type="text" #inputBuildTotalPrice class="form-control" name="buildTotalPrice" value={{buildTotalPrice}}></p>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">시공내용</label>-->
+          <!--<div class="col-sm-10 summernote-theme-1">-->
+            <!--<div class="summernote"></div>-->
+          <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+          <!--<label class="col-sm-2 form-control-label">사진</label>-->
+          <!--<div class="col-sm-10">-->
+            <!--<div>-->
+              <!--VR 이미지-->
+              <!--<input type="file" name="vrImage" (change)="selectVRImage($event)"  multiple /><br/>-->
+              <!--<p *ngIf="VRImages">기존 VR 이미지 : {{VRImages.originalImage}} </p>-->
+            <!--</div>-->
+            <!--<div>-->
+              <!--대표 이미지-->
+              <!--<input type="file"  name="previewImage" (change)="selectPreviewImage($event)"/><br/>-->
+              <!--<p *ngIf="mainPreviewImage">기존 대표 이미지 : {{mainPreviewImage}} </p>-->
+            <!--</div>-->
+          <!--</div>-->
+
+        <!--</div>-->
+        <!--<div class="form-group row" style="text-align: center">-->
+          <!--<button type="submit" #buildCaseSubmit id="buildCaseSubmit" class="btn btn-rounded btn-inline">확인</button>-->
+          <!--<button type="reset" class="btn btn-rounded btn-inline">취소</button>-->
+        <!--</div>-->
+      <!--</form>-->
+    <!--</div>&lt;!&ndash;.box-typical&ndash;&gt;-->
+  <!--</div>&lt;!&ndash;.container-fluid&ndash;&gt;-->
+<!--</div>&lt;!&ndash;.page-content&ndash;&gt;-->
+<!--&lt;!&ndash;<script>&ndash;&gt;-->
+
+
+
+<!--  구분 -->
+
