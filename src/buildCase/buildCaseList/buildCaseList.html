@@ -1,27 +1,149 @@
-<div class="page-content">
-  <div class="container-fluid">
-    <div class="cards-grid" data-columns>
-      <div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let buildCase of returnedDatas">
-        <article class="card-typical">
-          <div class="card-typical-section card-typical-content">
-            <div class="photo">
-              <img src="{{serverHost}}/{{buildCase.mainPreviewImage}}" alt="">
+<!-- 시공사례조회 -->
+
+<section id="content" style="margin-left: auto;">
+
+  <div class="content-wrap">
+
+    <div class="container clearfix">
+
+      <div class="postcontent nobottommargin">
+
+        <div id="posts" class="events small-thumbs">
+
+          <div class="entry clearfix">
+            <div class="entry-image">
+              <a href="#">
+                <img src="images/events/thumbs/1.jpg" alt="Inventore voluptates velit totam ipsa tenetur">
+                <div class="entry-date">10<span>Apr</span></div>
+              </a>
             </div>
-            <div class="title">
-              <a style="color: #9d270b" routerLink="/buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a>
-              <p>{{buildCase.buildPlace}}</p>
-            </div>
-            <div>
-              <span></span>
+            <div class="entry-c">
+              <div class="entry-title">
+                <h2><a href="#">Inventore voluptates velit totam ipsa tenetur</a></h2>
+              </div>
+              <ul class="entry-meta clearfix">
+                <li><span class="label label-warning">Private</span></li>
+                <li><a href="#"><i class="icon-time"></i> 11:00 - 19:00</a></li>
+                <li><a href="#"><i class="icon-map-marker2"></i> Melbourne, Australia</a></li>
+              </ul>
+              <div class="entry-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, voluptatem, dolorem animi nisi autem blanditiis enim culpa reiciendis et explicabo tenetur voluptate rerum molestiae eaque possimus exercitationem eligendi fuga.</p>
+                <a href="#" class="btn btn-default" disabled="disabled">Buy Tickets</a> <a href="#" class="btn btn-danger">Read More</a>
+              </div>
             </div>
           </div>
-        </article><!--.card-typical-->
-      </div><!--.card-grid-col-->
-    </div><!--.card-grid-->
-    <div class="clear"></div>
 
-  </div><!--.container-fluid-->
-</div><!--.page-content-->
+          <div class="entry clearfix">
+            <div class="entry-image">
+              <a href="#">
+                <img src="images/events/thumbs/2.jpg" alt="Nemo quaerat nam beatae iusto minima vel">
+                <div class="entry-date">16<span>Apr</span></div>
+              </a>
+            </div>
+            <div class="entry-c">
+              <div class="entry-title">
+                <h2><a href="#">Nemo quaerat nam beatae iusto minima vel</a></h2>
+              </div>
+              <ul class="entry-meta clearfix">
+                <li><span class="label label-danger">Urgent</span></li>
+                <li><a href="#"><i class="icon-time"></i> 11:00 - 19:00</a></li>
+                <li><a href="#"><i class="icon-map-marker2"></i> Perth, Australia</a></li>
+              </ul>
+              <div class="entry-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, voluptatem, dolorem animi nisi autem blanditiis enim culpa reiciendis et explicabo tenetur voluptate rerum molestiae eaque possimus exercitationem eligendi fuga.</p>
+                <a href="#" class="btn btn-info">RSVP</a> <a href="#" class="btn btn-danger">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="entry clearfix">
+            <div class="entry-image">
+              <a href="#">
+                <img src="images/events/thumbs/3.jpg" alt="Ducimus ipsam error fugiat harum recusandae">
+                <div class="entry-date">3<span>May</span></div>
+              </a>
+            </div>
+            <div class="entry-c">
+              <div class="entry-title">
+                <h2><a href="#">Ducimus ipsam error fugiat harum recusandae</a></h2>
+              </div>
+              <ul class="entry-meta clearfix">
+                <li><span class="label label-info">Public</span></li>
+                <li><a href="#"><i class="icon-time"></i> 11:00 - 19:00</a></li>
+                <li><a href="#"><i class="icon-map-marker2"></i> Melbourne, Australia</a></li>
+              </ul>
+              <div class="entry-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, voluptatem, dolorem animi nisi autem blanditiis enim culpa reiciendis et explicabo tenetur voluptate rerum molestiae eaque possimus exercitationem eligendi fuga.</p>
+                <a href="#" class="btn btn-default">Buy Tickets</a> <a href="#" class="btn btn-danger">Read More</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="entry clearfix">
+            <div class="entry-image">
+              <a href="#">
+                <img src="images/events/thumbs/4.jpg" alt="Nisi officia adipisci molestiae aliquam">
+                <div class="entry-date">16<span>Jun</span></div>
+              </a>
+            </div>
+            <div class="entry-c">
+              <div class="entry-title">
+                <h2><a href="#">Nisi officia adipisci molestiae aliquam</a></h2>
+              </div>
+              <ul class="entry-meta clearfix">
+                <li><span class="label label-warning">Private</span></li>
+                <li><a href="#"><i class="icon-time"></i> 12:00 - 18:00</a></li>
+                <li><a href="#"><i class="icon-map-marker2"></i> New York</a></li>
+              </ul>
+              <div class="entry-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, voluptatem, dolorem animi nisi autem blanditiis enim culpa reiciendis et explicabo tenetur voluptate rerum molestiae eaque possimus exercitationem eligendi fuga.</p>
+                <a href="#" class="btn btn-info">RSVP</a> <a href="#" class="btn btn-danger">Read More</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pagination
+                    ============================================= -->
+        <ul class="pager nomargin">
+          <li class="previous"><a href="#">&larr; Older</a></li>
+          <li class="next"><a href="#">Newer &rarr;</a></li>
+        </ul><!-- .pager end -->
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+</section><!-- #content end -->
+<!--<div class="page-content">-->
+  <!--<div class="container-fluid">-->
+    <!--<div class="cards-grid" data-columns>-->
+      <!--<div class="col-sm-6 col-md-4 col-xl-3" *ngFor="let buildCase of returnedDatas">-->
+        <!--<article class="card-typical">-->
+          <!--<div class="card-typical-section card-typical-content">-->
+            <!--<div class="photo">-->
+              <!--<img src="{{serverHost}}/{{buildCase.mainPreviewImage}}" alt="">-->
+            <!--</div>-->
+            <!--<div class="title">-->
+              <!--<a style="color: #9d270b" routerLink="/buildcasedetail/{{buildCase.selectedBuildCaseIdx}}" >{{buildCase.title}}</a>-->
+              <!--<p>{{buildCase.buildPlace}}</p>-->
+            <!--</div>-->
+            <!--<div>-->
+              <!--<span></span>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</article>&lt;!&ndash;.card-typical&ndash;&gt;-->
+      <!--</div>&lt;!&ndash;.card-grid-col&ndash;&gt;-->
+    <!--</div>&lt;!&ndash;.card-grid&ndash;&gt;-->
+    <!--<div class="clear"></div>-->
+
+  <!--</div>&lt;!&ndash;.container-fluid&ndash;&gt;-->
+<!--</div>&lt;!&ndash;.page-content&ndash;&gt;-->
 
 
 
