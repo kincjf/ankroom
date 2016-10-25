@@ -25,7 +25,15 @@ module.exports = {
       panotour_path: PANOTOUR_PATH
     },
     logLevel: "debug",
-    resourcePath: "resources"   // 현재는 상대경로로만 작성해야함.(DB내 정보 삽입때문에)
+    resourcePath: "resources",   // 현재는 상대경로로만 작성해야함.(DB내 정보 삽입때문에)
+    // Configuring Mailgun API for sending transactional email
+    "mailgun_priv_key": "mailgun private key here",
+    // Configuring Mailgun domain for sending transactional email
+    "mailgun_domain": "mailgun domain here",
+    // Mailchimp API key
+    "mailchimpApiKey": "mailchimp api key here",
+    // Stripe API key
+    "stripeApiKey": "stripe api key goes here"
   },
 
   // 동시 작업시 하나의 DB를 쓰기 때문에 치명적인 문제가 있다.

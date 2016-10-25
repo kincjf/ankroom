@@ -8,7 +8,9 @@ const crypto = require('crypto'),
   models = require('../models'),
   Member = models.Member,
   BusinessMember = models.BusinessMember,
-  mailgun = require('../config/mailgun'),
+
+  env = process.env.NODE_ENV || "development",
+  mailgun = require('../config/mailgun')[env],
   mailchimp = require('../config/mailchimp'),
   config = require('../config/main'),
 

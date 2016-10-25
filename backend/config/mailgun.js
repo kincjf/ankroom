@@ -1,7 +1,8 @@
 /**
  * Created by KIMSEONHO on 2016-08-16.
  */
-const config = require('./main');
+const env = process.env.NODE_ENV || "development";
+const config = require('./main')[env];
 const mailgun = require('mailgun-js')({ apiKey: config.mailgun_priv_key,
   domain: config.mailgun_domain });
 

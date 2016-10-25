@@ -5,6 +5,7 @@
 const passport = require('passport'),
   models = require('../models'),
   Member = models.Member,
+
   config = require('./main.js'),
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
