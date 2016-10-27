@@ -5,6 +5,8 @@
 	Overwriting Default Theme Styles for Better Hanlding Updates
 -----------------------------------------------------------------*/
 
-
-
-
+/* Signup Page CSS */
+#member-type-select input:not(:checked) + label {
+	background-color:#FFF;
+	color:#333;
+}

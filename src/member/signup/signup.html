@@ -1,17 +1,58 @@
-<div class="page-center">
-  <div class="page-center-in">
-    <div class="container-fluid">
-      <form class="sign-box">
-        <header class="sign-title">회원가입</header>
-        <div class="form-group">
-          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/normalsignup']">일반회원가입</a></button>
-          <button type="button" class="btn btn-inline" style="min-width:150px"><a style="color:white" [routerLink]="['/businesssignup']">사업주회원가입</a></button>
+<section id="content">
+  <div class="content-wrap">
+    <div class="container clearfix">
+      <div class="col_one_third nobottommargin">
+
+        <div class="well well-lg nobottommargin" id="member-type-select">
+
+          <h3>Member Type</h3>
+
+          <div class="col_full">
+            <input type="radio" id="normal-form-member" name="type-form-member" value="1" class="hidden" checked="checked"/>
+            <label for="normal-form-member" class="button btn-default btn-block text-center">Normal User</label>
+          </div>
+
+          <div class="col_full">
+            <input type="radio" id="business-form-member" name="type-form-member" value="2" class="hidden" />
+            <label for="business-form-member" class="button btn-default btn-block text-center">Business User</label>
+          </div>
+
         </div>
-        <p class="sign-note">계정을 이미 가지고 계신가요? <a [routerLink]="['/login']">로그인</a></p>
-        <!--<button type="button" class="close">
-            <span aria-hidden="true">&times;</span>
-        </button>-->
-      </form>
+      </div>
+
+      <div class="col_two_third col_last nobottommargin">
+        <h3>Don't have an Account? Register Now.</h3>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, vel odio non dicta provident sint ex autem mollitia dolorem illum repellat ipsum aliquid illo similique sapiente fugiat minus ratione.</p>
+        <form id="register-form" name="register-form" class="nobottommargin" role="form" (submit)="signup($event, username.value, password.value,password_ok.value)">
+
+          <div class="col_half col_last">
+            <label for="register-form-name">Email Address:</label>
+            <input #username type="text" id="register-form-name" name="register-form-name" value="" class="form-control" />
+          </div>
+          
+          <div class="clear"></div>
+
+          <div class="col_half col_last">
+            <label for="register-form-password">Choose Password:</label>
+            <input #password type="password" id="register-form-password" name="register-form-password" value="" class="form-control" />
+          </div>
+
+          <div class="clear"></div>
+
+          <div class="col_half col_last">
+            <label for="register-form-repassword">Re-enter Password:</label>
+            <input #password_ok type="password" id="register-form-repassword" name="register-form-repassword" value="" class="form-control" />
+          </div>
+
+          <div class="clear"></div>
+
+          <div class="col_full nobottommargin">
+            <button class="button button-3d button-black nomargin" id="register-form-submit" name="register-form-submit" value="register">Register Now</button>
+          </div>
+
+        </form>
+      </div>
     </div>
   </div>
-</div><!--.page-center-->
+</section>
